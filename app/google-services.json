@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "762973292603",
+    "project_id": "secondserving-fcb2a",
+    "storage_bucket": "secondserving-fcb2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762973292603:android:b59092bfed95796a84341e",
+        "android_client_info": {
+          "package_name": "com.example.secondserving"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "762973292603-3bjg4ilef28lqt0i5es0308o0qohlq95.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTc6p9AnIy9EHlisWhar7yMrhBLTsMxIY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "762973292603-3bjg4ilef28lqt0i5es0308o0qohlq95.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
