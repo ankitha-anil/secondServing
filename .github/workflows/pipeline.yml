@@ -54,18 +54,19 @@ jobs:
         - name: Build with Gradle
           run: ./gradlew build
 
-        # - name: Checkout Repository
-        #   uses: actions/checkout@v4
-
+        # need to change if gradle settings are updated
         - name: Upload APK
           uses: actions/upload-artifact@v3
           with:
             name: app-debug
             path: ./app/build/outputs/apk/debug/app-debug.apk
 
+        # uncomment when gradle settings support aab
         # - name: Upload AAB
         #   uses: actions/upload-artifact@v3
         #   with:
         #     name: app-bundle
         #     path: app/build/outputs/bundle/release/app-release.aab
+
+        # might need to upload to play store maybe
         
