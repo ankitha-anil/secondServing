@@ -1,10 +1,14 @@
 package com.example.secondserving.viewmodel
 
 import android.util.Log
+import android.util.Patterns
+import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskmanager.auth.BaseAuthRepository
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -99,7 +103,7 @@ class AuthViewModel @Inject constructor(
             }
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
-            Log.d(TAG, "signInUser: ${error[1]}")
+            Log.d(TAG, "signUpUser: ${error[1]}")
             eventsChannel.send(AllEvents.Error(error[1]))
         }
     }
@@ -112,7 +116,7 @@ class AuthViewModel @Inject constructor(
             } ?: eventsChannel.send(AllEvents.Message("Sign out successful"))
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
-            Log.d(TAG, "signInUser: ${error[1]}")
+            Log.d(TAG, "signOutUser: ${error[1]}")
             eventsChannel.send(AllEvents.Error(error[1]))
         }
     }
@@ -120,6 +124,25 @@ class AuthViewModel @Inject constructor(
     fun getCurrentUser() = viewModelScope.launch {
         val user = repository.getCurrentUser()
         firebaseUser.postValue(user)
+    }
+
+    fun compareEmail(email: String) = viewModelScope.launch {
+        if(email.isEmpty()){
+            eventsChannel.send(AllEvents.ErrorCode(1))
+        }
+
+        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            eventsChannel.send(AllEvents.Error("Email does not exist"))
+        }
+        try{
+            repository.sendResetPassword(email)
+            eventsChannel.send(AllEvents.Message("Email sent to change password"))
+        }
+        catch (e: Exception) {
+            val error = e.toString()
+            Log.d(TAG, "passwordReset: ${error}")
+            eventsChannel.send(AllEvents.Error(error))
+        }
     }
 
 
