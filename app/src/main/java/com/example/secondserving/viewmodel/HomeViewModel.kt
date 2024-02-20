@@ -1,0 +1,15 @@
+package com.example.secondserving.viewmodel
+
+import androidx.lifecycle.ViewModel
+import com.example.taskmanager.auth.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
+
+
+}
