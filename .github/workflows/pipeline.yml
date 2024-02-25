@@ -59,7 +59,7 @@ jobs:
           uses: actions/upload-artifact@v3
           with:
             name: app-build
-            path: ./app/build/outputs/apk/debug.apk
+            path: ./app/build/outputs/apk/debug/app-debug.apk
 
         # uncomment when gradle settings support aab
         # - name: Upload AAB
