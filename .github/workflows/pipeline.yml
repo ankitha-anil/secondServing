@@ -66,7 +66,7 @@ jobs:
         - name: Upload AAB
           uses: actions/upload-artifact@v3
           with:
-            name: app-bundle
+            name: secondserving-pipeline-bundle.aab
             path: app/build/outputs/bundle/debug/app-debug.aab
 
         # might need to upload to play store maybe
