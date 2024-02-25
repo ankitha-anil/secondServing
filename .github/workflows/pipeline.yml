@@ -51,7 +51,7 @@ jobs:
         - name: Grant execute permission for gradlew
           run: chmod +x gradlew
 
-        - name: Build with Gradle
+        - name: Build with Gradle (.apk file)
           run: ./gradlew build
 
         - name: Upload APK
@@ -59,6 +59,9 @@ jobs:
           with:
             name: secondserving-pipeline-build.apk
             path: ./app/build/outputs/apk/debug/app-debug.apk
+
+        - name: Bundle with Gradle (.aab file)
+          run: ./gradlew build
 
         - name: Upload AAB
           uses: actions/upload-artifact@v3
