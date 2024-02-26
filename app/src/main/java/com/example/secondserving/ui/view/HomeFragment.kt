@@ -1,5 +1,6 @@
 package com.example.secondserving.ui.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +14,12 @@ import com.example.secondserving.databinding.FragmentRecipeBinding
 import com.example.secondserving.viewmodel.AuthViewModel
 import com.example.secondserving.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.secondserving.AddInventoryActivity
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,4 +29,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Set the click listener for the FAB
+        binding.fabAdd.setOnClickListener {
+            // Use context to create an Intent because we're in a Fragment
+            val intent = Intent(context, AddInventoryActivity::class.java)
+            startActivity(intent)
+        }
+    }
 }

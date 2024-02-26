@@ -74,6 +74,7 @@ dependencies {
 
     // Material Components library
     implementation 'com.google.android.material:material:<latest_version>'
+    implementation 'com.google.android.material:material:1.4.0'
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))
