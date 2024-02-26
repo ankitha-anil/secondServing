@@ -18,25 +18,31 @@ import com.example.secondserving.AddInventoryActivity
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    private lateinit var binding: FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         // Set the click listener for the FAB
         binding.fabAdd.setOnClickListener {
             // Use context to create an Intent because we're in a Fragment
-            val intent = Intent(context, AddInventoryActivity::class.java)
-            startActivity(intent)
+            context?.let {
+                val intent = Intent(it, AddInventoryActivity::class.java)
+                startActivity(intent)
+            }
         }
+
+        return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null // Clear the binding when the view is destroyed
     }
 }
