@@ -10,5 +10,6 @@ import java.util.*
 )
 data class Inventory(
     @PrimaryKey(autoGenerate = true) val inventoryId: Int,
-    val userId: Int
+    val userId: Int,
+    val name: String
 )
