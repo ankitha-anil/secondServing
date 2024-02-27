@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -18,16 +19,13 @@ class ForgotPasswordDialog : DialogFragment() {
         val builder = AlertDialog.Builder(activity)
         val view = layoutInflater.inflate(R.layout.dialog_forgot, null)
         val userEmail = view.findViewById<EditText>(R.id.editBox)
-        builder.setView(view)
-            .setPositiveButton("Reset",
-                DialogInterface.OnClickListener { dialog, id ->
-                    viewModel.changePassword(userEmail.text.toString())
-
-                })
-            .setNegativeButton("Cancel",
-                DialogInterface.OnClickListener { dialog, id ->
-                    getDialog()?.cancel()
-                })
+        view.findViewById<Button>(R.id.btnReset).setOnClickListener {
+            viewModel.changePassword(userEmail.text.toString())
+            dialog?.dismiss()
+        }
+        view.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+            dialog?.cancel()
+        }
         return builder.create()
     }
 }
