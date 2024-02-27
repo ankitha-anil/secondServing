@@ -11,6 +11,8 @@ class FirebaseAuthenticator : BaseAuthenticator {
     }
 
     override suspend fun signInWithEmailPassword(email: String, password: String): FirebaseUser? {
+
+        //TODO: check for duplicate emails
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email , password).await()
         return FirebaseAuth.getInstance().currentUser
     }
@@ -26,5 +28,8 @@ class FirebaseAuthenticator : BaseAuthenticator {
 
     override suspend fun sendPasswordReset(email: String) {
         FirebaseAuth.getInstance().sendPasswordResetEmail(email).await()
+    }
+    override suspend fun deleteUser() {
+        FirebaseAuth.getInstance().currentUser?.delete()?.await()
     }
 }

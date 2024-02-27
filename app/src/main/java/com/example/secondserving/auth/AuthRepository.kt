@@ -26,4 +26,9 @@ class AuthRepository @Inject constructor(
         authenticator.sendPasswordReset(email)
         return true
     }
+
+    override suspend fun deleteUser(): Boolean {
+        authenticator.deleteUser()
+        return true
+    }
 }
