@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@android:color/white"
     tools:context=".AddInventoryActivity">
 
     <!--Toolbar-->
@@ -56,6 +57,8 @@
             android:layout_marginVertical="10dp"
             android:background="@drawable/shape_rect02"
             android:hint="Title"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:drawablePadding="10dp"
             android:inputType="textPersonName|textCapWords"
             android:padding="10dp"
@@ -68,6 +71,8 @@
             android:layout_marginHorizontal="20dp"
             android:background="@drawable/shape_rect02"
             android:hint="Description"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:drawablePadding="10dp"
             android:inputType="textPersonName|textCapWords"
             android:padding="10dp"
