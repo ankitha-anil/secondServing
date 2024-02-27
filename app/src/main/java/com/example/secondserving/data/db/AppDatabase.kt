@@ -25,7 +25,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun meatDao(): MeatDao
     abstract fun vegetableDao(): VegetableDao
     abstract fun fruitDao(): FruitDao
-    // Any other DAOs you may have
 }
 
 
