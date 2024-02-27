@@ -17,9 +17,6 @@
             android:name=".AddInventoryActivity"
             android:exported="false" />
         <activity
-            android:name=".activity_add_inventory"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
