@@ -1,6 +1,7 @@
 package com.example.secondserving.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.room.Room
 import com.example.secondserving.data.db.AppDatabase
 import dagger.hilt.android.HiltAndroidApp
@@ -18,6 +19,7 @@ class SecondServingApplication: Application() {
             applicationContext,
             AppDatabase::class.java, "ssdb"
         ).build()
+        Log.d("Database", "AppDatabase has been created successfully.")
     }
 
 
