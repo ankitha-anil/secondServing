@@ -50,6 +50,17 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+//    bundle {
+//        enabled = true
+//    }
+//     applicationVariants.all { variant ->
+//         variant.outputs.each { output ->
+//             if (output.outputFileName.endsWith('.apk')) {
+// //                output.outputFileName = new File("../", LocalDateTime.now().format('yyyy_MM_dd_HHmm')+"-"+output.outputFile.name)
+//                 output.outputFileName = new File("../", "debug.apk")
+//             }
+//         }
+//     }
 }
 
 dependencies {

@@ -2,7 +2,7 @@ name: Android CI/CD with SAST
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "cicd" ]
   pull_request:
     branches: [ "master" ]
 
@@ -51,22 +51,23 @@ jobs:
         - name: Grant execute permission for gradlew
           run: chmod +x gradlew
 
-        - name: Build with Gradle
+        - name: Build with Gradle (.apk file)
           run: ./gradlew build
 
-        # need to change if gradle settings are updated
         - name: Upload APK
           uses: actions/upload-artifact@v3
           with:
-            name: app-debug
+            name: secondserving-pipeline-build.apk
             path: ./app/build/outputs/apk/debug/app-debug.apk
 
-        # uncomment when gradle settings support aab
-        # - name: Upload AAB
-        #   uses: actions/upload-artifact@v3
-        #   with:
-        #     name: app-bundle
-        #     path: app/build/outputs/bundle/release/app-release.aab
+        - name: Bundle with Gradle (.aab file)
+          run: ./gradlew bundle
+
+        - name: Upload AAB
+          uses: actions/upload-artifact@v3
+          with:
+            name: secondserving-pipeline-bundle.aab
+            path: app/build/outputs/bundle/debug/app-debug.aab
 
         # might need to upload to play store maybe
         
