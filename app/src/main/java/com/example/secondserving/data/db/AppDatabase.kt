@@ -9,22 +9,18 @@ import com.example.secondserving.data.entities.*
     Inventory::class,
     InventoryLineItem::class,
     Recipe::class,
-    Unit::class,
+    mUnit::class,
     Ingredient::class,
-    Meat::class,
-    Vegetable::class,
-    Fruit::class
 ], version = 1, exportSchema = false)
+
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun inventoryDao(): InventoryDao
     abstract fun inventoryLineItemDao(): InventoryLineItemDao
     abstract fun recipeDao(): RecipeDao
-    abstract fun unitDao(): UnitDao
+    abstract fun munitDao(): mUnitDao
     abstract fun ingredientDao(): IngredientDao
-    abstract fun meatDao(): MeatDao
-    abstract fun vegetableDao(): VegetableDao
-    abstract fun fruitDao(): FruitDao
+
 }
 
 

@@ -1,8 +1,4 @@
 buildscript {
-    ext {
-        room_version = '2.6.1' // Set your Room version here
-        // ... other versions
-    }
     dependencies {
         classpath 'com.google.gms:google-services:4.4.1'
         classpath 'com.google.gms:google-services:4.4.0'

@@ -1,10 +1,9 @@
 package com.example.secondserving.data.entities
 
 import androidx.room.*
-import java.util.*
 
 @Entity(tableName = "units")
-data class Unit(
+data class mUnit(
     @PrimaryKey(autoGenerate = true) val unitId: Int,
     val unitName: String
 )

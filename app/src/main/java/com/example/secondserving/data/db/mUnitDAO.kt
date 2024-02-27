@@ -1,15 +1,17 @@
 package com.example.secondserving.data.db
+
 import androidx.room.*
+import com.example.secondserving.data.entities.mUnit
 import java.util.*
 
 @Dao
-interface UnitDao {
+interface mUnitDao {
     @Query("SELECT * FROM units")
-    fun getAllUnits(): List<Unit>
+    fun getAllUnits(): List<mUnit>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertUnit(unit: Unit)
+    fun insertUnit(unit: mUnit)
 
     @Delete
-    fun deleteUnit(unit: Unit)
+    fun deleteUnit(unit: mUnit)
 }
