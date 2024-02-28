@@ -13,4 +13,6 @@ interface BaseAuthenticator {
 
     suspend fun sendPasswordReset(email :String)
     suspend fun deleteUser()
+
+    suspend fun updateDisplayName(userName : String)
 }

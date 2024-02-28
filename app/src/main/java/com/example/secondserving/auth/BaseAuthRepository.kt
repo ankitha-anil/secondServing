@@ -14,4 +14,6 @@ interface BaseAuthRepository {
 
     suspend fun sendResetPassword(email : String) : Boolean
     suspend fun deleteUser() : Boolean
+    suspend fun updateDisplayName(userName: String) : Boolean
+
 }

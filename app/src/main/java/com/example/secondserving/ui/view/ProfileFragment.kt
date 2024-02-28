@@ -48,11 +48,34 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             user?.let {
                 binding.apply {
                     email.text = it.email
+
+                    if(it.displayName?.isNotEmpty() == true){
+                        username.text = it.displayName
+                    }
                     changePassword.setOnClickListener {
                         viewModel.changePasswordAndSignOut()
                     }
                     editUsername.setOnClickListener {
-                        viewModel.editUsername()
+
+                        val builder = AlertDialog.Builder(activity)
+                        val view = layoutInflater.inflate(R.layout.dialog_edit_username, null)
+                        val userName = view.findViewById<EditText>(R.id.usernameEt)
+
+                        builder.setView(view)
+                        val dialog = builder.create()
+
+                        view.findViewById<Button>(R.id.btnConfirm).setOnClickListener {
+                            viewModel.editUsername(userName.text.toString())
+                            dialog?.dismiss()
+                        }
+                        view.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+                            dialog?.cancel()
+                        }
+                        if (dialog.window != null) {
+                            dialog.window!!.setBackgroundDrawable(ColorDrawable(0));
+                        }
+
+                        dialog.show()
                     }
                     logoutbtn.setOnClickListener {
                         viewModel.signOut()

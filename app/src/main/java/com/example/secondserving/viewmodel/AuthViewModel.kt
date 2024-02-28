@@ -131,16 +131,30 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun editUsername() = viewModelScope.launch {
+    fun editUsername(userName: String) = viewModelScope.launch {
 
+        if (userName.isEmpty()) {
+            eventsChannel.send(AllEvents.Error("Username is empty"))
+        }
+        try {
+            repository.updateDisplayName(userName)
+            eventsChannel.send(AllEvents.StartMainActivity("Username updated successfully"))
+        } catch (e: Exception) {
+            val error = e.toString().split(":").toTypedArray()
+            Log.d(TAG, "updateUsername: ${error[1]}")
+
+            eventsChannel.send(AllEvents.Error(error[1]))
+
+        }
     }
 
     fun deleteUserandSignOut(userPassword: String) = viewModelScope.launch {
         if (userPassword.isEmpty()) {
-            eventsChannel.send(AllEvents.ErrorCode(1))
+            eventsChannel.send(AllEvents.Error("Password is empty"))
         }
         try {
-            val credential = EmailAuthProvider.getCredential(currentUser.value?.email.toString(), userPassword)
+            val credential =
+                EmailAuthProvider.getCredential(currentUser.value?.email.toString(), userPassword)
             currentUser.value?.reauthenticate(credential)?.addOnCompleteListener { reauthTask ->
                 viewModelScope.launch {
                     if (reauthTask.isSuccessful) {
