@@ -1,6 +1,5 @@
 package com.example.secondserving.viewmodel
 
-import android.app.Activity
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.MutableLiveData
@@ -99,7 +98,7 @@ class AuthViewModel @Inject constructor(
             user?.let {
                 firebaseUser.postValue(it)
                 eventsChannel.send(AllEvents.Message("Successful Sign up"))
-            } ?:  eventsChannel.send(AllEvents.Error("Sign Up failed"))
+            } ?: eventsChannel.send(AllEvents.Error("Sign Up failed"))
 
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
@@ -136,12 +135,15 @@ class AuthViewModel @Inject constructor(
 
     }
 
-    fun deleteUserandSignOut(userEmail: String, userPassword: String) {
+    fun deleteUserandSignOut(userPassword: String) = viewModelScope.launch {
+        if (userPassword.isEmpty()) {
+            eventsChannel.send(AllEvents.ErrorCode(1))
+        }
         try {
-            val credential = EmailAuthProvider.getCredential(userEmail, userPassword)
+            val credential = EmailAuthProvider.getCredential(currentUser.value?.email.toString(), userPassword)
             currentUser.value?.reauthenticate(credential)?.addOnCompleteListener { reauthTask ->
-                if (reauthTask.isSuccessful) {
-                    viewModelScope.launch {
+                viewModelScope.launch {
+                    if (reauthTask.isSuccessful) {
                         try {
                             repository.deleteUser()
                             val user = repository.signOut()
@@ -150,11 +152,13 @@ class AuthViewModel @Inject constructor(
                                 eventsChannel.send(AllEvents.Message("Deletion failure"))
                             }
                                 ?: eventsChannel.send(AllEvents.StartMainActivity("Deleted account successfully"))
-                        } catch (e: FirebaseAuthException) {
+                        } catch (e: Exception) {
                             val error = e.toString().split(":").toTypedArray()
                             Log.d(TAG, "deleteUser: ${error[1]}")
                             eventsChannel.send(AllEvents.Error(error[1]))
                         }
+                    } else {
+                        eventsChannel.send(AllEvents.Message("Incorrect password"))
 
                     }
                 }
@@ -163,9 +167,8 @@ class AuthViewModel @Inject constructor(
             val error = e.toString().split(":").toTypedArray()
             Log.d(TAG, "deleteUser: ${error[1]}")
 
-            viewModelScope.launch {
-                eventsChannel.send(AllEvents.Error(error[1]))
-            }
+            eventsChannel.send(AllEvents.Error(error[1]))
+
         }
     }
 

@@ -20,4 +20,11 @@
         android:name="com.example.secondserving.ui.view.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <dialog
+        android:id="@+id/deleteUserDialog"
+        android:name="com.example.secondserving.ui.view.DeleteUserDialog"
+        android:label="DeleteUserDialog" />
+    <action
+        android:id="@+id/action_global_deleteUserDialog"
+        app:destination="@id/deleteUserDialog" />
 </navigation>

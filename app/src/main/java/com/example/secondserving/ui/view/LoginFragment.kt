@@ -41,6 +41,9 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         listenToChannels()
         binding?.apply {
 
+            emailEt.setText("ankitha.anil@gmail.com")
+            PassEt.setText("123456")
+
             btnLogin.setOnClickListener {
                 viewModel.signInUser(
                     email = emailEt.text.toString(),
@@ -73,7 +76,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                     dialog.window!!.setBackgroundDrawable(ColorDrawable(0));
                 }
                 dialog.show()
-  //              findNavController().navigate(R.id.action_global_forgotPasswordDialog)
+ //               findNavController().navigate(R.id.action_global_forgotPasswordDialog)
             }
         }
         return binding?.root

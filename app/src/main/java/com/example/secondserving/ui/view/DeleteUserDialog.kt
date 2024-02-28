@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -18,19 +19,15 @@ class DeleteUserDialog: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity)
         val view = layoutInflater.inflate(R.layout.dialog_delete_user, null)
-        val userEmail = view.findViewById<EditText>(R.id.emailEt)
         val userPassword = view.findViewById<EditText>(R.id.passwordEt)
+        view.findViewById<Button>(R.id.btnConfirm).setOnClickListener {
+            viewModel.deleteUserandSignOut(userPassword.text.toString())
+            dialog?.dismiss()
+        }
+        view.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+            dialog?.cancel()
+        }
 
-
-        builder.setView(view)
-            .setPositiveButton("Delete",
-                DialogInterface.OnClickListener { dialog, id ->
-                    viewModel.deleteUserandSignOut(userEmail.text.toString(), userPassword.text.toString())
-                })
-            .setNegativeButton("Cancel",
-                DialogInterface.OnClickListener { dialog, id ->
-                    getDialog()?.cancel()
-                })
         return builder.create()
     }
 }

@@ -1,11 +1,15 @@
 package com.example.secondserving.ui.view
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -54,7 +58,27 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                         viewModel.signOut()
                     }
                     deleteProfile.setOnClickListener {
-                        viewModel.deleteUserandSignOut("ankitha.anil@gmail.com", "123456")
+                        val builder = AlertDialog.Builder(activity)
+                        val view = layoutInflater.inflate(R.layout.dialog_delete_user, null)
+                        val userPassword = view.findViewById<EditText>(R.id.passwordEt)
+
+                        builder.setView(view)
+                        val dialog = builder.create()
+
+                        view.findViewById<Button>(R.id.btnConfirm).setOnClickListener {
+                            viewModel.deleteUserandSignOut(userPassword.text.toString())
+                            dialog?.dismiss()
+                        }
+                        view.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+                            dialog?.cancel()
+                        }
+                        if (dialog.window != null) {
+                            dialog.window!!.setBackgroundDrawable(ColorDrawable(0));
+                        }
+
+                        dialog.show()
+
+                       // viewModel.deleteUserandSignOut("ankitha.anil@gmail.com", "123456")
                     }
                 }
             }
@@ -68,12 +92,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 when (event) {
                     is AuthViewModel.AllEvents.Error -> {
                         binding.apply {
-                            Toast.makeText(requireContext(), event.error, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), event.error, Toast.LENGTH_LONG).show()
                         }
                     }
 
                     is AuthViewModel.AllEvents.Message -> {
-                        Toast.makeText(requireContext(), event.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), event.message, Toast.LENGTH_LONG).show()
                     }
 
                     is AuthViewModel.AllEvents.StartMainActivity -> {

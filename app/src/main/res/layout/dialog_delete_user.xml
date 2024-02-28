@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialogForgot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
+    tools:context=".ui.view.DeleteUserDialog"
     android:padding="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,36 +30,7 @@
             android:textSize="17sp"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Enter your email address"
-            android:textColor="@color/green_700"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toTopOf="@id/emailEt"
-            app:layout_constraintTop_toBottomOf="@id/deleteUserTitle" />
 
-        <EditText
-            android:id="@+id/emailEt"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20sp"
-            android:layout_marginBottom="30dp"
-            android:fontFamily="@font/poppins_regular"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:textColor="@color/green_700"
-            android:textCursorDrawable="@drawable/cursor_color"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/deleteUserTitle"
-            />
 
         <TextView
             android:id="@+id/password"
@@ -66,12 +39,12 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:fontFamily="@font/poppins_regular"
-            android:text="Enter your password"
+            android:text="Re-enter your password to delete"
             android:textColor="@color/green_700"
             android:textSize="16sp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@id/passwordEt"
-            app:layout_constraintTop_toBottomOf="@id/emailEt" />
+            app:layout_constraintTop_toBottomOf="@id/deleteUserTitle" />
 
         <EditText
             android:id="@+id/passwordEt"
@@ -107,10 +80,10 @@
             app:layout_constraintBottom_toBottomOf="@id/dialogBox"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordEt"
-            app:layout_constraintEnd_toStartOf="@id/btnReset"/>
+            app:layout_constraintEnd_toStartOf="@id/btnConfirm"/>
 
         <Button
-            android:id="@+id/btnReset"
+            android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
@@ -119,7 +92,7 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/fill_rounded_color"
             android:fontFamily="@font/poppins_regular"
-            android:text="RESET"
+            android:text="CONFIRM"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:cornerRadius="25dp"

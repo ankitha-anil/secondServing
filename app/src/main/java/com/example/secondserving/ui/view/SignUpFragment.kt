@@ -36,6 +36,9 @@ class SignUpFragment : Fragment(R.layout.signup_fragment) {
         registerObservers()
         listenToChannels()
         binding?.apply {
+            emailEt.setText("ankitha.anil@gmail.com")
+            PassEt.setText("123456")
+            confPassEt.setText("123456")
             signButton.setOnClickListener {
                 val email = emailEt.text.toString()
                 val password = PassEt.text.toString()
