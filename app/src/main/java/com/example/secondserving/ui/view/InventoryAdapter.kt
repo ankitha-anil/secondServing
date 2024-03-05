@@ -27,17 +27,18 @@ class InventoryAdapter(private val listener: onItemClickListener) :
     inner class InventoryViewHolder(private val binding: ItemInventoryBinding) : // without inner is like static, can access taskadapter from outside
         RecyclerView.ViewHolder(binding.root) {
 
-        //        init { //can avoid calling the onclicklistener multiple times
-//            binding.apply {
-//                root.setOnClickListener{
-//                    val position = adapterPosition
-//                    if (position != RecyclerView.NO_POSITION){ //-1 position is no position
-//                        val task = getItem(position)
-//                        listener.onItemClick(task)
-//                    }
-//                }
-//            }
-//        }
+        init { //can avoid calling the onclicklistener multiple times
+            binding.apply {
+                root.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) { //-1 position is no position
+                        val inventory = getItem(position)
+                        listener.onItemClick(inventory)
+                    }
+                }
+            }
+        }
+
         fun bind(inventory: Inventory) {
             binding.apply {
                 inventoryName.text = inventory.name

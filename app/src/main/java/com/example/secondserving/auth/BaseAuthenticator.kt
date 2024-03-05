@@ -1,4 +1,4 @@
-package com.example.taskmanager.auth
+package com.example.secondserving.auth
 
 import com.google.firebase.auth.FirebaseUser
 

@@ -9,7 +9,7 @@ import com.example.secondserving.data.Ingredient
 import com.example.secondserving.data.IngredientDAO
 import com.example.secondserving.data.Inventory
 import com.example.secondserving.data.InventoryDAO
-import com.example.taskmanager.auth.AuthRepository
+import com.example.secondserving.auth.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -50,6 +50,9 @@ class HomeViewModel @Inject constructor(
     }
 }
 
+    fun onUndoDeleteClick(inventory: Inventory){
+
+    }
 fun onInventorySelected(inventory: Inventory) {
     viewModelScope.launch {
         inventoryEventChannel.send(InventoryEvent.NavigateToEditInventoryScreen(inventory))
