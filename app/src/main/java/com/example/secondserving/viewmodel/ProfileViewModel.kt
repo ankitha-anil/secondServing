@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.secondserving.MainActivity
-import com.example.taskmanager.auth.BaseAuthRepository
+import com.example.secondserving.auth.BaseAuthRepository
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,7 +52,8 @@ class ProfileViewModel @Inject constructor(
             val user = repository.signOut()
             user?.let {
                 eventsChannel.send(ProfileEvents.Message("Logout failure"))
-            } ?: eventsChannel.send(ProfileEvents.Message("Email sent to change password. Login with new password"))
+            }
+                ?: eventsChannel.send(ProfileEvents.Message("Email sent to change password. Login with new password"))
         } catch (e: Exception) {
             val error = e.toString()
             Log.d(TAG, "passwordReset: ${error}")

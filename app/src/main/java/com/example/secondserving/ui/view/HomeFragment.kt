@@ -37,13 +37,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.onItemCl
         getUser()
         registerObservers()
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        getUser()
         return binding.root
     }
-    private fun getUser() {
-        viewModel.getCurrentUser()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentHomeBinding.bind(view)
