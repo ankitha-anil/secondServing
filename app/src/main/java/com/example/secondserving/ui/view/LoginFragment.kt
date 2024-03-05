@@ -1,5 +1,6 @@
 package com.example.secondserving.ui.view
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
@@ -60,7 +61,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 val dialog = builder.create()
 
                 view.findViewById<Button>(R.id.btnReset).setOnClickListener {
-                    viewModel.compareEmail(userEmail.text.toString())
+                    viewModel.changePassword(userEmail.text.toString())
                     dialog.dismiss()
                 }
 
@@ -72,7 +73,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                     dialog.window!!.setBackgroundDrawable(ColorDrawable(0));
                 }
                 dialog.show()
-                //findNavController().navigate(R.id.action_global_forgotPasswordDialog)
+ //               findNavController().navigate(R.id.action_global_forgotPasswordDialog)
             }
         }
         return binding?.root

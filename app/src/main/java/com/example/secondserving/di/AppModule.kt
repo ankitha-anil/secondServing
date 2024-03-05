@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.room.Room
 import com.example.secondserving.data.IngredientDatabase
 import com.example.secondserving.data.InventoryDatabase
-import com.example.taskmanager.auth.AuthRepository
-import com.example.taskmanager.auth.BaseAuthRepository
-import com.example.taskmanager.auth.BaseAuthenticator
-import com.example.taskmanager.auth.FirebaseAuthenticator
+import com.example.secondserving.auth.AuthRepository
+import com.example.secondserving.auth.BaseAuthRepository
+import com.example.secondserving.auth.BaseAuthenticator
+import com.example.secondserving.auth.FirebaseAuthenticator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
