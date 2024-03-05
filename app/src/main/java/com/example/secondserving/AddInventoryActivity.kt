@@ -1,14 +1,24 @@
 package com.example.secondserving
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.secondserving.data.Inventory
+import com.example.secondserving.data.InventoryDAO
 import com.example.secondserving.databinding.ActivityAddInventoryBinding
+import com.example.secondserving.ui.SecondServingApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddInventoryActivity : AppCompatActivity() {
 
     // Using view binding to interact with the layout views
     private lateinit var binding: ActivityAddInventoryBinding
+    private lateinit var inventoryDao: InventoryDAO // Assuming you have a DAO interface
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,26 +31,40 @@ class AddInventoryActivity : AppCompatActivity() {
         supportActionBar?.title = "Add Inventory Item"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        // Initialize your Room database and obtain the InventoryDao instance
+        //inventoryDao = (applicationContext as SecondServingApplication).data.inventoryDao()
+
         // Set up a click listener on the 'Add Product' button
         binding.addProductBtn.setOnClickListener {
-            // Get the text from input fields
-            val title = binding.titleEt.text.toString().trim()
-            val description = binding.descriptionEt.text.toString().trim()
-
-            // Perform validation and then save the data or show a toast for demonstration
-            if (title.isEmpty() || description.isEmpty()) {
-                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            val name = binding.titleEt.text.toString().trim()
+            val userId: String = "1"// Assuming you have a userId
+            if (name.isNotEmpty()) {
+                val inventory = Inventory(inventoryId = 1,userID = userId, name = name)
+                insertInventory(inventory)
             } else {
-                Toast.makeText(this, "Product added: $title", Toast.LENGTH_SHORT).show()
-
-                // Optionally, clear the fields or close the activity
-                binding.titleEt.text.clear()
-                binding.descriptionEt.text.clear()
-
-                // Close the activity if done
-                finish()
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+    private fun insertInventory(inventory: Inventory) {
+        coroutineScope.launch(Dispatchers.IO) {
+            try {
+                inventoryDao.insertInventory(inventory)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@AddInventoryActivity, "Inventory added successfully", Toast.LENGTH_SHORT).show()
+                    clearFields()
+                }
+                Log.d("AddInventoryActivity", "Inventory added successfully: $inventory")
+            } catch (e: Exception) {
+                Log.e("AddInventoryActivity", "Error adding inventory", e)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@AddInventoryActivity, "Error adding inventory: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+    private fun clearFields() {
+        binding.titleEt.text.clear()
     }
 
     // If you want to handle the 'up' button in the action bar
