@@ -6,7 +6,6 @@ import androidx.room.Room
 import com.example.secondserving.data.db.AppDatabase
 import dagger.hilt.android.HiltAndroidApp
 
-
 @HiltAndroidApp
 class SecondServingApplication: Application() {
     // build db
