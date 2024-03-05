@@ -13,4 +13,7 @@ interface BaseAuthRepository {
     fun getCurrentUser() : FirebaseUser?
 
     suspend fun sendResetPassword(email : String) : Boolean
+    suspend fun deleteUser() : Boolean
+    suspend fun updateDisplayName(userName: String) : Boolean
+
 }

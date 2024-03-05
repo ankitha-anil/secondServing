@@ -3,6 +3,9 @@ package com.example.secondserving.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.taskmanager.auth.AuthRepository
+import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
 import com.example.secondserving.ADD_INVENTORY_RESULT_OK
 import com.example.secondserving.EDIT_INVENTORY_RESULT_OK
 import com.example.secondserving.data.Ingredient
@@ -91,4 +94,7 @@ sealed class InventoryEvent {  //different variation, can later get warning when
     object NavigateToDeleteAllCompletedScreen : InventoryEvent()
 }
 
+    fun getCurrentUser() = viewModelScope.launch {
+        firebaseUser.postValue(repository.getCurrentUser())
+    }
 }

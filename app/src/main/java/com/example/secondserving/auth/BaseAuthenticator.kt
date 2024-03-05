@@ -12,4 +12,7 @@ interface BaseAuthenticator {
     fun getUser() : FirebaseUser?
 
     suspend fun sendPasswordReset(email :String)
+    suspend fun deleteUser()
+
+    suspend fun updateDisplayName(userName : String)
 }

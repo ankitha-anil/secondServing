@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,6 +21,7 @@ import com.example.secondserving.data.Inventory
 import com.example.secondserving.databinding.FragmentHomeBinding
 import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.HomeViewModel
+import com.google.firebase.auth.FirebaseUser
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +37,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.onItemCl
         getUser()
         registerObservers()
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        getUser()
         return binding.root
+    }
+    private fun getUser() {
+        viewModel.getCurrentUser()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

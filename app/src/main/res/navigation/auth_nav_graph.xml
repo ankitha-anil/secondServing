@@ -31,5 +31,7 @@
         android:id="@+id/forgotPasswordDialog"
         android:name="com.example.secondserving.ui.view.ForgotPasswordDialog"
         android:label="ForgotPasswordDialog" />
-    <action android:id="@+id/action_global_forgotPasswordDialog" app:destination="@id/forgotPasswordDialog"/>
+    <action
+        android:id="@+id/action_global_forgotPasswordDialog"
+        app:destination="@id/forgotPasswordDialog" />
 </navigation>
