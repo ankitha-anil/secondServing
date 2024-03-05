@@ -1,5 +1,6 @@
 package com.example.secondserving
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -54,3 +55,6 @@ class HomeActivity: AppCompatActivity() {
         Toast.makeText(this,"$requestCode", Toast.LENGTH_LONG).show()
     }
 }
+
+const val ADD_INVENTORY_RESULT_OK = Activity.RESULT_FIRST_USER
+const val EDIT_INVENTORY_RESULT_OK = Activity.RESULT_FIRST_USER + 1
