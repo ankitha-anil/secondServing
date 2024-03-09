@@ -26,7 +26,12 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRecipeBinding.inflate(inflater, container, false)
+        getUser()
         return binding.root
+    }
+
+    private fun getUser() {
+        viewModel.getCurrentUser()
     }
 
 }

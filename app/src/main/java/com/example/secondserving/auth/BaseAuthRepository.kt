@@ -1,4 +1,4 @@
-package com.example.taskmanager.auth
+package com.example.secondserving.auth
 
 import com.google.firebase.auth.FirebaseUser
 
@@ -13,4 +13,7 @@ interface BaseAuthRepository {
     fun getCurrentUser() : FirebaseUser?
 
     suspend fun sendResetPassword(email : String) : Boolean
+    suspend fun deleteUser() : Boolean
+    suspend fun updateDisplayName(userName: String) : Boolean
+
 }
