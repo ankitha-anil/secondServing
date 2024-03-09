@@ -28,51 +28,39 @@ abstract class IngredientDatabase : RoomDatabase() {
                 dao.insertIngredient(
                     Ingredient(
                         name = "Apple",
-                        expiry = System.currentTimeMillis(),
                         description = "Fruit",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 2
+                        unit = "Pieces"
                     )
                 )
                 dao.insertIngredient(
                     Ingredient(
                         name = "Carrot",
-                        expiry = System.currentTimeMillis(),
                         description = "Veggie",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 3
+                        unit = "Pieces"
                     )
                 )
                 dao.insertIngredient(
                     Ingredient(
                         name = "Orange",
-                        expiry = System.currentTimeMillis(),
                         description = "Fruit",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 2
+                        unit = "Pieces"
                     )
                 )
                 dao.insertIngredient(
                     Ingredient(
                         name = "Rice",
-                        expiry = System.currentTimeMillis(),
                         description = "Grain",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 3
+                        unit = "Kilograms"
                     )
                 )
                 dao.insertIngredient(
                     Ingredient(
                         name = "Wheat",
-                        expiry = System.currentTimeMillis(),
                         description = "Grain",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 3
+                        unit = "Kilogram"
                     )
                 )
-
             }
-
         }
 
         override fun onOpen(db: SupportSQLiteDatabase) {

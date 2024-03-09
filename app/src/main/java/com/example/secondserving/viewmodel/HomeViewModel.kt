@@ -22,17 +22,22 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: AuthRepository,
     private val inventoryDAO: InventoryDAO,
-    private val ingredientDAO: IngredientDAO
+    private val ingredientDAO: IngredientDAO,
+    private val inventoryLineItemDAO: InventoryLineItemDAO,
 ) : ViewModel() {
 
     private val firebaseUser = MutableLiveData<FirebaseUser?>()
     val currentUser get() = firebaseUser
 
     private val inventoryEventChannel = Channel<InventoryEvent>()
+    private val inventoryLineItemEventChannel = Channel<InventoryEvent>()
+
     val inventoryEvent = inventoryEventChannel.receiveAsFlow() // receive as flow
+    val inventoryLineItemEvent = inventoryLineItemEventChannel.receiveAsFlow() // receive as flow
 
     var inventories = MutableLiveData<List<Inventory>>()
     var ingredients = MutableLiveData<List<Ingredient>>()
+    var inventoryLineItems = MutableLiveData<List<InventoryLineItem>>()
 
     //inventoryDAO.getInventoriesForUser("fSiLGeQcGDdVKHvH49jkqsGYsMz2").asLiveData()
 

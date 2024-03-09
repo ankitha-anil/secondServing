@@ -9,13 +9,11 @@ import java.text.DateFormat
 @Entity(tableName = "ingredients_table")
 @Parcelize
 open class Ingredient(
+    @PrimaryKey(autoGenerate = true) val ingredientId: Int = 0,
     val name: String,
     val description: String,
     val created: Long = System.currentTimeMillis(),
-    val userId: String,
-    val inventoryId: Int,
-    val expiry: Long,  //TODO: Change value here when you update
-    @PrimaryKey(autoGenerate = true) val ingredientId: Int = 0
+    val unit: String
 ) : Parcelable {
     val createDateFormatted: String
         get() = DateFormat.getDateTimeInstance().format(created)
