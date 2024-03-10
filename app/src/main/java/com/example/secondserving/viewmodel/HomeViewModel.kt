@@ -10,6 +10,8 @@ import com.example.secondserving.data.Ingredient
 import com.example.secondserving.data.IngredientDAO
 import com.example.secondserving.data.Inventory
 import com.example.secondserving.data.InventoryDAO
+import com.example.secondserving.data.InventoryLineItem
+import com.example.secondserving.data.InventoryLineItemDAO
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

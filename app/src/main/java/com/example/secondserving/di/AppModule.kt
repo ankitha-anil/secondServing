@@ -8,6 +8,7 @@ import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.auth.BaseAuthRepository
 import com.example.secondserving.auth.BaseAuthenticator
 import com.example.secondserving.auth.FirebaseAuthenticator
+import com.example.secondserving.data.InventoryLineItemDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

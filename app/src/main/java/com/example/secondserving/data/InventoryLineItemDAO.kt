@@ -13,11 +13,11 @@ interface InventoryLineItemDAO {
     fun getAllInventoryLineItems(): Flow<List<InventoryLineItem>>
 
     @Query("SELECT * FROM inventorylineitems_table WHERE inventoryId = :inventoryId")
-    suspend fun getAllInventoryLineItemsByInventoryId(inventoryId: Int): Flow<List<InventoryLineItem>>
+    fun getAllInventoryLineItemsByInventoryId(inventoryId: Int): Flow<List<InventoryLineItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertInventoryLineItem(inventoryLineItem: InventoryLineItem)
+    fun insertInventoryLineItem(inventoryLineItem: InventoryLineItem)
 
     @Delete
-    suspend fun deleteInventoryLineItem(inventoryLineItem: InventoryLineItem)
+    fun deleteInventoryLineItem(inventoryLineItem: InventoryLineItem)
 }
