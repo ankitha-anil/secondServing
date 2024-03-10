@@ -7,11 +7,11 @@ import java.util.*
 @Dao
 interface IngredientDAO {
     @Query("SELECT * FROM ingredients_table")
-    fun getAllIngredients(inventoryId: Int, userId :Int): Flow<List<Ingredient>>
+    fun getAllIngredients(): Flow<List<Ingredient>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertIngredient(ingredient: Ingredient)
+    suspend fun insertIngredient(ingredient: Ingredient)
 
     @Delete
-    fun deleteIngredient(ingredient: Ingredient)
+    suspend fun deleteIngredient(ingredient: Ingredient)
 }
