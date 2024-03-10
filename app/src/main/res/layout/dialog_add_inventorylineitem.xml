@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/dialogAddIngredient"
+    android:id="@+id/dialogAddInventoryLineItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="20dp"
@@ -26,10 +26,10 @@
             android:textSize="17sp"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <Spinner
             android:id="@+id/ingredientName"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginStart="20sp"
             android:layout_marginBottom="30dp"
             android:fontFamily="@font/poppins_regular"
@@ -69,7 +69,6 @@
             app:layout_constraintTop_toBottomOf="@id/quantityTitle"
             app:layout_constraintBottom_toBottomOf="@id/expiryDateTitle" />
 
-
         <TextView
             android:id="@+id/expiryDateTitle"
             android:layout_width="match_parent"
@@ -83,8 +82,10 @@
             app:layout_constraintTop_toBottomOf="@id/quantity"
             app:layout_constraintBottom_toTopOf="@id/expiryDate" />
 
-        <EditText
+        <DatePicker
             android:id="@+id/expiryDate"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
