@@ -8,6 +8,7 @@ import com.example.secondserving.data.Inventory
 import com.example.secondserving.data.InventoryDAO
 import com.example.secondserving.databinding.ActivityAddInventoryBinding
 import com.example.secondserving.ui.SecondServingApplication
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +20,7 @@ class AddInventoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddInventoryBinding
     private lateinit var inventoryDao: InventoryDAO // Assuming you have a DAO interface
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,9 @@ class AddInventoryActivity : AppCompatActivity() {
         // Inflate the layout using view binding
         binding = ActivityAddInventoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Initialize Firebase Authentication
+        auth = FirebaseAuth.getInstance()
 
         // Set up the action bar if you have one
         supportActionBar?.title = "Add Inventory Item"
@@ -37,7 +42,8 @@ class AddInventoryActivity : AppCompatActivity() {
         // Set up a click listener on the 'Add Product' button
         binding.addProductBtn.setOnClickListener {
             val name = binding.titleEt.text.toString().trim()
-            val userId: String = "wwDMf3Q52iURZ3Fw7S1QBtRVvIs2" // Assuming you have a userId
+            val currentUser=auth.currentUser
+            val userId=currentUser?.uid ?: ""
             if (name.isNotEmpty()) {
                 val inventory = Inventory(name = name, userID = userId)
                 coroutineScope.launch {
