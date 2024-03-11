@@ -2,12 +2,16 @@ package com.example.secondserving.ui.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +19,10 @@ import com.example.secondserving.MainActivity
 import com.example.secondserving.R
 import com.example.secondserving.data.Inventory
 import com.example.secondserving.databinding.FragmentHomeBinding
+import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.HomeViewModel
+import com.google.firebase.auth.FirebaseUser
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,13 +34,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.onItemCl
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         getUser()
         registerObservers()
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentHomeBinding.bind(view)
@@ -45,6 +50,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.onItemCl
             recyclerViewInventory.apply {
                 adapter = inventoryAdapter
                 layoutManager = LinearLayoutManager(requireContext())
+                root.apply {
+
+                }
                 setHasFixedSize(true)
             }
             ItemTouchHelper(object :
@@ -88,10 +96,45 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.onItemCl
                 binding.noInventory.visibility = View.GONE
         }
 
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.inventoryEvent.collect() { event ->
+                when (event) {
+                    HomeViewModel.InventoryEvent.NavigateToAddInventoryScreen -> {
+//                        val action = HomeFragmentDirections.actionHomeFragmentToAddEditTaskFragment(
+//                            "Add Inventory"
+//                        )  // TODO: Change this based on navgraph and arguments
+//                        findNavController().navigate(action)
+                    }
+
+                   is HomeViewModel.InventoryEvent.NavigateToEditInventoryScreen -> {
+//                        val action = HomeFragmentDirections.actionHomeFragmentToAddEditTaskFragment(
+//                            "Edit Inventory",
+//                            event.inventory
+//                        ) // TODO: Change this based on navgraph and arguments
+//                        findNavController().navigate(action)
+                   }
+
+                    is HomeViewModel.InventoryEvent.ShowInventorySavedConfirmation -> {
+                        Snackbar.make(view, event.message, Snackbar.LENGTH_SHORT).show()
+                    }
+
+                    is HomeViewModel.InventoryEvent.ShowUndoDeleteInventoryMessage -> {
+                        Snackbar.make(requireView(), "Inventory deleted", Snackbar.LENGTH_LONG)
+                            .setAction("UNDO") {
+                                viewModel.onUndoDeleteClick(event.inventory)
+                            }.show()
+                    }
+
+                    HomeViewModel.InventoryEvent.NavigateToDeleteAllCompletedScreen -> TODO()
+                }.exhaustive
+            }
+        }
+
     }
 
     override fun onItemClick(inventory: Inventory) {
         viewModel.onInventorySelected(inventory)
+        Log.d("InventoryClick","Inevotry Item clicked ${inventory.name}")
     }
 
     private fun getUser() {
