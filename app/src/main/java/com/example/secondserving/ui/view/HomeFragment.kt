@@ -24,6 +24,7 @@ import com.example.secondserving.viewmodel.HomeViewModel
 import com.google.firebase.auth.FirebaseUser
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.secondserving.AddInventoryActivity
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.onItemClickListener {
@@ -82,6 +83,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.onItemCl
             val result = bundle.getInt("add_edit_result")
             viewModel.onAddEditResult(result)
         }
+
+        binding.fabAddInventory.setOnClickListener {
+            // Use requireContext() to get the context inside a fragment
+            val intent = Intent(requireContext(), AddInventoryActivity::class.java)
+            startActivity(intent)
+        }
+
         inventoryAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeMoved(fromPosition: Int, toPosition: Int, itemCount: Int) {
                 binding.recyclerViewInventory.scrollToPosition(0)
