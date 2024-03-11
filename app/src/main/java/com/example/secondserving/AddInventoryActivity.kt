@@ -25,44 +25,46 @@ class AddInventoryActivity : AppCompatActivity() {
 
         // Inflate the layout using view binding
         binding = ActivityAddInventoryBinding.inflate(layoutInflater)
-        setContentView(binding.root) // Corrected line
+        setContentView(binding.root)
 
         // Set up the action bar if you have one
         supportActionBar?.title = "Add Inventory Item"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Initialize your Room database and obtain the InventoryDao instance
-        //inventoryDao = (applicationContext as SecondServingApplication).data.inventoryDao()
+        inventoryDao = (applicationContext as SecondServingApplication).data.inventoryDao()
 
         // Set up a click listener on the 'Add Product' button
         binding.addProductBtn.setOnClickListener {
             val name = binding.titleEt.text.toString().trim()
-            val userId: String = "1"// Assuming you have a userId
+            val userId: String = "wwDMf3Q52iURZ3Fw7S1QBtRVvIs2" // Assuming you have a userId
             if (name.isNotEmpty()) {
-                val inventory = Inventory(inventoryId = 1,userID = userId, name = name)
-                insertInventory(inventory)
+                val inventory = Inventory(name = name, userID = userId)
+                coroutineScope.launch {
+                    insertInventory(inventory)
+                }
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             }
         }
     }
-    private fun insertInventory(inventory: Inventory) {
-        coroutineScope.launch(Dispatchers.IO) {
-            try {
-                inventoryDao.insertInventory(inventory)
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@AddInventoryActivity, "Inventory added successfully", Toast.LENGTH_SHORT).show()
-                    clearFields()
-                }
-                Log.d("AddInventoryActivity", "Inventory added successfully: $inventory")
-            } catch (e: Exception) {
-                Log.e("AddInventoryActivity", "Error adding inventory", e)
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@AddInventoryActivity, "Error adding inventory: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+
+    private suspend fun insertInventory(inventory: Inventory) {
+        try {
+            inventoryDao.insertInventory(inventory)
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@AddInventoryActivity, "Inventory added successfully", Toast.LENGTH_SHORT).show()
+                clearFields()
+            }
+            Log.d("AddInventoryActivity", "Inventory added successfully: $inventory")
+        } catch (e: Exception) {
+            Log.e("AddInventoryActivity", "Error adding inventory", e)
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@AddInventoryActivity, "Error adding inventory: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
     private fun clearFields() {
         binding.titleEt.text.clear()
     }
