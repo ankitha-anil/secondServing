@@ -16,9 +16,7 @@
         <activity
             android:name=".EditInventoryActivity"
             android:exported="false" />
-        <activity
-            android:name=".viewmodel.EditInventoryActivity"
-            android:exported="false" />
+
         <activity
             android:name=".AddInventoryActivity"
             android:exported="false"
