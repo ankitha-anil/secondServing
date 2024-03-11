@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.example.secondserving.AddInventoryActivity
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.onItemClickListener {
+class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private val viewModel: HomeViewModel by viewModels()
 
