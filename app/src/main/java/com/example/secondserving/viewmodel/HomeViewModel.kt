@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     //inventoryDAO.getInventoriesForUser("fSiLGeQcGDdVKHvH49jkqsGYsMz2").asLiveData()
 
     fun init() {
-        getCurrentUser() // set current user
+        getCurrentUser() // set to current user
         viewModelScope.launch {
             currentUser.value?.let { user ->
                 inventoryDAO.getInventoriesForUser(user.uid)
