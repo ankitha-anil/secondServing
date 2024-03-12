@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.secondserving.data.Inventory
 import com.example.secondserving.databinding.ItemInventoryBinding
 
-class InventoryAdapter(private val listener: onItemClickListener) :
+class InventoryAdapter(private val listener: OnItemClickListener) :
     ListAdapter<Inventory, InventoryAdapter.InventoryViewHolder>(
         DiffCallback()
     ) {
@@ -46,7 +46,7 @@ class InventoryAdapter(private val listener: onItemClickListener) :
         }
     }
 
-    interface onItemClickListener {
+    interface OnItemClickListener {
         fun onItemClick(inventory: Inventory)
     }
 
