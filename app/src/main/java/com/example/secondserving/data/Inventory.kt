@@ -12,7 +12,7 @@ data class Inventory(
     val name: String,
     val created: Long = System.currentTimeMillis(),
     val userID: String,
-    @PrimaryKey(autoGenerate = true) val inventoryId: Int = 0
+    @PrimaryKey(autoGenerate = true) val id: Int = 0
 ): Parcelable {
     val createDateFormatted: String
         get() = DateFormat.getDateTimeInstance().format(created)

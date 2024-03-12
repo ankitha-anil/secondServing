@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface InventoryDAO {
-    @Query("SELECT * FROM inventory_table WHERE userId = :userId")
+    @Query("SELECT * FROM inventory_table WHERE userID = :userId")
     fun getInventoriesForUser(userId: String): Flow<List<Inventory>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

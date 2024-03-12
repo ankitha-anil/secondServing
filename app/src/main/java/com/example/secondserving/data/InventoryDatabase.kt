@@ -9,9 +9,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Inventory::class], version = 1, exportSchema = false)
+@Database(entities = [Inventory::class, InventoryLineItem::class], version = 1, exportSchema = false)
 abstract class InventoryDatabase : RoomDatabase() {
     abstract fun inventoryDao(): InventoryDAO
+    abstract fun inventorylineitemDao(): InventoryLineItemDAO
+
 
     //Dependency Injection means class that use other classes should not be responsible for creating or searching this using dagger, hilt uses dagger tool makes it easier
 
@@ -23,6 +25,8 @@ abstract class InventoryDatabase : RoomDatabase() {
             super.onCreate(db)
 
             val dao = database.get().inventoryDao()
+            val linedao = database.get().inventorylineitemDao()
+
 
             applicationScope.launch {
                 dao.insertInventory(Inventory("Kitchen", userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2"))
@@ -39,6 +43,13 @@ abstract class InventoryDatabase : RoomDatabase() {
 
                 dao.insertInventory(Inventory("Kitchen", userID = "wwDMf3Q52iURZ3Fw7S1QBtRVvIs2"))
                 dao.insertInventory(Inventory("Pantry", userID = "wwDMf3Q52iURZ3Fw7S1QBtRVvIs2"))
+
+                linedao.insertInventoryLineItem(InventoryLineItem(name ="Apple", quantity = 2, expiryDate = System.currentTimeMillis(), inventoryId = 3))
+                linedao.insertInventoryLineItem(InventoryLineItem(name ="Orange", quantity = 4, expiryDate = System.currentTimeMillis(), inventoryId = 3))
+                linedao.insertInventoryLineItem(InventoryLineItem(name ="Banana", quantity = 3, expiryDate = System.currentTimeMillis(), inventoryId = 1))
+
+
+                val repositoriesForUser: List<InventoryLineItem> = linedao.getInventoryLineItemsForUser(1)
             }
 
         }

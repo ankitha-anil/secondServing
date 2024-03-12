@@ -31,6 +31,8 @@ object AppModule {
 
     @Provides
     fun provideInventoryDao(db: InventoryDatabase) = db.inventoryDao()
+    @Provides
+    fun provideInventoryLineItemDao(db: InventoryDatabase) = db.inventorylineitemDao()
 
     @Provides // we use provide method cause we dont own the classes
     @Singleton  //only one instance of task in whole app
