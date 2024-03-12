@@ -68,7 +68,7 @@
             android:layout_below="@id/titleEt"/>
 
         <Button
-            android:id="@+id/addProductBtn"
+            android:id="@+id/editProductBtn"
             android:text="Update Inventory"
             android:textColor="@color/white"
             android:layout_below="@id/descriptionEt"

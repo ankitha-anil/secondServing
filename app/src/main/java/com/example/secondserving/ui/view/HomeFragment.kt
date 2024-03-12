@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.secondserving.AddInventoryActivity
+import com.example.secondserving.EditInventoryActivity
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemClickListener {
@@ -114,13 +115,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
 //                        findNavController().navigate(action)
                     }
 
-                   is HomeViewModel.InventoryEvent.NavigateToEditInventoryScreen -> {
-//                        val action = HomeFragmentDirections.actionHomeFragmentToAddEditTaskFragment(
-//                            "Edit Inventory",
-//                            event.inventory
-//                        ) // TODO: Change this based on navgraph and arguments
-//                        findNavController().navigate(action)
-                   }
+                    is HomeViewModel.InventoryEvent.NavigateToEditInventoryScreen -> {
+                        val intent = Intent(requireContext(), EditInventoryActivity::class.java)
+                        intent.putExtra("inventory", event.inventory)
+                        startActivity(intent)
+                    }
 
                     is HomeViewModel.InventoryEvent.ShowInventorySavedConfirmation -> {
                         Snackbar.make(view, event.message, Snackbar.LENGTH_SHORT).show()
