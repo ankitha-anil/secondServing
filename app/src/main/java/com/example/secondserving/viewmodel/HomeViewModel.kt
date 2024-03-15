@@ -38,6 +38,10 @@ class HomeViewModel @Inject constructor(
 
     fun init() {
         getCurrentUser() // set to current user
+        updateInventoriesForUser()
+    }
+
+    fun updateInventoriesForUser() {
         viewModelScope.launch {
             currentUser.value?.let { user ->
                 inventoryDAO.getInventoriesForUser(user.uid)
@@ -68,7 +72,9 @@ class HomeViewModel @Inject constructor(
 
 
     fun getCurrentUser() = viewModelScope.launch {
-        firebaseUser.postValue(repository.getCurrentUser())
+        if (repository.getCurrentUser() != firebaseUser.value) {
+            firebaseUser.postValue(repository.getCurrentUser())
+        }
     }
 
     fun onAddEditResult(result: Int) {

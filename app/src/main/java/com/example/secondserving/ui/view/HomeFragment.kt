@@ -157,4 +157,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateInventoriesForUser()
+
+    }
+
 }

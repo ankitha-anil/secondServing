@@ -19,6 +19,11 @@
             android:theme="@style/Theme.AppCompat"/>
 
         <activity
+            android:name=".EditInventoryActivityCopy"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat"/>
+
+        <activity
             android:name=".AddInventoryActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />

@@ -2,15 +2,11 @@ package com.example.secondserving
 
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.secondserving.data.Inventory
 import com.example.secondserving.data.InventoryDAO
 import com.example.secondserving.databinding.ActivityEditInventoryBinding
@@ -21,22 +17,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class EditInventoryActivity : AppCompatActivity() {
+class EditInventoryActivityCopy : AppCompatActivity() {
 
-    val editInventory = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            binding.titleTv.setText(result.data?.extras?.getString("newInventoryTitle"))
-        }
-    }
-
-    private lateinit var binding: BsInventoryDetailsBinding
+    private lateinit var binding: ActivityEditInventoryBinding
     private lateinit var inventoryDao: InventoryDAO
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private lateinit var currentInventory: Inventory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = BsInventoryDetailsBinding.inflate(layoutInflater)
+        binding = ActivityEditInventoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val backButton: ImageButton = findViewById(R.id.backBtn)
@@ -50,38 +40,39 @@ class EditInventoryActivity : AppCompatActivity() {
         currentInventory = intent.getParcelableExtra("inventory") ?: return
         setupViews(currentInventory)
 
-        binding.editBtn.setOnClickListener {
-//            val newName = binding.titleTv.text.toString().trim()
-//            if (newName.isNotEmpty()) {
-//                val updatedInventory = currentInventory.copy(name = newName)
-//                coroutineScope.launch {
-//                    updateInventory(updatedInventory)
-//                }
-//            } else {
-//                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-//            }
-            val intent = Intent(baseContext, EditInventoryActivityCopy::class.java)
-            intent.putExtra("inventory", currentInventory)
-            editInventory.launch(intent)
+        binding.editProductBtn.setOnClickListener {
+            val newName = binding.titleEt.text.toString().trim()
+            if (newName.isNotEmpty()) {
+                val updatedInventory = currentInventory.copy(name = newName)
+                coroutineScope.launch {
+                    updateInventory(updatedInventory)
+                }
+                val resultIntent = Intent()
+                resultIntent.putExtra("newInventoryTitle", newName)
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish()
+            } else {
+                Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun setupViews(inventory: Inventory) {
-        binding.titleTv.setText(inventory.name)
+        binding.titleEt.setText(inventory.name)
     }
 
     private suspend fun updateInventory(inventory: Inventory) {
         try {
             inventoryDao.updateInventory(inventory)
             withContext(Dispatchers.Main) {
-                Toast.makeText(this@EditInventoryActivity, "Inventory updated successfully", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EditInventoryActivityCopy, "Inventory updated successfully", Toast.LENGTH_SHORT).show()
                 finish()
             }
             Log.d("UpdateInventoryActivity", "Inventory updated successfully: $inventory")
         } catch (e: Exception) {
             Log.e("UpdateInventoryActivity", "Error updating inventory", e)
             withContext(Dispatchers.Main) {
-                Toast.makeText(this@EditInventoryActivity, "Error updating inventory: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@EditInventoryActivityCopy, "Error updating inventory: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
