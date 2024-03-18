@@ -9,11 +9,13 @@ import com.example.secondserving.data.Inventory
 import com.example.secondserving.data.InventoryDAO
 import com.example.secondserving.databinding.ActivityEditInventoryBinding
 import com.example.secondserving.ui.SecondServingApplication
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class EditInventoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditInventoryBinding
@@ -32,7 +34,7 @@ class EditInventoryActivity : AppCompatActivity() {
         }
 
 
-        inventoryDao = (applicationContext as SecondServingApplication).data.inventoryDao()
+      //  inventoryDao = (applicationContext as SecondServingApplication).data.inventoryDao()
 
         currentInventory = intent.getParcelableExtra("inventory") ?: return
         setupViews(currentInventory)

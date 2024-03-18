@@ -3,17 +3,21 @@ package com.example.secondserving
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.secondserving.data.Inventory
 import com.example.secondserving.data.InventoryDAO
 import com.example.secondserving.databinding.ActivityAddInventoryBinding
 import com.example.secondserving.ui.SecondServingApplication
+import com.example.secondserving.viewmodel.AddEditViewModel
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+@AndroidEntryPoint
 class AddInventoryActivity : AppCompatActivity() {
 
     // Using view binding to interact with the layout views
@@ -21,7 +25,7 @@ class AddInventoryActivity : AppCompatActivity() {
     private lateinit var inventoryDao: InventoryDAO // Assuming you have a DAO interface
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     private lateinit var auth: FirebaseAuth
-
+    private val viewModel: AddEditViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -37,7 +41,7 @@ class AddInventoryActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Initialize your Room database and obtain the InventoryDao instance
-        inventoryDao = (applicationContext as SecondServingApplication).data.inventoryDao()
+     //   inventoryDao = (applicationContext as SecondServingApplication).data.inventoryDao()
 
         // Set up a click listener on the 'Add Product' button
         binding.addProductBtn.setOnClickListener {
@@ -47,7 +51,7 @@ class AddInventoryActivity : AppCompatActivity() {
             if (name.isNotEmpty()) {
                 val inventory = Inventory(name = name, userID = userId)
                 coroutineScope.launch {
-                    insertInventory(inventory)
+             //       insertInventory(inventory)
                 }
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
@@ -55,21 +59,7 @@ class AddInventoryActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun insertInventory(inventory: Inventory) {
-        try {
-            inventoryDao.insertInventory(inventory)
-            withContext(Dispatchers.Main) {
-                Toast.makeText(this@AddInventoryActivity, "Inventory added successfully", Toast.LENGTH_SHORT).show()
-                clearFields()
-            }
-            Log.d("AddInventoryActivity", "Inventory added successfully: $inventory")
-        } catch (e: Exception) {
-            Log.e("AddInventoryActivity", "Error adding inventory", e)
-            withContext(Dispatchers.Main) {
-                Toast.makeText(this@AddInventoryActivity, "Error adding inventory: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
+
 
     private fun clearFields() {
         binding.titleEt.text.clear()

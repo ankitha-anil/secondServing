@@ -141,7 +141,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
 
     override fun onItemClick(inventory: Inventory) {
         viewModel.onInventorySelected(inventory)
-        Log.d("InventoryClick","Inevotry Item clicked ${inventory.name}")
+        Log.d("InventoryClick","Inventory Item clicked ${inventory.name}")
     }
 
     private fun getUser() {

@@ -2,13 +2,11 @@ package com.example.secondserving.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.secondserving.data.IngredientDatabase
 import com.example.secondserving.data.InventoryDatabase
 import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.auth.BaseAuthRepository
 import com.example.secondserving.auth.BaseAuthenticator
 import com.example.secondserving.auth.FirebaseAuthenticator
-import com.example.secondserving.data.InventoryLineItemDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,30 +34,13 @@ object AppModule {
 
 
     // ========================================= Ingredient =========================================
-    @Provides // we use provide method cause we dont own the classes
-    @Singleton  //only one instance of task in whole app
-    fun provideIngredientDatabase(
-        app: Application, callback: IngredientDatabase.Callback
-    ) = Room.databaseBuilder(app, IngredientDatabase::class.java, "ingredient_database") //there is a circular dependency but oncreate is called after this
-        .fallbackToDestructiveMigration()
-        .addCallback(callback) //di code should not be responsible for db operations
-        .build()
-
     @Provides
-    fun provideIngredientDao(db: IngredientDatabase) = db.ingredientDao()
+    fun provideIngredientDao(db: InventoryDatabase) = db.ingredientDao()
     
     // ========================================= InventoryLineItem =========================================
-    @Provides // we use provide method cause we dont own the classes
-    @Singleton  //only one instance of task in whole app
-    fun provideInventoryLineItemDatabase(
-        app: Application, callback: InventoryLineItemDatabase.Callback
-    ) = Room.databaseBuilder(app, InventoryLineItemDatabase::class.java, "inventoryLineItem_database") //there is a circular dependency but oncreate is called after this
-        .fallbackToDestructiveMigration()
-        .addCallback(callback) //di code should not be responsible for db operations
-        .build()
 
     @Provides
-    fun provideInventoryLineItemDao(db: InventoryLineItemDatabase) = db.inventoryLineItemDao()
+    fun provideInventoryLineItemDao(db: InventoryDatabase) = db.inventoryLineItemDao()
 
     // ========================================= Basic App Functions =========================================
 

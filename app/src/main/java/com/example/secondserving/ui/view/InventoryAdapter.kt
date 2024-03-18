@@ -52,7 +52,7 @@ class InventoryAdapter(private val listener: OnItemClickListener) :
 
     class DiffCallback : DiffUtil.ItemCallback<Inventory>() {
         override fun areItemsTheSame(oldItem: Inventory, newItem: Inventory) =
-            oldItem.inventoryId == newItem.inventoryId
+            oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: Inventory, newItem: Inventory) = oldItem == newItem
 

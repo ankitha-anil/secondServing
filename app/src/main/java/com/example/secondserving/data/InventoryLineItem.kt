@@ -2,18 +2,25 @@ package com.example.secondserving.data
 
 import android.os.Parcelable
 import androidx.room.Entity
-import kotlinx.parcelize.Parcelize
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import androidx.versionedparcelable.VersionedParcelize
+import kotlinx.parcelize.Parcelize
 import java.text.DateFormat
 
-@Entity(tableName = "inventoryLineItems_table")
-@Parcelize //TODO: check if needed
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = Inventory::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("inventoryId"),
+        onDelete = ForeignKey.CASCADE
+    )], tableName = "inventory_line_item_table"
+)
+@Parcelize
 data class InventoryLineItem(
-    @PrimaryKey(autoGenerate = true) val lineItemId: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val inventoryId: Int,
     val ingredientId: Int,
-    val expiryDate: Long, //todo: Change value when update
+    val expiryDate: Long,
     val quantity: Int,
     val created: Long = System.currentTimeMillis(),
 ) : Parcelable {
