@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.secondserving.AddInventoryActivity
+import com.example.secondserving.ViewInventoryActivity
 import com.example.secondserving.EditInventoryActivity
 
 @AndroidEntryPoint
@@ -116,7 +117,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
                     }
 
                     is HomeViewModel.InventoryEvent.NavigateToEditInventoryScreen -> {
-                        val intent = Intent(requireContext(), EditInventoryActivity::class.java)
+                        val intent = Intent(requireContext(), ViewInventoryActivity::class.java)
                         intent.putExtra("inventory", event.inventory)
                         startActivity(intent)
                     }
