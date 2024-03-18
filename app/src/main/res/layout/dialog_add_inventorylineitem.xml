@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialogAddInventoryLineItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:padding="15dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialogBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/green_border"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/addIngredientTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:padding="10dp"
+            android:text="Add Ingredient"
+            android:textColor="@color/green_700"
+            android:textSize="17sp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/ingredientName"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="20sp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/poppins_regular"
+            android:maxLines="1"
+            android:textColor="@color/green_700"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addIngredientTitle"
+            app:layout_constraintBottom_toTopOf="@id/quantityTitle" />
+
+        <TextView
+            android:id="@+id/quantityTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:padding="10dp"
+            android:text="Quantity"
+            android:textColor="@color/green_700"
+            android:textSize="17sp"
+            app:layout_constraintTop_toBottomOf="@id/ingredientName" 
+            app:layout_constraintBottom_toTopOf="@id/quantity" />
+
+         <EditText
+            android:id="@+id/quantity"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/poppins_regular"
+            android:maxLines="1"
+            android:textColor="@color/green_700"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quantityTitle"
+            app:layout_constraintBottom_toBottomOf="@id/expiryDateTitle" />
+
+        <TextView
+            android:id="@+id/expiryDateTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:padding="10dp"
+            android:text="Expiry Date"
+            android:textColor="@color/green_700"
+            android:textSize="17sp"
+            app:layout_constraintTop_toBottomOf="@id/quantity"
+            app:layout_constraintBottom_toTopOf="@id/expiryDate" />
+
+        <DatePicker
+            android:id="@+id/expiryDate"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/poppins_regular"
+            android:maxLines="1"
+            android:textColor="@color/green_700"
+            android:textCursorDrawable="@drawable/cursor_color"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expiryDateTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/btnSave" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/green_border"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Cancel"
+            android:textColor="@color/green_700"
+            android:textSize="14sp"
+            app:cornerRadius="25dp"
+            app:layout_constraintBottom_toBottomOf="@id/dialogBox"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expiryDate"
+            app:layout_constraintEnd_toStartOf="@id/btnSave"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/fill_rounded_color"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:cornerRadius="25dp"
+            app:layout_constraintBottom_toBottomOf="@id/dialogBox"
+            app:layout_constraintStart_toEndOf="@id/btnCancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expiryDate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

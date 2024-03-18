@@ -1,4 +1,4 @@
-package com.example.taskmanager.auth
+package com.example.secondserving.auth
 
 import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
@@ -24,6 +24,16 @@ class AuthRepository @Inject constructor(
 
     override suspend fun sendResetPassword(email: String): Boolean {
         authenticator.sendPasswordReset(email)
+        return true
+    }
+
+    override suspend fun deleteUser(): Boolean {
+        authenticator.deleteUser()
+        return true
+    }
+
+    override suspend fun updateDisplayName(userName : String): Boolean {
+        authenticator.updateDisplayName(userName)
         return true
     }
 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.secondserving.ui.view.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/recipeFragment"
+        android:name="com.example.secondserving.ui.view.RecipeFragment"
+        android:label="Recipe"
+        tools:layout="@layout/fragment_recipe" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.secondserving.ui.view.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile" />
+    <dialog
+        android:id="@+id/deleteUserDialog"
+        android:name="com.example.secondserving.ui.view.DeleteUserDialog"
+        android:label="DeleteUserDialog" />
+    <action
+        android:id="@+id/action_global_deleteUserDialog"
+        app:destination="@id/deleteUserDialog" />
+    <dialog
+        android:id="@+id/editUserNameDialog"
+        android:name="com.example.secondserving.ui.view.EditUserNameDialog"
+        android:label="dialog_edit_username"
+        tools:layout="@layout/dialog_edit_username" />
+    <action
+        android:id="@+id/action_global_editUserNameDialog"
+        app:destination="@id/editUserNameDialog" />
+</navigation>

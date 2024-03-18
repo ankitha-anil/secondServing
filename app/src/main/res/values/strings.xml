@@ -3,4 +3,10 @@
     <string name="dont_have_account">Don\'t have an Account? Create an Account</string>
     <string name="app_description">Giving your leftovers a second chance</string>
     <string name="have_account">Have an Account? Login in</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="place_holder">Test</string>
+    <string name="back_button_description">Go back</string>
+    <string name="description_hint">Description</string>
 </resources>

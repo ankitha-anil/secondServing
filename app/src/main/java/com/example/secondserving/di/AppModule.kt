@@ -1,9 +1,14 @@
 package com.example.secondserving.di
 
-import com.example.taskmanager.auth.AuthRepository
-import com.example.taskmanager.auth.BaseAuthRepository
-import com.example.taskmanager.auth.BaseAuthenticator
-import com.example.taskmanager.auth.FirebaseAuthenticator
+import android.app.Application
+import androidx.room.Room
+import com.example.secondserving.data.IngredientDatabase
+import com.example.secondserving.data.InventoryDatabase
+import com.example.secondserving.auth.AuthRepository
+import com.example.secondserving.auth.BaseAuthRepository
+import com.example.secondserving.auth.BaseAuthenticator
+import com.example.secondserving.auth.FirebaseAuthenticator
+import com.example.secondserving.data.InventoryLineItemDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +21,47 @@ import javax.inject.Singleton
 @Module   //give dagger instructions on how to create the dependencies that we need
 @InstallIn(SingletonComponent::class) //used throughout the app
 object AppModule {
+    // ========================================= Inventory =========================================
+    @Provides // we use provide method cause we dont own the classes
+    @Singleton  //only one instance of task in whole app
+    fun provideInventoryDatabase(
+        app: Application, callback: InventoryDatabase.Callback
+    ) = Room.databaseBuilder(app, InventoryDatabase::class.java, "inventory_database") //there is a circular dependency but oncreate is called after this
+        .fallbackToDestructiveMigration()
+        .addCallback(callback) //di code should not be responsible for db operations
+        .build()
+
+    @Provides
+    fun provideInventoryDao(db: InventoryDatabase) = db.inventoryDao()
+
+
+    // ========================================= Ingredient =========================================
+    @Provides // we use provide method cause we dont own the classes
+    @Singleton  //only one instance of task in whole app
+    fun provideIngredientDatabase(
+        app: Application, callback: IngredientDatabase.Callback
+    ) = Room.databaseBuilder(app, IngredientDatabase::class.java, "ingredient_database") //there is a circular dependency but oncreate is called after this
+        .fallbackToDestructiveMigration()
+        .addCallback(callback) //di code should not be responsible for db operations
+        .build()
+
+    @Provides
+    fun provideIngredientDao(db: IngredientDatabase) = db.ingredientDao()
+    
+    // ========================================= InventoryLineItem =========================================
+    @Provides // we use provide method cause we dont own the classes
+    @Singleton  //only one instance of task in whole app
+    fun provideInventoryLineItemDatabase(
+        app: Application, callback: InventoryLineItemDatabase.Callback
+    ) = Room.databaseBuilder(app, InventoryLineItemDatabase::class.java, "inventoryLineItem_database") //there is a circular dependency but oncreate is called after this
+        .fallbackToDestructiveMigration()
+        .addCallback(callback) //di code should not be responsible for db operations
+        .build()
+
+    @Provides
+    fun provideInventoryLineItemDao(db: InventoryLineItemDatabase) = db.inventoryLineItemDao()
+
+    // ========================================= Basic App Functions =========================================
 
     @ApplicationScope  //not any coroutine scope, its an application scope, so dagger knows to differentiate between two coroutine scopes
     @Provides
