@@ -87,8 +87,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
 
         binding.fabAddInventory.setOnClickListener {
             // Use requireContext() to get the context inside a fragment
-            val intent = Intent(requireContext(), AddInventoryActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(requireContext(), AddInventoryActivity::class.java)
+//            startActivity(intent)
         }
 
         inventoryAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -116,9 +116,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
                     }
 
                     is HomeViewModel.InventoryEvent.NavigateToEditInventoryScreen -> {
-                        val intent = Intent(requireContext(), EditInventoryActivity::class.java)
-                        intent.putExtra("inventory", event.inventory)
-                        startActivity(intent)
+//                        val intent = Intent(requireContext(), EditInventoryActivity::class.java)
+//                        intent.putExtra("inventory", event.inventory)
+//                        startActivity(intent)
                     }
 
                     is HomeViewModel.InventoryEvent.ShowInventorySavedConfirmation -> {
