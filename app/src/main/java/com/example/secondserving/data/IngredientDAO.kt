@@ -6,8 +6,8 @@ import java.util.*
 
 @Dao
 interface IngredientDAO {
-    @Query("SELECT * FROM ingredients_table WHERE userId = :userId AND inventoryId = :inventoryId")
-    fun getAllIngredients(inventoryId: Int, userId :Int): Flow<List<Ingredient>>
+    @Query("SELECT * FROM ingredients_table WHERE userID = :userID AND inventoryID = :inventoryID")
+    fun getAllIngredients(inventoryID: Int, userID :Int): Flow<List<Ingredient>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertIngredient(ingredient: Ingredient)
