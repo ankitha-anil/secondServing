@@ -30,8 +30,8 @@ abstract class IngredientDatabase : RoomDatabase() {
                         name = "Apple",
                         expiry = System.currentTimeMillis(),
                         description = "Fruit",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 2
+                        userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
+                        inventoryID = 2
                     )
                 )
                 dao.insertIngredient(
@@ -39,8 +39,8 @@ abstract class IngredientDatabase : RoomDatabase() {
                         name = "Carrot",
                         expiry = System.currentTimeMillis(),
                         description = "Veggie",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 3
+                        userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
+                        inventoryID = 3
                     )
                 )
                 dao.insertIngredient(
@@ -48,8 +48,8 @@ abstract class IngredientDatabase : RoomDatabase() {
                         name = "Orange",
                         expiry = System.currentTimeMillis(),
                         description = "Fruit",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 2
+                        userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
+                        inventoryID = 2
                     )
                 )
                 dao.insertIngredient(
@@ -57,8 +57,8 @@ abstract class IngredientDatabase : RoomDatabase() {
                         name = "Rice",
                         expiry = System.currentTimeMillis(),
                         description = "Grain",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 3
+                        userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
+                        inventoryID = 3
                     )
                 )
                 dao.insertIngredient(
@@ -66,8 +66,8 @@ abstract class IngredientDatabase : RoomDatabase() {
                         name = "Wheat",
                         expiry = System.currentTimeMillis(),
                         description = "Grain",
-                        userId = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
-                        inventoryId = 3
+                        userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2",
+                        inventoryID = 3
                     )
                 )
 

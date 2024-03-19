@@ -12,10 +12,10 @@ open class Ingredient(
     val name: String,
     val description: String,
     val created: Long = System.currentTimeMillis(),
-    val userId: String,
-    val inventoryId: Int,
+    val userID: String,
+    val inventoryID: Int,
     val expiry: Long,  //TODO: Change value here when you update
-    @PrimaryKey(autoGenerate = true) val ingredientId: Int = 0
+    @PrimaryKey(autoGenerate = true) val ingredientID: Int = 0
 ) : Parcelable {
     val createDateFormatted: String
         get() = DateFormat.getDateTimeInstance().format(created)
