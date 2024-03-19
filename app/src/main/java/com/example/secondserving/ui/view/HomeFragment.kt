@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -21,11 +20,8 @@ import com.example.secondserving.data.Inventory
 import com.example.secondserving.databinding.FragmentHomeBinding
 import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.HomeViewModel
-import com.google.firebase.auth.FirebaseUser
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.secondserving.AddInventoryActivity
-import com.example.secondserving.EditInventoryActivity
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemClickListener {
@@ -41,6 +37,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentHomeBinding.bind(view)
@@ -86,9 +83,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
         }
 
         binding.fabAddInventory.setOnClickListener {
-            // Use requireContext() to get the context inside a fragment
-//            val intent = Intent(requireContext(), AddInventoryActivity::class.java)
-//            startActivity(intent)
+           viewModel.onAddNewInventoryClick()
         }
 
         inventoryAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -109,10 +104,10 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
             viewModel.inventoryEvent.collect() { event ->
                 when (event) {
                     HomeViewModel.InventoryEvent.NavigateToAddInventoryScreen -> {
-//                        val action = HomeFragmentDirections.actionHomeFragmentToAddEditTaskFragment(
-//                            "Add Inventory"
-//                        )  // TODO: Change this based on navgraph and arguments
-//                        findNavController().navigate(action)
+                        val action = HomeFragmentDirections.actionHomeFragmentToAddInventoryFragment(
+                            "Add Inventory"
+                        )
+                        findNavController().navigate(action)
                     }
 
                     is HomeViewModel.InventoryEvent.NavigateToEditInventoryScreen -> {
@@ -141,7 +136,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
 
     override fun onItemClick(inventory: Inventory) {
         viewModel.onInventorySelected(inventory)
-        Log.d("InventoryClick","Inventory Item clicked ${inventory.name}")
+        Log.d("InventoryClick", "Inventory Item clicked ${inventory.name}")
     }
 
     private fun getUser() {

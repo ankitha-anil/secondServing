@@ -9,7 +9,14 @@
         android:id="@+id/homeFragment"
         android:name="com.example.secondserving.ui.view.HomeFragment"
         android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_self"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_addInventoryFragment"
+            app:destination="@id/addInventoryFragment" />
+    </fragment>
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.secondserving.ui.view.RecipeFragment"
@@ -35,4 +42,18 @@
     <action
         android:id="@+id/action_global_editUserNameDialog"
         app:destination="@id/editUserNameDialog" />
+    <fragment
+        android:id="@+id/addInventoryFragment"
+        android:name="com.example.secondserving.ui.view.AddInventoryFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_add_inventory" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="inventory"
+            app:argType="com.example.secondserving.data.Inventory"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>

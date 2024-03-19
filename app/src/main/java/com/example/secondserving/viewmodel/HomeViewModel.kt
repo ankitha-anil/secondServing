@@ -81,8 +81,8 @@ class HomeViewModel @Inject constructor(
 
     fun onAddEditResult(result: Int) {
         when (result) {
-            ADD_INVENTORY_RESULT_OK -> InventoryEvent.ShowInventorySavedConfirmation("Task Added")
-            EDIT_INVENTORY_RESULT_OK -> InventoryEvent.ShowInventorySavedConfirmation("Task Updated")
+            ADD_INVENTORY_RESULT_OK -> InventoryEvent.ShowInventorySavedConfirmation("Inventory Added")
+            EDIT_INVENTORY_RESULT_OK -> InventoryEvent.ShowInventorySavedConfirmation("Inventory Updated")
         }
     }
 

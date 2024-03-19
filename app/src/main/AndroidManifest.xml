@@ -16,11 +16,6 @@
         android:theme="@style/Theme.SecondServing"
         tools:targetApi="31">
         <activity
-            android:name=".EditInventoryActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat"/>
-
-        <activity
             android:name=".AddInventoryActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />
