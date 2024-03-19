@@ -11,15 +11,15 @@ import java.text.DateFormat
     foreignKeys = [ForeignKey(
         entity = Inventory::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("inventoryId"),
+        childColumns = arrayOf("inventoryID"),
         onDelete = ForeignKey.CASCADE
     )], tableName = "inventory_line_item_table"
 )
 @Parcelize
 data class InventoryLineItem(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val inventoryId: Int,
-    val ingredientId: Int,
+    val inventoryID: Int,
+    val ingredientID: Int,
     val expiryDate: Long,
     val quantity: Int,
     val created: Long = System.currentTimeMillis(),

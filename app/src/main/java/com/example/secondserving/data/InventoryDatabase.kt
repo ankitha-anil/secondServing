@@ -11,7 +11,7 @@ import javax.inject.Provider
 
 @Database(
     entities = [Inventory::class, InventoryLineItem::class, Ingredient::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class InventoryDatabase : RoomDatabase() {
@@ -52,40 +52,40 @@ abstract class InventoryDatabase : RoomDatabase() {
 
                 inventoryLineItemDao.insertInventoryLineItem(
                     InventoryLineItem(
-                        inventoryId = 1,
-                        ingredientId = 1,
+                        inventoryID = 1,
+                        ingredientID = 1,
                         expiryDate = System.currentTimeMillis(),
                         quantity = 1,
                     )
                 )
                 inventoryLineItemDao.insertInventoryLineItem(
                     InventoryLineItem(
-                        inventoryId = 2,
-                        ingredientId = 1,
+                        inventoryID = 2,
+                        ingredientID = 1,
                         expiryDate = System.currentTimeMillis(),
                         quantity = 3,
                     )
                 )
                 inventoryLineItemDao.insertInventoryLineItem(
                     InventoryLineItem(
-                        inventoryId = 1,
-                        ingredientId = 2,
+                        inventoryID = 1,
+                        ingredientID = 2,
                         expiryDate = System.currentTimeMillis(),
                         quantity = 5,
                     )
                 )
                 inventoryLineItemDao.insertInventoryLineItem(
                     InventoryLineItem(
-                        inventoryId = 2,
-                        ingredientId = 2,
+                        inventoryID = 2,
+                        ingredientID = 2,
                         expiryDate = System.currentTimeMillis(),
                         quantity = 7,
                     )
                 )
                 inventoryLineItemDao.insertInventoryLineItem(
                     InventoryLineItem(
-                        inventoryId = 1,
-                        ingredientId = 3,
+                        inventoryID = 1,
+                        ingredientID = 3,
                         expiryDate = System.currentTimeMillis(),
                         quantity = 9,
                     )

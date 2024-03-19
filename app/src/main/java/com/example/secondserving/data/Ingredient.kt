@@ -11,7 +11,7 @@ import java.text.DateFormat
 @Parcelize
 open class Ingredient(
     @PrimaryKey(autoGenerate = true)
-    val ingredientId: Int = 0,
+    val ingredientID: Int = 0,
     val name: String,
     val description: String,
     val created: Long = System.currentTimeMillis(),

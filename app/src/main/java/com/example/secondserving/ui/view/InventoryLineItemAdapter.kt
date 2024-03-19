@@ -41,7 +41,7 @@ class InventoryLineItemAdapter(private val listener: OnItemClickListener) :
 
         fun bind(inventoryLineItem: InventoryLineItem) {
             binding.apply {
-                itemName.text = inventoryLineItem.inventoryId.toString()
+                itemName.text = inventoryLineItem.inventoryID.toString()
                 quantity.text = inventoryLineItem.quantity.toString()
                 expiryDate.text = inventoryLineItem.expiryDate.toString()
             }

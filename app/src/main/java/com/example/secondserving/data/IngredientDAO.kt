@@ -9,8 +9,11 @@ interface IngredientDAO {
     @Query("SELECT * FROM ingredients_table")
     fun getAllIngredients(): Flow<List<Ingredient>>
 
-    @Query("SELECT * FROM ingredients_table, inventory_line_item_table WHERE ingredients_table.ingredientId = :ingredientId AND inventory_line_item_table.inventoryId = :inventoryId AND inventory_line_item_table.ingredientId == ingredients_table.ingredientId")
-    fun getAllIngredientsByInventory(inventoryId: Int, ingredientId: Int): Flow<List<Ingredient>>
+    @Query("SELECT * FROM ingredients_table WHERE ingredientID = :ingredientID")
+    fun getIngredientById(ingredientID: Int): Flow<List<Ingredient>>
+
+    @Query("SELECT * FROM ingredients_table, inventory_line_item_table WHERE ingredients_table.ingredientID = :ingredientID AND inventory_line_item_table.inventoryID = :inventoryID AND inventory_line_item_table.ingredientID == ingredients_table.ingredientID")
+    fun getAllIngredientsByInventory(inventoryID: Int, ingredientID: Int): Flow<List<Ingredient>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIngredient(ingredient: Ingredient)

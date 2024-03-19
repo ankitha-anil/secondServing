@@ -62,7 +62,7 @@
     <fragment
         android:id="@+id/inventoryFragment"
         android:name="com.example.secondserving.ui.view.InventoryFragment"
-        android:label="fragment_inventory"
+        android:label="{title}"
         tools:layout="@layout/fragment_inventory">
         <argument
             android:name="title"
