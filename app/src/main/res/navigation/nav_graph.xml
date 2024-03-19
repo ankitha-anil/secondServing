@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_addInventoryFragment"
             app:destination="@id/addInventoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_inventoryFragment"
+            app:destination="@id/inventoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
@@ -47,6 +50,20 @@
         android:name="com.example.secondserving.ui.view.AddInventoryFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_add_inventory" >
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="inventory"
+            app:argType="com.example.secondserving.data.Inventory"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.example.secondserving.ui.view.InventoryFragment"
+        android:label="fragment_inventory"
+        tools:layout="@layout/fragment_inventory">
         <argument
             android:name="title"
             app:argType="string" />

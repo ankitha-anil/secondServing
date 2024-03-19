@@ -61,7 +61,7 @@ class HomeViewModel @Inject constructor(
 
     fun onInventorySelected(inventory: Inventory) {
         viewModelScope.launch {
-            inventoryEventChannel.send(InventoryEvent.NavigateToEditInventoryScreen(inventory))
+            inventoryEventChannel.send(InventoryEvent.NavigateToInventoryScreen(inventory))
         }
     }
 
@@ -89,7 +89,7 @@ class HomeViewModel @Inject constructor(
 
     sealed class InventoryEvent {  //different variation, can later get warning when the when statement is not exhaustive, there are no other kinds of task events compiler know
         object NavigateToAddInventoryScreen : InventoryEvent()
-        data class NavigateToEditInventoryScreen(val inventory: Inventory) : InventoryEvent()
+        data class NavigateToInventoryScreen(val inventory: Inventory) : InventoryEvent()
         data class ShowUndoDeleteInventoryMessage(val inventory: Inventory) :
             InventoryEvent() // generic name cause viewmodel not sure of the view
 

@@ -12,8 +12,8 @@ interface InventoryLineItemDAO {
     @Query("SELECT * FROM inventory_line_item_table")
     fun getAllInventoryLineItems(): Flow<List<InventoryLineItem>>
 
-    @Query("SELECT * FROM inventory_line_item_table,inventory_table WHERE inventoryId = :inventoryId AND userID = :userId")
-    fun getAllInventoryLineItemsByInventoryAndUserId(inventoryId: Int, userId: Int): Flow<List<InventoryLineItem>>
+    @Query("SELECT * FROM inventory_line_item_table,inventory_table WHERE inventory_line_item_table.inventoryId == :inventoryId AND userID = :userId")
+    fun getAllInventoryLineItemsByInventoryAndUserId(inventoryId: Int, userId: String): Flow<List<InventoryLineItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertInventoryLineItem(inventoryLineItem: InventoryLineItem)

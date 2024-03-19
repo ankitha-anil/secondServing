@@ -110,10 +110,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
                         findNavController().navigate(action)
                     }
 
-                    is HomeViewModel.InventoryEvent.NavigateToEditInventoryScreen -> {
-//                        val intent = Intent(requireContext(), EditInventoryActivity::class.java)
-//                        intent.putExtra("inventory", event.inventory)
-//                        startActivity(intent)
+                    is HomeViewModel.InventoryEvent.NavigateToInventoryScreen -> {
+                        val action = HomeFragmentDirections.actionHomeFragmentToInventoryFragment(
+                            "Ingredients", event.inventory
+                        )
+                        findNavController().navigate(action)
                     }
 
                     is HomeViewModel.InventoryEvent.ShowInventorySavedConfirmation -> {
