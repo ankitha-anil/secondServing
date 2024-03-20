@@ -4,12 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -21,11 +24,9 @@ import com.example.secondserving.data.Inventory
 import com.example.secondserving.databinding.FragmentHomeBinding
 import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.HomeViewModel
-import com.google.firebase.auth.FirebaseUser
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.secondserving.AddInventoryActivity
-import com.example.secondserving.EditInventoryActivity
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemClickListener {
@@ -41,12 +42,13 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentHomeBinding.bind(view)
 
         val inventoryAdapter = InventoryAdapter(this)
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
 
         binding.apply {
             recyclerViewInventory.apply {
@@ -86,9 +88,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
         }
 
         binding.fabAddInventory.setOnClickListener {
-            // Use requireContext() to get the context inside a fragment
-            val intent = Intent(requireContext(), AddInventoryActivity::class.java)
-            startActivity(intent)
+           viewModel.onAddNewInventoryClick()
         }
 
         inventoryAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -109,16 +109,17 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
             viewModel.inventoryEvent.collect() { event ->
                 when (event) {
                     HomeViewModel.InventoryEvent.NavigateToAddInventoryScreen -> {
-//                        val action = HomeFragmentDirections.actionHomeFragmentToAddEditTaskFragment(
-//                            "Add Inventory"
-//                        )  // TODO: Change this based on navgraph and arguments
-//                        findNavController().navigate(action)
+                        val action = HomeFragmentDirections.actionHomeFragmentToAddInventoryFragment(
+                            "Add Inventory"
+                        )
+                        findNavController().navigate(action)
                     }
 
-                    is HomeViewModel.InventoryEvent.NavigateToEditInventoryScreen -> {
-                        val intent = Intent(requireContext(), EditInventoryActivity::class.java)
-                        intent.putExtra("inventory", event.inventory)
-                        startActivity(intent)
+                    is HomeViewModel.InventoryEvent.NavigateToInventoryScreen -> {
+                        val action = HomeFragmentDirections.actionHomeFragmentToInventoryFragment(
+                            title = "Ingredients", inventory = event.inventory
+                        )
+                        findNavController().navigate(action)
                     }
 
                     is HomeViewModel.InventoryEvent.ShowInventorySavedConfirmation -> {
@@ -139,9 +140,40 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.top_nav_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.sort_by_name -> {
+         //       viewModel.onSortOrderSelected(SortOrder.BY_NAME)
+                true
+            }
+
+            R.id.sort_by_date_created -> {
+           //     viewModel.onSortOrderSelected(SortOrder.BY_DATE)
+                true
+            }
+
+            R.id.hide_completed_tasks -> {
+                item.isChecked = !item.isChecked
+           //     viewModel.onHideCompletedClick(item.isChecked)
+                true
+            }
+
+            R.id.delete_all_completed_tasks -> {
+            //    viewModel.onDeleteAllCompleted()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun onItemClick(inventory: Inventory) {
         viewModel.onInventorySelected(inventory)
-        Log.d("InventoryClick","Inevotry Item clicked ${inventory.name}")
+        Log.d("InventoryClick", "Inventory Item clicked ${inventory.name}")
     }
 
     private fun getUser() {

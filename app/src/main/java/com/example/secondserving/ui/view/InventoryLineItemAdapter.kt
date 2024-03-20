@@ -5,17 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.secondserving.data.Inventory
-import com.example.secondserving.databinding.ItemInventoryBinding
+import com.example.secondserving.data.InventoryLineItem
+import com.example.secondserving.databinding.ItemInventoryListBinding
 
-class InventoryAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<Inventory, InventoryAdapter.InventoryViewHolder>(
+class InventoryLineItemAdapter(private val listener: OnItemClickListener) :
+    ListAdapter<InventoryLineItem, InventoryLineItemAdapter.InventoryViewHolder>(
         DiffCallback()
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryViewHolder {
         val binding =
-            ItemInventoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemInventoryListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return InventoryViewHolder(binding)
     }
 
@@ -24,7 +24,7 @@ class InventoryAdapter(private val listener: OnItemClickListener) :
         holder.bind(currentItem)
     }
 
-    inner class InventoryViewHolder(private val binding: ItemInventoryBinding) : // without inner is like static, can access taskadapter from outside
+    inner class InventoryViewHolder(private val binding: ItemInventoryListBinding) : // without inner is like static, can access taskadapter from outside
         RecyclerView.ViewHolder(binding.root) {
 
         init { //can avoid calling the onclicklistener multiple times
@@ -39,22 +39,24 @@ class InventoryAdapter(private val listener: OnItemClickListener) :
             }
         }
 
-        fun bind(inventory: Inventory) {
+        fun bind(inventoryLineItem: InventoryLineItem) {
             binding.apply {
-                inventoryName.text = inventory.name
+                itemName.text = inventoryLineItem.inventoryID.toString()
+                quantity.text = inventoryLineItem.quantity.toString()
+                expiryDate.text = inventoryLineItem.expiryDate.toString()
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(inventory: Inventory)
+        fun onItemClick(inventoryLineItem: InventoryLineItem)
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Inventory>() {
-        override fun areItemsTheSame(oldItem: Inventory, newItem: Inventory) =
+    class DiffCallback : DiffUtil.ItemCallback<InventoryLineItem>() {
+        override fun areItemsTheSame(oldItem: InventoryLineItem, newItem: InventoryLineItem) =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Inventory, newItem: Inventory) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: InventoryLineItem, newItem: InventoryLineItem) = oldItem == newItem
 
     }
 

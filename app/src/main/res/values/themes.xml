@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SecondServing" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SecondServing" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/green_700</item>
+
+
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+        <item name="simpleItemSelectedColor">@color/white</item>
+    </style>
+
 </resources>
+
