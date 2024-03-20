@@ -16,10 +16,6 @@
         android:theme="@style/Theme.SecondServing"
         tools:targetApi="31">
         <activity
-            android:name=".AddInventoryActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat" />
-        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
@@ -34,7 +30,7 @@
             android:name=".HomeActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/Theme.SecondServing" />
     </application>
 
 </manifest>

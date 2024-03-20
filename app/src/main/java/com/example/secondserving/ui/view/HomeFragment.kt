@@ -4,8 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -22,6 +26,7 @@ import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemClickListener {
@@ -43,7 +48,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
         val binding = FragmentHomeBinding.bind(view)
 
         val inventoryAdapter = InventoryAdapter(this)
-        setHasOptionsMenu(true)
+        //setHasOptionsMenu(true)
 
         binding.apply {
             recyclerViewInventory.apply {
@@ -112,7 +117,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
 
                     is HomeViewModel.InventoryEvent.NavigateToInventoryScreen -> {
                         val action = HomeFragmentDirections.actionHomeFragmentToInventoryFragment(
-                            "Ingredients", event.inventory
+                            title = "Ingredients", inventory = event.inventory
                         )
                         findNavController().navigate(action)
                     }
@@ -133,6 +138,37 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
             }
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.top_nav_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.sort_by_name -> {
+         //       viewModel.onSortOrderSelected(SortOrder.BY_NAME)
+                true
+            }
+
+            R.id.sort_by_date_created -> {
+           //     viewModel.onSortOrderSelected(SortOrder.BY_DATE)
+                true
+            }
+
+            R.id.hide_completed_tasks -> {
+                item.isChecked = !item.isChecked
+           //     viewModel.onHideCompletedClick(item.isChecked)
+                true
+            }
+
+            R.id.delete_all_completed_tasks -> {
+            //    viewModel.onDeleteAllCompleted()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onItemClick(inventory: Inventory) {
