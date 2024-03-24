@@ -38,9 +38,6 @@ abstract class InventoryDatabase : RoomDatabase() {
                 inventoryDao.insertInventory(Inventory("Kitchen", userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2"))
                 inventoryDao.insertInventory(Inventory("Pantry", userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2"))
 
-                inventoryDao.insertInventory(Inventory("Kitchen", userID = "ckjNy4ul2qSWfjd35O4iMoj1z2e2"))
-                inventoryDao.insertInventory(Inventory("Pantry", userID = "ckjNy4ul2qSWfjd35O4iMoj1z2e2"))
-
                 inventoryDao.insertInventory(Inventory("Kitchen", userID = "R77sUcKskwVkJSEREiCKLXFVXKd2"))
                 inventoryDao.insertInventory(Inventory("Pantry", userID = "R77sUcKskwVkJSEREiCKLXFVXKd2"))
 
@@ -49,6 +46,10 @@ abstract class InventoryDatabase : RoomDatabase() {
 
                 inventoryDao.insertInventory(Inventory("Kitchen", userID = "wwDMf3Q52iURZ3Fw7S1QBtRVvIs2"))
                 inventoryDao.insertInventory(Inventory("Pantry", userID = "wwDMf3Q52iURZ3Fw7S1QBtRVvIs2"))
+
+                // for chin's testing
+                inventoryDao.insertInventory(Inventory("Freech", userID = "ckjNy4ul2qSWfjd35O4iMoj1z2e2"))
+                inventoryDao.insertInventory(Inventory("Pentree", userID = "ckjNy4ul2qSWfjd35O4iMoj1z2e2"))
 
                 inventoryLineItemDao.insertInventoryLineItem(
                     InventoryLineItem(
