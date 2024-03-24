@@ -2,7 +2,6 @@ package com.example.secondserving.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.secondserving.data.IngredientDatabase
 import com.example.secondserving.data.InventoryDatabase
 import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.auth.BaseAuthRepository
@@ -20,6 +19,7 @@ import javax.inject.Singleton
 @Module   //give dagger instructions on how to create the dependencies that we need
 @InstallIn(SingletonComponent::class) //used throughout the app
 object AppModule {
+    // ========================================= Inventory =========================================
     @Provides // we use provide method cause we dont own the classes
     @Singleton  //only one instance of task in whole app
     fun provideInventoryDatabase(
@@ -32,17 +32,17 @@ object AppModule {
     @Provides
     fun provideInventoryDao(db: InventoryDatabase) = db.inventoryDao()
 
-    @Provides // we use provide method cause we dont own the classes
-    @Singleton  //only one instance of task in whole app
-    fun provideIngredientDatabase(
-        app: Application, callback: IngredientDatabase.Callback
-    ) = Room.databaseBuilder(app, IngredientDatabase::class.java, "ingredient_database") //there is a circular dependency but oncreate is called after this
-        .fallbackToDestructiveMigration()
-        .addCallback(callback) //di code should not be responsible for db operations
-        .build()
+
+    // ========================================= Ingredient =========================================
+    @Provides
+    fun provideIngredientDao(db: InventoryDatabase) = db.ingredientDao()
+    
+    // ========================================= InventoryLineItem =========================================
 
     @Provides
-    fun provideIngredientDao(db: IngredientDatabase) = db.ingredientDao()
+    fun provideInventoryLineItemDao(db: InventoryDatabase) = db.inventoryLineItemDao()
+
+    // ========================================= Basic App Functions =========================================
 
     @ApplicationScope  //not any coroutine scope, its an application scope, so dagger knows to differentiate between two coroutine scopes
     @Provides

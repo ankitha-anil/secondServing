@@ -29,6 +29,8 @@
         android:layout_height="wrap_content"
         android:background="@color/green_700"
         android:layout_alignParentBottom="true"
+        app:itemIconTint="@color/background"
+        app:itemTextColor="@color/background"
         app:menu="@menu/bottom_nav_menu" />
 
     <!--    </com.google.android.material.bottomappbar.BottomAppBar>-->

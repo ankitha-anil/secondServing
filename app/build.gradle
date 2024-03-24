@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id 'com.google.gms.google-services'
+    id 'androidx.navigation.safeargs.kotlin'
     id 'kotlin-parcelize'
     id 'com.google.dagger.hilt.android'
 }
@@ -100,8 +101,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.6.2'
 
     // Navigation Component
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.6'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.6'
+
 
     // Room
     implementation 'androidx.room:room-runtime:2.6.1'
