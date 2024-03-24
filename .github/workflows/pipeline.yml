@@ -74,6 +74,9 @@ jobs:
     
     # 3.0 inst-test
     inst-tests: 
+        permissions:
+          checks: write
+        
         runs-on: ubuntu-20.04
 
         steps:
