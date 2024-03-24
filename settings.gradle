@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SecondServing"
+rootProject.name = "secondServing"
 include ':app'
