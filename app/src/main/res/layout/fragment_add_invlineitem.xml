@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    tools:context=".ui.view.AddInvLineItemFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:padding="15dp"
+            android:text="Inventory: "
+            android:textColor="@color/green_700"
+            android:textSize="17sp" />
+
+        <EditText
+            android:id="@+id/inventoryName"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginStart="20sp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/green_700"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/addIngredientTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:padding="15dp"
+        android:text="Add Ingredient"
+        android:textColor="@color/green_700"
+        android:textSize="17sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/ingredientSpinner"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="20sp"
+        android:fontFamily="@font/poppins_regular"
+        android:maxLines="1"
+        android:textColor="@color/green_700"
+        android:textCursorDrawable="@drawable/cursor_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/quantityTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:padding="10dp"
+        android:text="Quantity"
+        android:textColor="@color/green_700"
+        android:textSize="17sp"
+        app:layout_constraintTop_toBottomOf="@id/ingredientSpinner"
+        app:layout_constraintBottom_toTopOf="@id/quantity" />
+
+    <EditText
+        android:id="@+id/quantity"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:fontFamily="@font/poppins_regular"
+        android:maxLines="1"
+        android:textColor="@color/green_700"
+        android:textCursorDrawable="@drawable/cursor_color"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/expiryDateTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_regular"
+        android:padding="10dp"
+        android:text="Expiry Date"
+        android:textColor="@color/green_700"
+        android:textSize="17sp"
+        app:layout_constraintTop_toBottomOf="@id/quantity"
+        app:layout_constraintBottom_toTopOf="@id/expiryDate" />
+
+    <DatePicker
+        android:id="@+id/expiryDate"
+        android:datePickerMode="spinner"
+        android:calendarViewShown="false"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:fontFamily="@font/poppins_regular"
+        android:maxLines="1"
+        android:textColor="@color/green_700"
+        android:textCursorDrawable="@drawable/cursor_color"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/green_border"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Cancel"
+            android:textColor="@color/green_700"
+            android:textSize="14sp"
+            app:cornerRadius="25dp"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/fill_rounded_color"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:cornerRadius="25dp" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

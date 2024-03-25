@@ -73,7 +73,7 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
             }).attachToRecyclerView(recyclerViewInventoryLineItem)
 
             fabAddIngredient.setOnClickListener {
-                viewModel.onAddNewInventoryLineItemClick()
+                viewModel.inventory?.let { it1 -> viewModel.onAddNewInventoryLineItemClick(inventory = it1) }
             }
 
         }
@@ -81,10 +81,6 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
         setFragmentResultListener("add_edit_request") { _, bundle ->
             val result = bundle.getInt("add_edit_result")
             viewModel.onAddEditResult(result)
-        }
-
-        binding.fabAddIngredient.setOnClickListener {
-            viewModel.onAddNewInventoryLineItemClick()
         }
 
         inventoryLineItemAdapter.registerAdapterDataObserver(object :
@@ -105,12 +101,13 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.inventoryEvent.collect() { event ->
                 when (event) {
-                    InventoryViewModel.InventoryLineItemEvent.NavigateToAddIngredientScreen -> {
-//                        val action =
-//                            InventoryFragmentDirections.actionHomeFragmentToAddInventoryFragment(
-//                                "Add Inventory"
-//                            )
-//                        findNavController().navigate(action)
+                   is InventoryViewModel.InventoryLineItemEvent.NavigateToAddIngredientScreen -> {
+                        val action =
+                            InventoryFragmentDirections.actionInventoryFragmentToAddInvLineItemFragment(
+                                "Add Ingredient",
+                                inventory = event.inventory
+                            )
+                        findNavController().navigate(action)
                     }
 
                     is InventoryViewModel.InventoryLineItemEvent.NavigateToEditIngredientScreen -> {

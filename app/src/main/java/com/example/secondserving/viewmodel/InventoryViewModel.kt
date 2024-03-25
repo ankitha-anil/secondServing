@@ -88,8 +88,8 @@ class InventoryViewModel @Inject constructor(
         )
     }
 
-    fun onAddNewInventoryLineItemClick() = viewModelScope.launch {
-        inventoryEventChannel.send(InventoryLineItemEvent.NavigateToAddIngredientScreen)
+    fun onAddNewInventoryLineItemClick( inventory: Inventory) = viewModelScope.launch {
+        inventoryEventChannel.send(InventoryLineItemEvent.NavigateToAddIngredientScreen(inventory = inventory))
     }
 
 
@@ -106,7 +106,7 @@ class InventoryViewModel @Inject constructor(
 
 
     sealed class InventoryLineItemEvent {  //different variation, can later get warning when the when statement is not exhaustive, there are no other kinds of task events compiler know
-        object NavigateToAddIngredientScreen : InventoryLineItemEvent()
+        data class NavigateToAddIngredientScreen(val inventory: Inventory) : InventoryLineItemEvent()
         data class NavigateToEditIngredientScreen(val inventoryLineItem: InventoryLineItem) :
             InventoryLineItemEvent()
 

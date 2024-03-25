@@ -72,5 +72,26 @@
             app:argType="com.example.secondserving.data.Inventory"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_inventoryFragment_to_addInvLineItemFragment"
+            app:destination="@id/addInvLineItemFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addInvLineItemFragment"
+        android:name="com.example.secondserving.ui.view.AddInvLineItemFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_add_invlineitem">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="inventory"
+            app:argType="com.example.secondserving.data.Inventory"
+            app:nullable="true" />
+        <argument
+            android:name="invlineitem"
+            app:argType="com.example.secondserving.data.InventoryLineItem"
+            app:nullable="true"
+            android:defaultValue="@null"/>
     </fragment>
 </navigation>

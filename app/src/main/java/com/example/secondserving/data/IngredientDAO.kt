@@ -18,6 +18,9 @@ interface IngredientDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIngredient(ingredient: Ingredient)
 
+    @Update
+    suspend fun updateIngredient(ingredient: Ingredient)
+
     @Delete
     suspend fun deleteIngredient(ingredient: Ingredient)
 }
