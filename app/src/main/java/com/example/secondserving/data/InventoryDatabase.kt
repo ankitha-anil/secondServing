@@ -53,6 +53,18 @@ abstract class InventoryDatabase : RoomDatabase() {
 
                 inventoryLineItemDao.insertInventoryLineItem(
                     InventoryLineItem(
+                        inventoryID = 9,
+                        ingredientID = 1,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+
+
+
+
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
                         inventoryID = 1,
                         ingredientID = 1,
                         expiryDate = System.currentTimeMillis(),
