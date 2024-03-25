@@ -45,13 +45,14 @@ object AppModule {
 
     // ========================================= Recipe =========================================
 
+    @Provides
     fun provideRecipeDatabase(
         app: Application, callback: RecipeDatabase.Callback
     ) = Room.databaseBuilder(app, RecipeDatabase::class.java, "recipe_database") //there is a circular dependency but oncreate is called after this
         .fallbackToDestructiveMigration()
         .addCallback(callback) //di code should not be responsible for db operations
         .build()
-
+    @Provides
     fun provideRecipeDao(db: RecipeDatabase) = db.recipeDao()
 
 
