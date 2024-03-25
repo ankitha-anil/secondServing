@@ -22,12 +22,12 @@ abstract class RecipeDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) { // first time when we create the database, called after build method
             super.onCreate(db)
 
-            val dao = database.get().recipeDao()
+            val recipeDao = database.get().recipeDao()
 
             applicationScope.launch {
-                dao.insertRecipe(Recipe(recipeID=101,recipeName="Apple Juice", recipeDescription = "Apple"))
-                dao.insertRecipe(Recipe(recipeID=102,recipeName="Orange Juice",recipeDescription = "Orange"))
-                dao.insertRecipe(Recipe(recipeID=103,recipeName="Carrot Juice",recipeDescription = "Carrot"))
+                recipeDao.insertRecipe(Recipe(recipeID=101,recipeName="Apple Juice", recipeDescription = "Apple"))
+                recipeDao.insertRecipe(Recipe(recipeID=102,recipeName="Orange Juice",recipeDescription = "Orange"))
+                recipeDao.insertRecipe(Recipe(recipeID=103,recipeName="Carrot Juice",recipeDescription = "Carrot"))
             }
 
         }

@@ -7,6 +7,7 @@ import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.auth.BaseAuthRepository
 import com.example.secondserving.auth.BaseAuthenticator
 import com.example.secondserving.auth.FirebaseAuthenticator
+import com.example.secondserving.data.RecipeDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -41,6 +42,20 @@ object AppModule {
 
     @Provides
     fun provideInventoryLineItemDao(db: InventoryDatabase) = db.inventoryLineItemDao()
+
+    // ========================================= Recipe =========================================
+
+    fun provideRecipeDatabase(
+        app: Application, callback: RecipeDatabase.Callback
+    ) = Room.databaseBuilder(app, RecipeDatabase::class.java, "recipe_database") //there is a circular dependency but oncreate is called after this
+        .fallbackToDestructiveMigration()
+        .addCallback(callback) //di code should not be responsible for db operations
+        .build()
+
+    fun provideRecipeDao(db: RecipeDatabase) = db.recipeDao()
+
+
+
 
     // ========================================= Basic App Functions =========================================
 

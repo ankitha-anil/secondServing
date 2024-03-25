@@ -20,6 +20,8 @@ abstract class InventoryDatabase : RoomDatabase() {
     
     abstract fun ingredientDao(): IngredientDAO
 
+
+
     //Dependency Injection means class that use other classes should not be responsible for creating or searching this using dagger, hilt uses dagger tool makes it easier
 
     class Callback @Inject constructor(
@@ -32,6 +34,7 @@ abstract class InventoryDatabase : RoomDatabase() {
             val inventoryDao = database.get().inventoryDao()
             val inventoryLineItemDao = database.get().inventoryLineItemDao()
             val ingredientDao = database.get().ingredientDao()
+
             
 
             applicationScope.launch {
@@ -55,6 +58,46 @@ abstract class InventoryDatabase : RoomDatabase() {
                     InventoryLineItem(
                         inventoryID = 9,
                         ingredientID = 1,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 9,
+                        ingredientID = 2,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 9,
+                        ingredientID = 3,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 10,
+                        ingredientID = 1,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 10,
+                        ingredientID = 2,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 10,
+                        ingredientID = 3,
                         expiryDate = System.currentTimeMillis(),
                         quantity = 1,
                     )
