@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Recipe::class], version = 1, exportSchema = false)
+@Database(entities = [Recipe::class], version = 2, exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDAO
 

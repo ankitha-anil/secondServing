@@ -45,13 +45,15 @@ object AppModule {
 
     // ========================================= Recipe =========================================
 
-    @Provides
+    @Provides // we use provide method cause we dont own the classes
+    @Singleton  //only one instance of task in whole app
     fun provideRecipeDatabase(
         app: Application, callback: RecipeDatabase.Callback
     ) = Room.databaseBuilder(app, RecipeDatabase::class.java, "recipe_database") //there is a circular dependency but oncreate is called after this
         .fallbackToDestructiveMigration()
         .addCallback(callback) //di code should not be responsible for db operations
         .build()
+
     @Provides
     fun provideRecipeDao(db: RecipeDatabase) = db.recipeDao()
 
@@ -82,6 +84,6 @@ object AppModule {
 
 }
 
-@Retention(AnnotationRetention.RUNTIME) //qualifier will be visibile for reflection
+@Retention(AnnotationRetention.RUNTIME) //qualifier will be visible for reflection
 @Qualifier //creating annotation
 annotation class  ApplicationScope

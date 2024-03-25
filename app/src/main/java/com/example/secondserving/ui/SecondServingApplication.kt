@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import dagger.hilt.android.HiltAndroidApp
 import com.example.secondserving.data.InventoryDatabase
+import com.example.secondserving.data.RecipeDatabase
 
 @HiltAndroidApp
 class SecondServingApplication: Application() {}
