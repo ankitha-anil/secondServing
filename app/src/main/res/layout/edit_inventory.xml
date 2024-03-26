@@ -63,7 +63,7 @@
             android:gravity="top"
             android:maxLength="200"
             android:drawablePadding="10dp"
-            android:inputType="textPersonName|textCapWords|textMultiLine"
+            android:inputType="textPersonName|textMultiLine"
             android:padding="10dp"
             android:layout_below="@id/titleEt"/>
 
