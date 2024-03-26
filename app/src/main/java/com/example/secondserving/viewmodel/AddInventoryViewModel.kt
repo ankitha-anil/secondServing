@@ -76,6 +76,12 @@ class AddInventoryViewModel @Inject constructor(
     fun getCurrentUser() = viewModelScope.launch {
         firebaseUser.postValue(repository.getCurrentUser())
     }
+    fun setCurrentInventory(inventory: Inventory?) {
+        inventory?.let {
+            state.set("inventory", it)
+            inventoryName = it.name
+        }
+    }
 
 
     sealed class AddEditInventoryEvent {
