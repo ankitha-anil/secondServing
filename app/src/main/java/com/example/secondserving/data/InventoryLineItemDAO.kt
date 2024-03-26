@@ -37,7 +37,7 @@ interface InventoryLineItemDAO {
 //    ): Flow<List<Ingredient>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertInventoryLineItem(inventoryLineItem: InventoryLineItem)
+    suspend fun insertInventoryLineItem(inventoryLineItem: InventoryLineItem)
     @Update
     suspend fun updateInventoryLineItem(inventoryLineItem: InventoryLineItem)
 

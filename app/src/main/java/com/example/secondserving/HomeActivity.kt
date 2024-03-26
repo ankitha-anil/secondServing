@@ -62,3 +62,5 @@ class HomeActivity : AppCompatActivity() {
 
 const val ADD_INVENTORY_RESULT_OK = Activity.RESULT_FIRST_USER
 const val EDIT_INVENTORY_RESULT_OK = Activity.RESULT_FIRST_USER + 1
+const val ADD_INVLINEITEM_RESULT_OK = Activity.RESULT_FIRST_USER
+const val EDIT_INVLINEITEM_RESULT_OK = Activity.RESULT_FIRST_USER + 1

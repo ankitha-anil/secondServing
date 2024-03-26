@@ -3,9 +3,12 @@ package com.example.secondserving.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.secondserving.ADD_INVENTORY_RESULT_OK
+import com.example.secondserving.ADD_INVLINEITEM_RESULT_OK
 import com.example.secondserving.EDIT_INVENTORY_RESULT_OK
+import com.example.secondserving.EDIT_INVLINEITEM_RESULT_OK
 import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.data.IngredientDAO
 import com.example.secondserving.data.Inventory
@@ -15,6 +18,7 @@ import com.example.secondserving.data.InventoryLineItemDAO
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,23 +38,27 @@ class AddInvLineItemViewModel @Inject constructor(
 
     private val firebaseUser = MutableLiveData<FirebaseUser?>()
     val currentUser get() = firebaseUser
+
+
+    // Create an empty list to hold ingredient names and IDs
+    val ingredientsList: MutableList<Pair<Int, String>> = mutableListOf()
+    val ingredientNamesAndIds = ingredientDAO.getIngredientNamesAndIds()
+    .map { list ->
+        list.map { it.ingredientID to it.name } // Correcting the pair order
+    }
+    .asLiveData()
     var inventoryName = state.get<Inventory>("inventoryName") ?: inventory?.name ?: ""
         set(value) { //setter function
             field = value
             state["inventoryName"] = value
         }
-    var ingredientId =
-        state.get<InventoryLineItem>("ingredientID") ?: invlineitem?.ingredientID ?: ""
-        set(value) { //setter function
-            field = value
-            state["ingredientID"] = value
-        } //TODO: Get this proper id from dropdown
 
-    var inventoryID = state.get<InventoryLineItem>("inventoryID") ?: invlineitem?.inventoryID ?: ""
+    var inventoryID = state.get<Inventory>("inventoryID") ?: inventory?.id ?: ""
         set(value) { //setter function
             field = value
             state["inventoryID"] = value
         }
+    var ingredientId = 0 //TODO: Get this proper id from dropdown
 
     var expiry = state.get<InventoryLineItem>("expiryDate") ?: invlineitem?.expiryDate ?: ""
         set(value) { //setter function
@@ -69,10 +77,10 @@ class AddInvLineItemViewModel @Inject constructor(
     val addEditTaskEvent = addEditChannel.receiveAsFlow()
 
     fun onSaveClick() {
-        if (inventoryName.toString().isBlank()) {
-            showInvalidInputMessage("Name cannot be empty")
-            return
-        }
+//        if (inventoryName.toString().isBlank()) {
+//            showInvalidInputMessage("Name cannot be empty")
+//            return
+//        }
         if (invlineitem != null) {
             val updatedInvLineItem = invlineitem.copy(
                 inventoryID = inventoryID.toString().toInt(),
@@ -89,7 +97,6 @@ class AddInvLineItemViewModel @Inject constructor(
                     expiryDate = expiry.toString().toLong(),
                     quantity = quantity.toString().toInt(),
                 )
-
                 createInvLineItem(newInvLineItem)
             }
         }
@@ -97,12 +104,14 @@ class AddInvLineItemViewModel @Inject constructor(
 
     fun updateInvLineItem(inventoryLineItem: InventoryLineItem) = viewModelScope.launch {
         inventoryLineItemDAO.updateInventoryLineItem(inventoryLineItem)
-        navigateWithMessage(EDIT_INVENTORY_RESULT_OK)
+        navigateWithMessage(EDIT_INVLINEITEM_RESULT_OK)
     }
 
-    fun createInvLineItem(inventoryLineItem: InventoryLineItem) = viewModelScope.launch {
-        inventoryLineItemDAO.insertInventoryLineItem(inventoryLineItem)
-        navigateWithMessage(ADD_INVENTORY_RESULT_OK)
+    fun createInvLineItem(inventoryLineItem: InventoryLineItem) {
+        viewModelScope.launch {
+            inventoryLineItemDAO.insertInventoryLineItem(inventoryLineItem)
+            navigateWithMessage(ADD_INVLINEITEM_RESULT_OK)
+        }
     }
 
     fun showInvalidInputMessage(message: String) = viewModelScope.launch {

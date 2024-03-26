@@ -9,6 +9,10 @@ interface IngredientDAO {
     @Query("SELECT * FROM ingredients_table")
     fun getAllIngredients(): Flow<List<Ingredient>>
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT ingredientID, name FROM ingredients_table")
+    fun getIngredientNamesAndIds(): Flow<List<IngredientNameAndId>>
+
     @Query("SELECT * FROM ingredients_table WHERE ingredientID = :ingredientID")
     fun getIngredientById(ingredientID: Int): Flow<List<Ingredient>>
 
@@ -24,3 +28,5 @@ interface IngredientDAO {
     @Delete
     suspend fun deleteIngredient(ingredient: Ingredient)
 }
+
+data class IngredientNameAndId(val ingredientID: Int, val name: String)
