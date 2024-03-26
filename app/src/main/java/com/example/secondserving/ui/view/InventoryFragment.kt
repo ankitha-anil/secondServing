@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.secondserving.MainActivity
 import com.example.secondserving.R
-import com.example.secondserving.data.InventoryLineItem
+import com.example.secondserving.data.InvLineItemDisplay
 import com.example.secondserving.databinding.FragmentInventoryBinding
 import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.InventoryViewModel
@@ -90,9 +90,9 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
             }
         })
 
-        viewModel.inventoryLineItems.observe(viewLifecycleOwner) { //added observer to livedata
+        viewModel.inventoryLineItemsDisplay.observe(viewLifecycleOwner) { //added observer to livedata
             inventoryLineItemAdapter.submitList(it)
-            if (viewModel.inventoryLineItems.value.isNullOrEmpty())
+            if (viewModel.inventoryLineItemsDisplay.value.isNullOrEmpty())
                 binding.noIngredients.visibility = View.VISIBLE
             else
                 binding.noIngredients.visibility = View.GONE
@@ -130,6 +130,7 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
 
                     InventoryViewModel.InventoryLineItemEvent.NavigateToDeleteAllCompletedScreen -> TODO()
                     InventoryViewModel.InventoryLineItemEvent.NavigateBackWithResult -> TODO()
+                    else -> {}
                 }.exhaustive
             }
         }
@@ -149,7 +150,7 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
         }
     }
 
-    override fun onItemClick(inventoryLineItem: InventoryLineItem) {
+    override fun onItemClick(inventoryLineItem: InvLineItemDisplay) {
         TODO("Go to Ingredient details")
     }
 

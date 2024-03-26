@@ -3,6 +3,7 @@ package com.example.secondserving.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.secondserving.ADD_INVENTORY_RESULT_OK
@@ -10,6 +11,7 @@ import com.example.secondserving.EDIT_INVENTORY_RESULT_OK
 import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.data.Ingredient
 import com.example.secondserving.data.IngredientDAO
+import com.example.secondserving.data.InvLineItemDisplay
 import com.example.secondserving.data.Inventory
 import com.example.secondserving.data.InventoryDAO
 import com.example.secondserving.data.InventoryLineItem
@@ -41,22 +43,26 @@ class InventoryViewModel @Inject constructor(
     val inventoryEvent = inventoryEventChannel.receiveAsFlow() // receive as flow
     val inventoryLineItemEvent = inventoryLineItemEventChannel.receiveAsFlow() // receive as flow
 
-    var inventories = MutableLiveData<List<Inventory>>()
-    var ingredients = MutableLiveData<List<Ingredient>>()
-    var inventoryLineItems = MutableLiveData<List<InventoryLineItem>>()
+    var inventoryLineItemsDisplay = MutableLiveData<List<InvLineItemDisplay>>()
+
 
     //inventoryDAO.getInventoriesForUser("fSiLGeQcGDdVKHvH49jkqsGYsMz2").asLiveData()
 
     fun init() {
         viewModelScope.launch {
-            currentUser.value?.let { user ->
-                inventoryLineItemDAO.getAllInventoryLineItemsByInventoryAndUserID(
-                    inventoryID = inventory?.id ?: 1,
-                    userID = user.uid
-                )
-            }?.collect { inventoryLineItem ->
-                inventoryLineItems.postValue(inventoryLineItem)
-            }
+//            currentUser.value?.let { user ->
+//                inventoryLineItemDAO.getAllInventoryLineItemsByInventoryAndUserID(
+//                    inventoryID = inventory?.id ?: 1,
+//                    userID = user.uid
+//                )
+//            }?.collect { inventoryLineItem ->
+//                inventoryLineItems.postValue(inventoryLineItem)
+//            }
+
+            inventoryLineItemDAO.getAllIngredientsByInventoryID(inventoryID = inventory?.id ?: 1)
+                .collect { inventoryLineItems ->
+                    inventoryLineItemsDisplay.postValue(inventoryLineItems)
+                }
 //            inventoryLineItems.map {
 //                it.forEach {
 //                    val ingredient = ingredientDAO.getIngredientById(it.ingredientID).first()
@@ -64,6 +70,9 @@ class InventoryViewModel @Inject constructor(
 //                    ingredients.postValue(ingredient)
 //                }
 //            }
+
+
+
         }
     }
 
@@ -79,13 +88,13 @@ class InventoryViewModel @Inject constructor(
         }
     }
 
-    fun onInventoryLineItemSwiped(inventoryLineItem: InventoryLineItem) = viewModelScope.launch {
-        inventoryLineItemDAO.deleteInventoryLineItem(inventoryLineItem)
-        inventoryEventChannel.send(
-            InventoryLineItemEvent.ShowUndoDeleteIngrdientMessage(
-                inventoryLineItem
-            )
-        )
+    fun onInventoryLineItemSwiped(invLineItemDisplay: InvLineItemDisplay) = viewModelScope.launch {
+//        inventoryLineItemDAO.deleteInventoryLineItem(invLineItemDisplay)
+//        inventoryEventChannel.send(
+//            InventoryLineItemEvent.ShowUndoDeleteIngrdientMessage(
+//                invLineItemDisplay
+//            )
+//        )
     }
 
     fun onAddNewInventoryLineItemClick( inventory: Inventory) = viewModelScope.launch {

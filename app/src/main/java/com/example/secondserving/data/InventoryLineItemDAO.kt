@@ -26,15 +26,14 @@ interface InventoryLineItemDAO {
     ): Flow<List<InventoryLineItem>>
 
 
-//    @Query(
-//        """ SELECT name, quantity, expiryDate FROM ingredients_table
-//INNER JOIN inventory_line_item_table ON inventory_line_item_table.ingredientID = ingredients_table.ingredientID
-//WHERE inventory_line_item_table.inventoryID = :inventoryID """
-//    )
-//    fun getAllIngredientsByInventoryID(
-//        inventoryID: Int,
-//        userID: String
-//    ): Flow<List<Ingredient>>
+    @Query(
+        """ SELECT ingredients_table.name, inventory_line_item_table.quantity, inventory_line_item_table.expiryDate FROM ingredients_table
+INNER JOIN inventory_line_item_table ON inventory_line_item_table.ingredientID = ingredients_table.ingredientID
+WHERE inventory_line_item_table.inventoryID = :inventoryID """
+    )
+    fun getAllIngredientsByInventoryID(
+        inventoryID: Int
+    ): Flow<List<InvLineItemDisplay>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInventoryLineItem(inventoryLineItem: InventoryLineItem)

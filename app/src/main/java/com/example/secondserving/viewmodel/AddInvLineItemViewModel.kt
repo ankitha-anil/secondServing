@@ -126,10 +126,6 @@ class AddInvLineItemViewModel @Inject constructor(
         firebaseUser.postValue(repository.getCurrentUser())
     }
 
-    fun populateIngredientList() {
-//TODO: popoulate the ingredients from db
-    }
-
 
     sealed class AddEditInvLineItemEvent {
         data class ShowInvalidInputMessage(val msg: String) : AddEditInvLineItemEvent()

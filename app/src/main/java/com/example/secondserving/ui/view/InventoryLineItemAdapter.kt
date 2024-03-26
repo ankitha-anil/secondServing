@@ -1,15 +1,24 @@
 package com.example.secondserving.ui.view
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.secondserving.data.InvLineItemDisplay
 import com.example.secondserving.data.InventoryLineItem
 import com.example.secondserving.databinding.ItemInventoryListBinding
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
 
 class InventoryLineItemAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<InventoryLineItem, InventoryLineItemAdapter.InventoryViewHolder>(
+    ListAdapter<InvLineItemDisplay, InventoryLineItemAdapter.InventoryViewHolder>(
         DiffCallback()
     ) {
 
@@ -19,6 +28,7 @@ class InventoryLineItemAdapter(private val listener: OnItemClickListener) :
         return InventoryViewHolder(binding)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: InventoryViewHolder, position: Int) {
         val currentItem = getItem(position)
         holder.bind(currentItem)
@@ -39,24 +49,32 @@ class InventoryLineItemAdapter(private val listener: OnItemClickListener) :
             }
         }
 
-        fun bind(inventoryLineItem: InventoryLineItem) {
+        @SuppressLint("SetTextI18n")
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(invLineItemDisplay: InvLineItemDisplay) {
             binding.apply {
-                itemName.text = inventoryLineItem.inventoryID.toString()
-                quantity.text = inventoryLineItem.quantity.toString()
-                expiryDate.text = inventoryLineItem.expiryDate.toString()
+                val instant = Instant.ofEpochMilli(invLineItemDisplay.expiryDate)
+                val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+
+                val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                val formattedDateTime = dateTime.format(formatter)
+
+                itemName.text = invLineItemDisplay.name.toString()
+                quantity.text = "Quantity: ${invLineItemDisplay.quantity}"
+                expiryDate.text = "Expiry Date: $formattedDateTime"
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(inventoryLineItem: InventoryLineItem)
+        fun onItemClick(inventoryLineItem: InvLineItemDisplay)
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<InventoryLineItem>() {
-        override fun areItemsTheSame(oldItem: InventoryLineItem, newItem: InventoryLineItem) =
-            oldItem.id == newItem.id
+    class DiffCallback : DiffUtil.ItemCallback<InvLineItemDisplay>() {
+        override fun areItemsTheSame(oldItem: InvLineItemDisplay, newItem: InvLineItemDisplay) =
+            oldItem.name == newItem.name
 
-        override fun areContentsTheSame(oldItem: InventoryLineItem, newItem: InventoryLineItem) = oldItem == newItem
+        override fun areContentsTheSame(oldItem: InvLineItemDisplay, newItem: InvLineItemDisplay) = oldItem == newItem
 
     }
 
