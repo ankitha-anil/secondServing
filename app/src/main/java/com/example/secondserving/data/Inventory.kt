@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "inventory_table")
 @Parcelize
 data class Inventory(
-    val name: String,
+    var name: String,
     val created: Long = System.currentTimeMillis(),
     val userID: String,
     @PrimaryKey(autoGenerate = true) val id: Int = 0
