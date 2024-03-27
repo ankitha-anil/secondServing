@@ -96,7 +96,7 @@ class InvLineItemTest {
 
         assertEquals(savedInvLineItems.size, 1)
         assertEquals(savedInvLineItems[0].inventoryID, inventory2.id)
-        assertEquals(savedInvLineItems[0].ingredientID, ingredients[0].ingredientID)
+        assertEquals(savedInvLineItems[0].ingredientID, ingredients[2].ingredientID)
         assertEquals(savedInvLineItems[0].quantity, quantity)
     }
 
