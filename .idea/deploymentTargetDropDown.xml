@@ -5,19 +5,19 @@
       <entry key="IngredientTest">
         <State />
       </entry>
-      <entry key="InventoryTest">
+      <entry key="InvLineItemTest">
         <State />
       </entry>
-      <entry key="insertAndGetInventory()">
+      <entry key="deleteInvLineItem()">
+        <State />
+      </entry>
+      <entry key="insertAndGetInvLineItem()">
         <State />
       </entry>
       <entry key="test">
         <State />
       </entry>
-      <entry key="testCreateInventoryEntity()">
-        <State />
-      </entry>
-      <entry key="useAppContext()">
+      <entry key="updateInvLineItem()">
         <State />
       </entry>
     </value>

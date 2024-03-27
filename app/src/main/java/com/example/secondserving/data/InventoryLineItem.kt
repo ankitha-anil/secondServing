@@ -21,7 +21,7 @@ data class InventoryLineItem(
     val inventoryID: Int,
     val ingredientID: Int,
     val expiryDate: Long,
-    val quantity: Int,
+    var quantity: Int,
     val created: Long = System.currentTimeMillis(),
 ) : Parcelable {
     val createDateFormatted: String
