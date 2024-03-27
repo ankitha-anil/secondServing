@@ -45,7 +45,6 @@ class InventoryTest {
         val allInventories = inventoryDao.getInventoriesForUser("user1").first()
         assertEquals(allInventories[0].name, (inventory.name))
     }
-    //need to check if state is preserved across tests
 
     @Test
     @Throws(Exception::class)
