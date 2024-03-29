@@ -6,10 +6,11 @@ import androidx.room.PrimaryKey
 import java.text.DateFormat
 import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "recipes")
+@Entity(tableName = "recipe_table")
 @Parcelize
 data class Recipe(
-    @PrimaryKey val recipeID: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val recipeID: Int,
     val recipeName: String,
     val created: Long = System.currentTimeMillis(),
     val recipeDescription: String

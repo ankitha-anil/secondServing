@@ -7,11 +7,19 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecipeDAO {
-    @Query("SELECT * FROM recipes WHERE recipeDescription LIKE :ingredient")
-    fun findRecipesByIngredient(ingredient: String): List<Recipe>
+    @Query("SELECT * FROM recipe_table")
+    fun getAllRecipes(): Flow<List<Recipe>>
+
+    @Dao
+    interface RecipeDAO {
+        @Query("SELECT * FROM recipe_table WHERE recipeDescription LIKE '%' || :ingredient || '%'")
+        fun findRecipesWithIngredient(ingredient: String): LiveData<List<Recipe>>
+    }
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecipe(inventory: Recipe)
