@@ -5,19 +5,16 @@
       <entry key="IngredientTest">
         <State />
       </entry>
-      <entry key="InvLineItemTest">
+      <entry key="LoginActivityTest">
         <State />
       </entry>
-      <entry key="deleteInvLineItem()">
+      <entry key="deleteIngredient()">
         <State />
       </entry>
-      <entry key="insertAndGetInvLineItem()">
+      <entry key="insertAndGetIngredient()">
         <State />
       </entry>
       <entry key="test">
-        <State />
-      </entry>
-      <entry key="updateInvLineItem()">
         <State />
       </entry>
     </value>
