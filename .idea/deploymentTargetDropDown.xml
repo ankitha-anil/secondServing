@@ -2,22 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="ExampleInstrumentedTest">
+      <entry key="IngredientTest">
         <State />
       </entry>
-      <entry key="InventoryTest">
+      <entry key="LoginActivityTest">
         <State />
       </entry>
-      <entry key="insertAndGetInventory()">
+      <entry key="deleteIngredient()">
+        <State />
+      </entry>
+      <entry key="insertAndGetIngredient()">
         <State />
       </entry>
       <entry key="test">
-        <State />
-      </entry>
-      <entry key="testCreateInventoryEntity()">
-        <State />
-      </entry>
-      <entry key="useAppContext()">
         <State />
       </entry>
     </value>

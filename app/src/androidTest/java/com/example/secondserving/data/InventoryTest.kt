@@ -45,4 +45,42 @@ class InventoryTest {
         val allInventories = inventoryDao.getInventoriesForUser("user1").first()
         assertEquals(allInventories[0].name, (inventory.name))
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun testGetAllInventoriesByUserId() = runBlocking {
+        val inventory1 = Inventory(name = "Inventory1", userID = "user1")
+        val inventory2 = Inventory(name = "Inventory2", userID = "user1")
+        val inventory3 = Inventory(name = "Inventory3", userID = "user1")
+        inventoryDao.insertInventory(inventory1)
+        inventoryDao.insertInventory(inventory2)
+        inventoryDao.insertInventory(inventory3)
+
+        val allInventories = inventoryDao.getInventoriesForUser("user1").first()
+        assertEquals(allInventories.size, 3)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testUpdateInventory() = runBlocking {
+        val inventory1 = Inventory(name = "Inventory1", userID = "user1")
+        inventoryDao.insertInventory(inventory1)
+        val savedInventory = inventoryDao.getInventoriesForUser("user1").first()[0]
+        savedInventory.name = "Inventory1Updated"
+        inventoryDao.updateInventory(savedInventory)
+        val updatedInventory = inventoryDao.getInventoriesForUser("user1").first()[0]
+        assertEquals(updatedInventory.name, "Inventory1Updated")
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testDeleteInventory() = runBlocking {
+        val inventory1 = Inventory(name = "Inventory1", userID = "user1")
+        inventoryDao.insertInventory(inventory1)
+        val savedInventory = inventoryDao.getInventoriesForUser("user1").first()[0]
+        inventoryDao.deleteInventory(savedInventory)
+        val inventoryList = inventoryDao.getInventoriesForUser("user1").first()
+        assertEquals(inventoryList.size, 0)
+    }
+
 }
