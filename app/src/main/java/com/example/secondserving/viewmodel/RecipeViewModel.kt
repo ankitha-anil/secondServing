@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.data.Recipe
 import com.example.secondserving.data.RecipeDAO
+import com.example.secondserving.data.RecipeRepository
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -17,7 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     private val repository: AuthRepository,
-    private val recipeDAO: RecipeDAO
+    private val recipeDAO: RecipeDAO,
+    private val recipeRepository: RecipeRepository
+
 ): ViewModel() {
     //val recipe = state.get<Recipe>("recipe")
 
@@ -30,6 +33,11 @@ class RecipeViewModel @Inject constructor(
             state["recipeName"] = value
         }
 */
+    fun loadRecipesFromCsv() {
+        val recipes = recipeRepository.readRecipesFromCsv()
+        // Now you have a list of Recipe objects to work with
+    }
+
     fun getCurrentUser() = viewModelScope.launch {
         firebaseUser.postValue(repository.getCurrentUser())
     }

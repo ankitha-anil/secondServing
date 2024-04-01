@@ -1,6 +1,7 @@
 package com.example.secondserving.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.example.secondserving.data.InventoryDatabase
 import com.example.secondserving.auth.AuthRepository
@@ -8,9 +9,11 @@ import com.example.secondserving.auth.BaseAuthRepository
 import com.example.secondserving.auth.BaseAuthenticator
 import com.example.secondserving.auth.FirebaseAuthenticator
 import com.example.secondserving.data.RecipeDatabase
+import com.example.secondserving.data.RecipeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
@@ -81,6 +84,17 @@ object AppModule {
     @Singleton
     @Provides
     fun provideRepository(authenticator : BaseAuthenticator) : BaseAuthRepository = AuthRepository(authenticator)
+
+
+    // ========================================= Recipe Functions =========================================
+
+    @Provides
+    @Singleton
+    fun provideRecipeRepository(
+        @ApplicationContext appContext: Context
+    ): RecipeRepository {
+        return RecipeRepository(appContext)
+    }
 
 }
 
