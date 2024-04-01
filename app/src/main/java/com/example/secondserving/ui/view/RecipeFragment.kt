@@ -26,12 +26,14 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentRecipeBinding.bind(view)
+        // val binding = FragmentRecipeBinding.bind(view)
+        // viewModel.loadRecipesFromCsv()
+        //viewLifecycleOwner.lifecycleScope.launchWhenStarted {
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-
-        }
+        //}
     }
+
+
 
     fun getUser() {
         viewModel.getCurrentUser()

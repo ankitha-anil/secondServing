@@ -19,6 +19,7 @@ class RecipeRepository(private val context: Context) {
                             recipeDescription = tokens[4]
                         )
                         recipes.add(recipe)
+                        println("recipe added: " + recipe.recipeName)
                     }
                 }
             }

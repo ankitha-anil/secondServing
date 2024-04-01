@@ -27,6 +27,7 @@ class RecipeActivity : AppCompatActivity() {
     private val viewModel: RecipeViewModel by viewModels()
     private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         registerObservers()
         setContentView(R.layout.activity_main)
@@ -34,7 +35,7 @@ class RecipeActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
-        viewModel.loadRecipesFromCsv()
+        // viewModel.loadRecipesFromCsv()
         // Observe ViewModel's LiveData and update UI accordingly
 
     }

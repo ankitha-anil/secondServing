@@ -33,7 +33,10 @@ class RecipeViewModel @Inject constructor(
             state["recipeName"] = value
         }
 */
-    fun loadRecipesFromCsv() {
+    init {
+        loadRecipesFromCsv()
+    }
+    private fun loadRecipesFromCsv() {
         val recipes = recipeRepository.readRecipesFromCsv()
         // Now you have a list of Recipe objects to work with
     }
