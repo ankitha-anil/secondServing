@@ -5,11 +5,11 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.compose.ui.graphics.Color
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.secondserving.data.InvLineItemDisplay
-import com.example.secondserving.data.InventoryLineItem
 import com.example.secondserving.databinding.ItemInventoryListBinding
 import java.time.Instant
 import java.time.LocalDateTime
@@ -49,19 +49,38 @@ class InventoryLineItemAdapter(private val listener: OnItemClickListener) :
             }
         }
 
-        @SuppressLint("SetTextI18n")
+        @SuppressLint("SetTextI18n", "ResourceAsColor")
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(invLineItemDisplay: InvLineItemDisplay) {
             binding.apply {
-                val instant = Instant.ofEpochMilli(invLineItemDisplay.expiryDate)
-                val dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+                val expiryInstant = Instant.ofEpochMilli(invLineItemDisplay.expiryDate)
+
+                val expiryDateTime = LocalDateTime.ofInstant(expiryInstant, ZoneId.systemDefault())
+                val nowDateTime = LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault())
 
                 val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-                val formattedDateTime = dateTime.format(formatter)
+                val formattedDateTime = expiryDateTime.format(formatter)
 
                 itemName.text = invLineItemDisplay.name.toString()
                 quantity.text = "Quantity: ${invLineItemDisplay.quantity}"
                 expiryDate.text = "Expiry Date: $formattedDateTime"
+
+                //If expired
+                if(expiryDateTime.dayOfYear < nowDateTime.dayOfYear){
+                    root.setCardBackgroundColor(Color(0xFFF1473B).hashCode());
+                    itemName.setTextColor(Color.White.hashCode())
+                    quantity.setTextColor(Color.White.hashCode())
+                    expiryDate.setTextColor(Color.White.hashCode())
+                }
+
+                //If going to expire in 2 days
+
+                else if((expiryDateTime.dayOfYear - nowDateTime.dayOfYear) <=3){
+                    root.setCardBackgroundColor(Color(0xFFFFC107).hashCode());
+                    itemName.setTextColor(Color.White.hashCode())
+                    quantity.setTextColor(Color.White.hashCode())
+                    expiryDate.setTextColor(Color.White.hashCode())
+                }
             }
         }
     }
