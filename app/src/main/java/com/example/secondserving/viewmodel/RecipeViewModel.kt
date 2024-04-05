@@ -36,7 +36,7 @@ class RecipeViewModel @Inject constructor(
     init {
         loadRecipesFromCsv()
     }
-    private fun loadRecipesFromCsv() {
+    fun loadRecipesFromCsv() {
         val recipes = recipeRepository.readRecipesFromCsv()
         // Now you have a list of Recipe objects to work with
     }

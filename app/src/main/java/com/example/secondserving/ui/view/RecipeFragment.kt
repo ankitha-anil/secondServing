@@ -27,10 +27,12 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // val binding = FragmentRecipeBinding.bind(view)
-        // viewModel.loadRecipesFromCsv()
-        //viewLifecycleOwner.lifecycleScope.launchWhenStarted {
 
-        //}
+        viewModel.loadRecipesFromCsv() // USE THIS!! DONT USE ACTIVITIES USE FRAGMENTS ***
+        // USE ADAPTER :)
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        }
     }
 
 
