@@ -26,7 +26,15 @@ class RecipeFragment : Fragment(R.layout.fragment_recipe) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // val binding = FragmentRecipeBinding.bind(view)
+        val binding = FragmentRecipeBinding.bind(view)
+        val recipeAdapter = RecipeAdapter()
+        binding.recyclerViewRecipes.adapter = recipeAdapter
+
+        // Assuming your ViewModel has a LiveData or Flow that emits a list of recipes
+        viewModel.recipes.observe(viewLifecycleOwner) { recipes ->
+            // Update the adapter with new recipe list
+            recipeAdapter.submitList(recipes)
+        }
 
         viewModel.loadRecipesFromCsv() // USE THIS!! DONT USE ACTIVITIES USE FRAGMENTS ***
         // USE ADAPTER :)

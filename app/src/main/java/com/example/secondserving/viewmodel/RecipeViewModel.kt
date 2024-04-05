@@ -1,5 +1,6 @@
 package com.example.secondserving.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -33,12 +34,17 @@ class RecipeViewModel @Inject constructor(
             state["recipeName"] = value
         }
 */
+    private val _recipes = MutableLiveData<List<Recipe>>()
+    val recipes: LiveData<List<Recipe>> = _recipes
+
+
     init {
         loadRecipesFromCsv()
     }
     fun loadRecipesFromCsv() {
-        val recipes = recipeRepository.readRecipesFromCsv()
-        // Now you have a list of Recipe objects to work with
+        // This should be executed in a background thread
+        val recipesList = recipeRepository.readRecipesFromCsv()
+        _recipes.value = recipesList
     }
 
     fun getCurrentUser() = viewModelScope.launch {
