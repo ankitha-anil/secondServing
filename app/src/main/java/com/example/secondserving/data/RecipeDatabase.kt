@@ -1,39 +1,61 @@
 package com.example.secondserving.data
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.secondserving.di.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Provider
 
 @Database(entities = [Recipe::class], version = 2, exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
-    abstract fun recipeDao(): RecipeDAO
 
-    //Dependency Injection means class that use other classes should not be responsible for creating or searching this using dagger, hilt uses dagger tool makes it easier
+
+    abstract fun recipeDao(): RecipeDAO
 
     class Callback @Inject constructor(
         private val database: Provider<RecipeDatabase>,
-        @ApplicationScope private val applicationScope: CoroutineScope
-    ) : RoomDatabase.Callback() { //our own class that need instantiation and doesn't belong to third party library
-        override fun onCreate(db: SupportSQLiteDatabase) { // first time when we create the database, called after build method
+        @ApplicationScope private val applicationScope: CoroutineScope,
+        private val context: Context // This is correct now, no need to get context from database
+    ) : RoomDatabase.Callback() {
+        override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
 
-            val recipeDao = database.get().recipeDao()
-
             applicationScope.launch {
-                recipeDao.insertRecipe(Recipe(recipeID=101,recipeName="Apple Juice", recipeDescription = "Apple"))
-                recipeDao.insertRecipe(Recipe(recipeID=102,recipeName="Orange Juice",recipeDescription = "Orange"))
-                recipeDao.insertRecipe(Recipe(recipeID=103,recipeName="Carrot Juice",recipeDescription = "Carrot"))
+                populateDatabaseFromCSV()
             }
-
         }
 
-        override fun onOpen(db: SupportSQLiteDatabase) {
-            super.onOpen(db)
+        private fun populateDatabaseFromCSV() {
+            val dao = database.get().recipeDao()
+            val inputStream = context.assets.open("RecipeCSV.csv") // Use the context directly
+            val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+
+            applicationScope.launch(Dispatchers.IO) {
+                bufferedReader.use { reader ->
+                    reader.readLine() // Skip CSV header
+                    var line: String?
+                    while (reader.readLine().also { line = it } != null) {
+                        val tokens = line!!.split(",")
+                        if (tokens.size >= 5) {
+                            val recipe = Recipe(
+                                id = tokens[0].toInt(),
+                                recipeID = tokens[1].toInt(),
+                                recipeName = tokens[2],
+                                created = tokens[3].toLong(),
+                                recipeDescription = tokens[4]
+                            )
+                            dao.insertRecipe(recipe)
+                        }
+                    }
+                }
+            }
         }
     }
 }

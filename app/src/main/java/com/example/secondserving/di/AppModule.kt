@@ -8,6 +8,7 @@ import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.auth.BaseAuthRepository
 import com.example.secondserving.auth.BaseAuthenticator
 import com.example.secondserving.auth.FirebaseAuthenticator
+import com.example.secondserving.data.RecipeDAO
 import com.example.secondserving.data.RecipeDatabase
 import com.example.secondserving.data.RecipeRepository
 import dagger.Module
@@ -17,6 +18,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import javax.inject.Provider
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -48,19 +50,38 @@ object AppModule {
 
     // ========================================= Recipe =========================================
 
-    @Provides // we use provide method cause we dont own the classes
-    @Singleton  //only one instance of task in whole app
-    fun provideRecipeDatabase(
-        app: Application, callback: RecipeDatabase.Callback
-    ) = Room.databaseBuilder(app, RecipeDatabase::class.java, "recipe_database") //there is a circular dependency but oncreate is called after this
-        .fallbackToDestructiveMigration()
-        .addCallback(callback) //di code should not be responsible for db operations
-        .build()
+
+    // Provides Application context
+    @Provides
+    @Singleton
+    fun provideApplicationContext(application: Application): Context = application
 
     @Provides
-    fun provideRecipeDao(db: RecipeDatabase) = db.recipeDao()
+    @Singleton
+    fun provideRecipeDatabase(
+        @ApplicationContext context: Context,
+        callback: RecipeDatabase.Callback
+    ): RecipeDatabase {
+        return Room.databaseBuilder(context, RecipeDatabase::class.java, "recipe_database")
+            .fallbackToDestructiveMigration()
+            .addCallback(callback)
+            .build()
+    }
 
+    @Provides
+    fun provideRecipeDao(database: RecipeDatabase): RecipeDAO {
+        return database.recipeDao()
+    }
 
+    @Provides
+    @Singleton
+    fun provideDatabaseCallback(
+        @ApplicationContext context: Context, // Provide the Application context
+        database: Provider<RecipeDatabase>,
+        @ApplicationScope coroutineScope: CoroutineScope
+    ): RecipeDatabase.Callback {
+        return RecipeDatabase.Callback(database, coroutineScope, context)
+    }
 
 
     // ========================================= Basic App Functions =========================================
@@ -85,16 +106,6 @@ object AppModule {
     @Provides
     fun provideRepository(authenticator : BaseAuthenticator) : BaseAuthRepository = AuthRepository(authenticator)
 
-
-    // ========================================= Recipe Functions =========================================
-
-    @Provides
-    @Singleton
-    fun provideRecipeRepository(
-        @ApplicationContext appContext: Context
-    ): RecipeRepository {
-        return RecipeRepository(appContext)
-    }
 
 }
 
