@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.secondserving.MainActivity
 import com.example.secondserving.R
 import com.example.secondserving.data.InvLineItemDisplay
-import com.example.secondserving.data.Inventory
 import com.example.secondserving.databinding.FragmentInventoryBinding
 import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.InventoryViewModel
@@ -78,12 +77,21 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
                 viewModel.inventory?.let { it1 -> viewModel.onAddNewInventoryLineItemClick(inventory = it1) }
             }
 
+            fabEditInventory.setOnClickListener {
+                viewModel.inventory?.let { it1 -> viewModel.onEditInventory(inventory = it1) }
+            }
         }
 
         setFragmentResultListener("add_edit_request") { _, bundle ->
             val result = bundle.getInt("add_edit_result")
             viewModel.onAddEditResult(result)
         }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("updated_inventory_name")
+            ?.observe(viewLifecycleOwner) { updatedInventoryName ->
+                // Update the label with the updated inventory name
+                requireActivity().setTitle(updatedInventoryName)  //TODO: check this problem after update
+            }
 
         inventoryLineItemAdapter.registerAdapterDataObserver(object :
             RecyclerView.AdapterDataObserver() {
@@ -135,6 +143,16 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
 
                     InventoryViewModel.InventoryLineItemEvent.NavigateToDeleteAllCompletedScreen -> TODO()
                     InventoryViewModel.InventoryLineItemEvent.NavigateBackWithResult -> TODO()
+                    is InventoryViewModel.InventoryLineItemEvent.NavigateToEditInventoryScreen -> {
+                        val action =
+                            InventoryFragmentDirections.actionInventoryFragmentToAddInventoryFragment(
+                                "Edit Inventory",
+                                inventory = event.inventory
+                            )
+                        findNavController().navigate(action)
+
+                    }
+
                     else -> {}
                 }.exhaustive
             }

@@ -75,6 +75,9 @@
         <action
             android:id="@+id/action_inventoryFragment_to_addInvLineItemFragment"
             app:destination="@id/addInvLineItemFragment" />
+        <action
+            android:id="@+id/action_inventoryFragment_to_addInventoryFragment"
+            app:destination="@id/addInventoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/addInvLineItemFragment"

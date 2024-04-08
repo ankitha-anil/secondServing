@@ -33,6 +33,7 @@
             android:backgroundTint="@color/green_700"
             android:padding="50dp"
             android:src="@drawable/edit"
+            app:borderWidth="0dp"
             app:useCompatPadding="false" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,6 +43,7 @@
             android:backgroundTint="@color/green_700"
             android:padding="50dp"
             android:src="@drawable/add"
+            app:borderWidth="0dp"
             app:useCompatPadding="false" />
     </LinearLayout>
 

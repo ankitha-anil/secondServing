@@ -101,8 +101,13 @@ class InventoryViewModel @Inject constructor(
         }
     }
 
+     fun onEditInventory(inventory: Inventory) = viewModelScope.launch {
+        inventoryEventChannel.send(InventoryLineItemEvent.NavigateToEditInventoryScreen(inventory = inventory))
+    }
+
 
     sealed class InventoryLineItemEvent {  //different variation, can later get warning when the when statement is not exhaustive, there are no other kinds of task events compiler know
+
         data class NavigateToAddInvLineItemScreen(val inventory: Inventory) : InventoryLineItemEvent()
         data class NavigateToEditInvLineItemScreen(val inventoryLineItem: InventoryLineItem, val inventory: Inventory) :
             InventoryLineItemEvent()
@@ -112,6 +117,7 @@ class InventoryViewModel @Inject constructor(
 
         data class ShowInventorySavedConfirmation(val message: String) : InventoryLineItemEvent()
         object NavigateToDeleteAllCompletedScreen : InventoryLineItemEvent()
+        data class NavigateToEditInventoryScreen(val inventory: Inventory) : InventoryLineItemEvent()
 
         object NavigateBackWithResult : InventoryViewModel.InventoryLineItemEvent()
 

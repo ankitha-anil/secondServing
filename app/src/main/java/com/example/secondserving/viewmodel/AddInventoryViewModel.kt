@@ -45,47 +45,41 @@ class AddInventoryViewModel @Inject constructor(
             return
         }
         if (inventory != null) {
-            val updatedTask = inventory.copy(name = inventoryName.toString())
-            updateInventory(updatedTask)
+            val updatedInventory = inventory.copy(name = inventoryName.toString())
+            updateInventory(updatedInventory)
         } else {
             currentUser.value?.let {
-                val newTask = Inventory(name = inventoryName.toString(), userID = it.uid)
-                createInventory(newTask)
+                val newInventory = Inventory(name = inventoryName.toString(), userID = it.uid)
+                createInventory(newInventory)
             }
         }
     }
 
     fun updateInventory(inventory: Inventory) = viewModelScope.launch {
         inventoryDAO.updateInventory(inventory)
-        navigateWithMessage(EDIT_INVENTORY_RESULT_OK)
+        navigateWithMessage(EDIT_INVENTORY_RESULT_OK, inventoryName = inventory.name)
     }
 
     fun createInventory(inventory: Inventory) = viewModelScope.launch {
         inventoryDAO.insertInventory(inventory)
-        navigateWithMessage(ADD_INVENTORY_RESULT_OK)
+        navigateWithMessage(ADD_INVENTORY_RESULT_OK, inventoryName = inventory.name)
     }
 
     fun showInvalidInputMessage(message: String) = viewModelScope.launch {
         addEditChannel.send(AddEditInventoryEvent.ShowInvalidInputMessage(message))
     }
 
-    fun navigateWithMessage(result: Int) = viewModelScope.launch {
-        addEditChannel.send(AddEditInventoryEvent.NavigateBackWithResult(result))
+    fun navigateWithMessage(result: Int, inventoryName: String) = viewModelScope.launch {
+        addEditChannel.send(AddEditInventoryEvent.NavigateBackWithResult(result, inventoryName))
     }
 
     fun getCurrentUser() = viewModelScope.launch {
         firebaseUser.postValue(repository.getCurrentUser())
     }
-    fun setCurrentInventory(inventory: Inventory?) {
-        inventory?.let {
-            state.set("inventory", it)
-            inventoryName = it.name
-        }
-    }
 
 
     sealed class AddEditInventoryEvent {
         data class ShowInvalidInputMessage(val msg: String) : AddEditInventoryEvent()
-        data class NavigateBackWithResult(val result: Int): AddEditInventoryEvent()
+        data class NavigateBackWithResult(val result: Int, val inventoryName: String): AddEditInventoryEvent()
     }
 }
