@@ -50,29 +50,10 @@ class InventoryViewModel @Inject constructor(
 
     fun init() {
         viewModelScope.launch {
-//            currentUser.value?.let { user ->
-//                inventoryLineItemDAO.getAllInventoryLineItemsByInventoryAndUserID(
-//                    inventoryID = inventory?.id ?: 1,
-//                    userID = user.uid
-//                )
-//            }?.collect { inventoryLineItem ->
-//                inventoryLineItems.postValue(inventoryLineItem)
-//            }
-
             inventoryLineItemDAO.getAllIngredientsByInventoryID(inventoryID = inventory?.id ?: 1)
                 .collect { inventoryLineItems ->
                     inventoryLineItemsDisplay.postValue(inventoryLineItems)
                 }
-//            inventoryLineItems.map {
-//                it.forEach {
-//                    val ingredient = ingredientDAO.getIngredientById(it.ingredientID).first()
-//                }.collect { ingredient ->
-//                    ingredients.postValue(ingredient)
-//                }
-//            }
-
-
-
         }
     }
 
@@ -91,13 +72,13 @@ class InventoryViewModel @Inject constructor(
     fun onInventoryLineItemSwiped(invLineItemDisplay: InvLineItemDisplay) = viewModelScope.launch {
 //        inventoryLineItemDAO.deleteInventoryLineItem(invLineItemDisplay)
 //        inventoryEventChannel.send(
-//            InventoryLineItemEvent.ShowUndoDeleteIngrdientMessage(
+//            InventoryLineItemEvent.ShowUndoDeleteIngredientMessage(
 //                invLineItemDisplay
 //            )
 //        )
     }
 
-    fun onAddNewInventoryLineItemClick( inventory: Inventory) = viewModelScope.launch {
+    fun onAddNewInventoryLineItemClick(inventory: Inventory) = viewModelScope.launch {
         inventoryEventChannel.send(InventoryLineItemEvent.NavigateToAddIngredientScreen(inventory = inventory))
     }
 

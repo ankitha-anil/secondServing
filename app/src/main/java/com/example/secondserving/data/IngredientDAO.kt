@@ -16,6 +16,9 @@ interface IngredientDAO {
     @Query("SELECT * FROM ingredients_table WHERE ingredientID = :ingredientID")
     fun getIngredientById(ingredientID: Int): Flow<List<Ingredient>>
 
+    @Query("SELECT name FROM ingredients_table WHERE ingredientID = :ingredientID")
+    suspend fun getIngredientNameById(ingredientID: Int): String
+
     @Query("SELECT * FROM ingredients_table, inventory_line_item_table WHERE ingredients_table.ingredientID = :ingredientID AND inventory_line_item_table.inventoryID = :inventoryID AND inventory_line_item_table.ingredientID == ingredients_table.ingredientID")
     fun getAllIngredientsByInventory(inventoryID: Int, ingredientID: Int): Flow<List<Ingredient>>
 

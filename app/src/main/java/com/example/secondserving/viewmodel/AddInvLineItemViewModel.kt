@@ -1,14 +1,21 @@
 package com.example.secondserving.viewmodel
 
+import android.util.Log
+import androidx.core.text.isDigitsOnly
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.secondserving.ADD_INVENTORY_RESULT_OK
 import com.example.secondserving.ADD_INVLINEITEM_RESULT_OK
-import com.example.secondserving.EDIT_INVENTORY_RESULT_OK
 import com.example.secondserving.EDIT_INVLINEITEM_RESULT_OK
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import com.example.secondserving.utils.NotifyWork
+import com.example.secondserving.utils.NotifyWork.Companion.NOTIFICATION_ID
 import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.data.IngredientDAO
 import com.example.secondserving.data.Inventory
@@ -17,10 +24,13 @@ import com.example.secondserving.data.InventoryLineItem
 import com.example.secondserving.data.InventoryLineItemDAO
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.lang.System.currentTimeMillis
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,7 +48,6 @@ class AddInvLineItemViewModel @Inject constructor(
 
     private val firebaseUser = MutableLiveData<FirebaseUser?>()
     val currentUser get() = firebaseUser
-
 
     // Create an empty list to hold ingredient names and IDs
     val ingredientsList: MutableList<Pair<Int, String>> = mutableListOf()
@@ -58,15 +67,15 @@ class AddInvLineItemViewModel @Inject constructor(
             field = value
             state["inventoryID"] = value
         }
-    var ingredientId = 0 //TODO: Get this proper id from dropdown
+    var ingredientId = 0
 
-    var expiry = state.get<InventoryLineItem>("expiryDate") ?: invlineitem?.expiryDate ?: ""
+    var expiry = state.get<InventoryLineItem>("expiryDate") ?: invlineitem?.expiryDate ?: currentTimeMillis()
         set(value) { //setter function
             field = value
             state["expiryDate"] = value
         }
 
-    var quantity = state.get<InventoryLineItem>("quantity") ?: invlineitem?.quantity ?: ""
+    var quantity = state.get<InventoryLineItem>("quantity") ?: invlineitem?.quantity ?: 0
         set(value) { //setter function
             field = value
             state["quantity"] = value
@@ -77,10 +86,16 @@ class AddInvLineItemViewModel @Inject constructor(
     val addEditTaskEvent = addEditChannel.receiveAsFlow()
 
     fun onSaveClick() {
-//        if (inventoryName.toString().isBlank()) {
-//            showInvalidInputMessage("Name cannot be empty")
-//            return
-//        }
+        if (quantity.toString().isBlank()) {
+            showInvalidInputMessage("Quantity cannot be empty")
+            return
+        }
+
+        if(!quantity.toString().isDigitsOnly()){
+            showInvalidInputMessage("Quantity can only be numerical value")
+            return
+        }
+
         if (invlineitem != null) {
             val updatedInvLineItem = invlineitem.copy(
                 inventoryID = inventoryID.toString().toInt(),
@@ -99,6 +114,56 @@ class AddInvLineItemViewModel @Inject constructor(
                 )
                 createInvLineItem(newInvLineItem)
             }
+        }
+
+        val customTime = expiry.toString().toLong()
+        val currentTime = currentTimeMillis()
+        val ingredient = getIngredientName(ingredientId.toString().toInt())
+
+        val notificationText = "${ingredient.value} from $inventoryName is expiring today."
+        if (customTime > currentTime) {
+            val data = Data.Builder().putInt(NOTIFICATION_ID, 0)
+                .putString(NotifyWork.NOTIFICATION_TITLE, notificationText)
+                .build()
+            val delay = customTime - currentTime
+            Log.e("delay", "Delay: $delay")
+            scheduleNotification(delay, data)
+
+            val titleNotificationSchedule = "Scheduled expiry notification"
+
+            viewModelScope.launch {
+                addEditChannel.send(
+                    AddEditInvLineItemEvent.ShowToastMessage(
+                        titleNotificationSchedule
+                    )
+                )
+            }
+
+        } else {
+            val errorNotificationSchedule = "Notification failed"
+            viewModelScope.launch {
+                addEditChannel.send(
+                    AddEditInvLineItemEvent.ShowToastMessage(
+                        errorNotificationSchedule
+                    )
+                )
+            }
+        }
+    }
+
+    private fun scheduleNotification(delay: Long, data: Data) {
+        val notificationWork = OneTimeWorkRequest.Builder(NotifyWork::class.java)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS).setInputData(data).build()
+
+        val instanceWorkManager = WorkManager.getInstance()
+        instanceWorkManager.beginWith(
+            notificationWork
+        ).enqueue()
+    }
+
+    fun getIngredientName(ingredientId: Int): LiveData<String> {
+        return ingredientNamesAndIds.map { namesAndIds ->
+            namesAndIds.find { it.first == ingredientId }?.second ?: ""
         }
     }
 
@@ -130,5 +195,8 @@ class AddInvLineItemViewModel @Inject constructor(
     sealed class AddEditInvLineItemEvent {
         data class ShowInvalidInputMessage(val msg: String) : AddEditInvLineItemEvent()
         data class NavigateBackWithResult(val result: Int) : AddEditInvLineItemEvent()
+
+        data class ShowToastMessage(val msg: String) : AddEditInvLineItemEvent()
+
     }
 }

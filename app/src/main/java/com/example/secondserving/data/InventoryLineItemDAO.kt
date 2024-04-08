@@ -27,7 +27,7 @@ interface InventoryLineItemDAO {
 
 
     @Query(
-        """ SELECT ingredients_table.name, inventory_line_item_table.quantity, inventory_line_item_table.expiryDate FROM ingredients_table
+        """ SELECT ingredients_table.name, inventory_line_item_table.quantity, inventory_line_item_table.expiryDate, inventory_line_item_table.id, inventoryID, inventory_line_item_table.ingredientID, inventory_line_item_table.created FROM ingredients_table
 INNER JOIN inventory_line_item_table ON inventory_line_item_table.ingredientID = ingredients_table.ingredientID
 WHERE inventory_line_item_table.inventoryID = :inventoryID """
     )

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SecondServing</string>
+    <string name="app_name">Second Serving</string>
     <string name="dont_have_account">Don\'t have an Account? Create an Account</string>
     <string name="app_description">Giving your leftovers a second chance</string>
     <string name="have_account">Have an Account? Login in</string>

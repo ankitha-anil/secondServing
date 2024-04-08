@@ -66,8 +66,8 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val task = inventoryLineItemAdapter.currentList[viewHolder.adapterPosition]
-                    viewModel.onInventoryLineItemSwiped(task)
+                    val invlineitem = inventoryLineItemAdapter.currentList[viewHolder.adapterPosition]
+                    viewModel.onInventoryLineItemSwiped(invlineitem)
                 }
 
             }).attachToRecyclerView(recyclerViewInventoryLineItem)
