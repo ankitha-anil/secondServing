@@ -15,4 +15,16 @@ data class InvLineItemDisplay(
     val ingredientID: Int,
     val created: Long,
 ) : Parcelable {
+
+    fun toInventoryLineItem(): InventoryLineItem {
+        return InventoryLineItem(
+            id = this.id,
+            inventoryID = this.inventoryID,
+            ingredientID = this.ingredientID,
+            expiryDate = this.expiryDate,
+            quantity = this.quantity,
+            created = this.created
+        )
+    }
+
 }

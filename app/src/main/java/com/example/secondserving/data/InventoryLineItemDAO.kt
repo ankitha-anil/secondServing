@@ -39,8 +39,6 @@ WHERE inventory_line_item_table.inventoryID = :inventoryID """
     suspend fun insertInventoryLineItem(inventoryLineItem: InventoryLineItem)
     @Update
     suspend fun updateInventoryLineItem(inventoryLineItem: InventoryLineItem)
-
-
     @Delete
-    fun deleteInventoryLineItem(inventoryLineItem: InventoryLineItem)
+    suspend fun deleteInventoryLineItem(inventoryLineItem: InventoryLineItem)
 }

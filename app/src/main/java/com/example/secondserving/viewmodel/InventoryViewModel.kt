@@ -69,13 +69,17 @@ class InventoryViewModel @Inject constructor(
         }
     }
 
-    fun onInventoryLineItemSwiped(invLineItemDisplay: InvLineItemDisplay) = viewModelScope.launch {
-//        inventoryLineItemDAO.deleteInventoryLineItem(invLineItemDisplay)
-//        inventoryEventChannel.send(
-//            InventoryLineItemEvent.ShowUndoDeleteIngredientMessage(
-//                invLineItemDisplay
-//            )
-//        )
+    fun onInventoryLineItemSwiped(invLineItemDisplay: InvLineItemDisplay) {
+        val inventoryLineItem: InventoryLineItem = invLineItemDisplay.toInventoryLineItem()
+
+        viewModelScope.launch {
+            inventoryLineItemDAO.deleteInventoryLineItem(inventoryLineItem)
+            inventoryEventChannel.send(
+                InventoryLineItemEvent.ShowUndoDeleteIngredientMessage(
+                    inventoryLineItem
+                )
+            )
+        }
     }
 
     fun onAddNewInventoryLineItemClick(inventory: Inventory) = viewModelScope.launch {
@@ -100,7 +104,7 @@ class InventoryViewModel @Inject constructor(
         data class NavigateToEditIngredientScreen(val inventoryLineItem: InventoryLineItem) :
             InventoryLineItemEvent()
 
-        data class ShowUndoDeleteIngrdientMessage(val inventoryLineItem: InventoryLineItem) :
+        data class ShowUndoDeleteIngredientMessage(val inventoryLineItem: InventoryLineItem) :
             InventoryLineItemEvent() // generic name cause viewmodel not sure of the view
 
         data class ShowInventorySavedConfirmation(val message: String) : InventoryLineItemEvent()
