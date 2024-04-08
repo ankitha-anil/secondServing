@@ -1,18 +1,24 @@
 package com.example.secondserving.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.example.secondserving.data.InventoryDatabase
 import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.auth.BaseAuthRepository
 import com.example.secondserving.auth.BaseAuthenticator
 import com.example.secondserving.auth.FirebaseAuthenticator
+import com.example.secondserving.data.RecipeDAO
+import com.example.secondserving.data.RecipeDatabase
+import com.example.secondserving.data.RecipeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import javax.inject.Provider
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -42,6 +48,42 @@ object AppModule {
     @Provides
     fun provideInventoryLineItemDao(db: InventoryDatabase) = db.inventoryLineItemDao()
 
+    // ========================================= Recipe =========================================
+
+
+    // Provides Application context
+    @Provides
+    @Singleton
+    fun provideApplicationContext(application: Application): Context = application
+
+    @Provides
+    @Singleton
+    fun provideRecipeDatabase(
+        @ApplicationContext context: Context,
+        callback: RecipeDatabase.Callback
+    ): RecipeDatabase {
+        return Room.databaseBuilder(context, RecipeDatabase::class.java, "recipe_database")
+            .fallbackToDestructiveMigration()
+            .addCallback(callback)
+            .build()
+    }
+
+    @Provides
+    fun provideRecipeDao(database: RecipeDatabase): RecipeDAO {
+        return database.recipeDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabaseCallback(
+        @ApplicationContext context: Context, // Provide the Application context
+        database: Provider<RecipeDatabase>,
+        @ApplicationScope coroutineScope: CoroutineScope
+    ): RecipeDatabase.Callback {
+        return RecipeDatabase.Callback(database, coroutineScope, context)
+    }
+
+
     // ========================================= Basic App Functions =========================================
 
     @ApplicationScope  //not any coroutine scope, its an application scope, so dagger knows to differentiate between two coroutine scopes
@@ -64,8 +106,9 @@ object AppModule {
     @Provides
     fun provideRepository(authenticator : BaseAuthenticator) : BaseAuthRepository = AuthRepository(authenticator)
 
+
 }
 
-@Retention(AnnotationRetention.RUNTIME) //qualifier will be visibile for reflection
+@Retention(AnnotationRetention.RUNTIME) //qualifier will be visible for reflection
 @Qualifier //creating annotation
 annotation class  ApplicationScope

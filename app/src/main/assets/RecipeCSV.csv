@@ -1,0 +1,12 @@
+id,recipeID,recipeName,created,recipeDescription
+1,101,Apple Juice,1625097600000,"Refreshing apple juice recipe"
+2,102,Orange Juice,1625184000000,"Sweet orange juice recipe"
+3,103,Carrot Juice,1625270400000,"Healthy carrot juice recipe"
+4,104,Banana Smoothie,1625356800000,"Creamy banana smoothie with a hint of vanilla"
+5,105,Tomato Soup,1625443200000,"Rich tomato soup with basil and thyme"
+6,106,Strawberry Shake,1625529600000,"Cold strawberry shake topped with whipped cream"
+7,107,Green Tea,1625616000000,"Soothing green tea with antioxidants"
+8,108,Blueberry Muffins,1625702400000,"Fresh blueberry muffins with a crumble topping"
+9,109,Lemonade,1625788800000,"Classic lemonade with a splash of mint"
+10,110,Chia Seed Pudding,1625875200000,"Chia seed pudding with almond milk and honey"
+

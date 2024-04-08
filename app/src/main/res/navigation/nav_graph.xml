@@ -19,12 +19,15 @@
         <action
             android:id="@+id/action_homeFragment_to_inventoryFragment"
             app:destination="@id/inventoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_recipeFragment"
+            app:destination="@id/recipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.secondserving.ui.view.RecipeFragment"
         android:label="Recipe"
-        tools:layout="@layout/fragment_recipe" />
+        tools:layout="@layout/fragment_recipe_old" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.secondserving.ui.view.ProfileFragment"

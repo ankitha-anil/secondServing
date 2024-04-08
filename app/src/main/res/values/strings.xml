@@ -9,4 +9,6 @@
     <string name="place_holder">Test</string>
     <string name="back_button_description">Go back</string>
     <string name="description_hint">Description</string>
+    <string name="recipe_name">Recipe Name</string>
+    <string name="recipe_description">Recipe Description</string>
 </resources>

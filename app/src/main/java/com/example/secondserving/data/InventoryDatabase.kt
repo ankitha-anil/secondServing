@@ -20,6 +20,8 @@ abstract class InventoryDatabase : RoomDatabase() {
     
     abstract fun ingredientDao(): IngredientDAO
 
+
+
     //Dependency Injection means class that use other classes should not be responsible for creating or searching this using dagger, hilt uses dagger tool makes it easier
 
     class Callback @Inject constructor(
@@ -32,14 +34,12 @@ abstract class InventoryDatabase : RoomDatabase() {
             val inventoryDao = database.get().inventoryDao()
             val inventoryLineItemDao = database.get().inventoryLineItemDao()
             val ingredientDao = database.get().ingredientDao()
+
             
 
             applicationScope.launch {
                 inventoryDao.insertInventory(Inventory("Kitchen", userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2"))
                 inventoryDao.insertInventory(Inventory("Pantry", userID = "fSiLGeQcGDdVKHvH49jkqsGYsMz2"))
-
-                inventoryDao.insertInventory(Inventory("Kitchen", userID = "ckjNy4ul2qSWfjd35O4iMoj1z2e2"))
-                inventoryDao.insertInventory(Inventory("Pantry", userID = "ckjNy4ul2qSWfjd35O4iMoj1z2e2"))
 
                 inventoryDao.insertInventory(Inventory("Kitchen", userID = "R77sUcKskwVkJSEREiCKLXFVXKd2"))
                 inventoryDao.insertInventory(Inventory("Pantry", userID = "R77sUcKskwVkJSEREiCKLXFVXKd2"))
@@ -49,6 +49,62 @@ abstract class InventoryDatabase : RoomDatabase() {
 
                 inventoryDao.insertInventory(Inventory("Kitchen", userID = "wwDMf3Q52iURZ3Fw7S1QBtRVvIs2"))
                 inventoryDao.insertInventory(Inventory("Pantry", userID = "wwDMf3Q52iURZ3Fw7S1QBtRVvIs2"))
+
+                // for chin's testing
+                inventoryDao.insertInventory(Inventory("Freech", userID = "ckjNy4ul2qSWfjd35O4iMoj1z2e2"))
+                inventoryDao.insertInventory(Inventory("Pentree", userID = "ckjNy4ul2qSWfjd35O4iMoj1z2e2"))
+
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 9,
+                        ingredientID = 1,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 9,
+                        ingredientID = 2,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 9,
+                        ingredientID = 3,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 10,
+                        ingredientID = 1,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 10,
+                        ingredientID = 2,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+                inventoryLineItemDao.insertInventoryLineItem(
+                    InventoryLineItem(
+                        inventoryID = 10,
+                        ingredientID = 3,
+                        expiryDate = System.currentTimeMillis(),
+                        quantity = 1,
+                    )
+                )
+
+
+
 
                 inventoryLineItemDao.insertInventoryLineItem(
                     InventoryLineItem(
