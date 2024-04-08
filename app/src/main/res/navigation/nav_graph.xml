@@ -28,7 +28,7 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.secondserving.ui.view.ProfileFragment"
-        android:label="Profile"
+        android:label="Profile Settings"
         tools:layout="@layout/fragment_profile" />
     <dialog
         android:id="@+id/deleteUserDialog"
@@ -87,6 +87,7 @@
         <argument
             android:name="inventory"
             app:argType="com.example.secondserving.data.Inventory"
+            android:defaultValue="@null"
             app:nullable="true" />
         <argument
             android:name="invlineitem"

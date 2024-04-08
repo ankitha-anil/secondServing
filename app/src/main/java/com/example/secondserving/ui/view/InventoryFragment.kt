@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.secondserving.MainActivity
 import com.example.secondserving.R
 import com.example.secondserving.data.InvLineItemDisplay
+import com.example.secondserving.data.Inventory
 import com.example.secondserving.databinding.FragmentInventoryBinding
 import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.InventoryViewModel
@@ -66,7 +67,8 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val invlineitem = inventoryLineItemAdapter.currentList[viewHolder.adapterPosition]
+                    val invlineitem =
+                        inventoryLineItemAdapter.currentList[viewHolder.adapterPosition]
                     viewModel.onInventoryLineItemSwiped(invlineitem)
                 }
 
@@ -101,7 +103,7 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.inventoryEvent.collect() { event ->
                 when (event) {
-                   is InventoryViewModel.InventoryLineItemEvent.NavigateToAddIngredientScreen -> {
+                    is InventoryViewModel.InventoryLineItemEvent.NavigateToAddInvLineItemScreen -> {
                         val action =
                             InventoryFragmentDirections.actionInventoryFragmentToAddInvLineItemFragment(
                                 "Add Ingredient",
@@ -110,11 +112,14 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
                         findNavController().navigate(action)
                     }
 
-                    is InventoryViewModel.InventoryLineItemEvent.NavigateToEditIngredientScreen -> {
-//                        val action = HomeFragmentDirections.actionHomeFragmentToInventoryFragment(
-//                            "Ingredients", event.inventoryLineItem
-//                        )
-//                        findNavController().navigate(action)
+                    is InventoryViewModel.InventoryLineItemEvent.NavigateToEditInvLineItemScreen -> {
+                        val action =
+                            InventoryFragmentDirections.actionInventoryFragmentToAddInvLineItemFragment(
+                                "Edit Ingredient",
+                                inventory = event.inventory,
+                                invlineitem = event.inventoryLineItem
+                            )
+                        findNavController().navigate(action)
                     }
 
                     is InventoryViewModel.InventoryLineItemEvent.ShowInventorySavedConfirmation -> {
@@ -151,7 +156,7 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
     }
 
     override fun onItemClick(inventoryLineItem: InvLineItemDisplay) {
-        TODO("Go to Ingredient details")
+        viewModel.onInventoryLineItemSelected(inventoryLineItem)
     }
 
 }

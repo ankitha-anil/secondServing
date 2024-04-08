@@ -21,6 +21,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -59,11 +60,13 @@ class InventoryViewModel @Inject constructor(
 
     fun onUndoDeleteClick(inventoryLineItem: InventoryLineItem) {}
 
-    fun onInventoryLineItemSelected(inventoryLineItem: InventoryLineItem) {
+    fun onInventoryLineItemSelected(inventoryLineItemDisplay: InvLineItemDisplay) {
         viewModelScope.launch {
+            val inventoryLineItem = inventoryLineItemDisplay.toInventoryLineItem()
+            val inventory = inventoryDAO.getInventoryById(inventoryLineItem.inventoryID.toString()).first()
             inventoryEventChannel.send(
-                InventoryLineItemEvent.NavigateToEditIngredientScreen(
-                    inventoryLineItem
+                InventoryLineItemEvent.NavigateToEditInvLineItemScreen(
+                    inventoryLineItem, inventory
                 )
             )
         }
@@ -83,7 +86,7 @@ class InventoryViewModel @Inject constructor(
     }
 
     fun onAddNewInventoryLineItemClick(inventory: Inventory) = viewModelScope.launch {
-        inventoryEventChannel.send(InventoryLineItemEvent.NavigateToAddIngredientScreen(inventory = inventory))
+        inventoryEventChannel.send(InventoryLineItemEvent.NavigateToAddInvLineItemScreen(inventory = inventory))
     }
 
 
@@ -100,8 +103,8 @@ class InventoryViewModel @Inject constructor(
 
 
     sealed class InventoryLineItemEvent {  //different variation, can later get warning when the when statement is not exhaustive, there are no other kinds of task events compiler know
-        data class NavigateToAddIngredientScreen(val inventory: Inventory) : InventoryLineItemEvent()
-        data class NavigateToEditIngredientScreen(val inventoryLineItem: InventoryLineItem) :
+        data class NavigateToAddInvLineItemScreen(val inventory: Inventory) : InventoryLineItemEvent()
+        data class NavigateToEditInvLineItemScreen(val inventoryLineItem: InventoryLineItem, val inventory: Inventory) :
             InventoryLineItemEvent()
 
         data class ShowUndoDeleteIngredientMessage(val inventoryLineItem: InventoryLineItem) :

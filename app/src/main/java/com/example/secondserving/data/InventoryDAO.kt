@@ -13,6 +13,10 @@ interface InventoryDAO {
     @Query("SELECT * FROM inventory_table WHERE userID = :userID")
     fun getInventoriesForUser(userID: String): Flow<List<Inventory>>
 
+    @Query("SELECT * FROM inventory_table WHERE id = :inventoryID")
+    fun getInventoryById(inventoryID: String): Flow<Inventory>
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertInventory(inventory: Inventory)
 

@@ -30,13 +30,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.lang.System.currentTimeMillis
+import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class AddInvLineItemViewModel @Inject constructor(
     private val repository: AuthRepository,
-    private val inventoryDAO: InventoryDAO,
     private val inventoryLineItemDAO: InventoryLineItemDAO,
     private val ingredientDAO: IngredientDAO,
     private val state: SavedStateHandle
@@ -67,7 +67,11 @@ class AddInvLineItemViewModel @Inject constructor(
             field = value
             state["inventoryID"] = value
         }
-    var ingredientId = 0
+    var ingredientId = state.get<InventoryLineItem>("ingredientID") ?: invlineitem?.ingredientID ?: 0
+        set(value) { //setter function
+            field = value
+            state["ingredientID"] = value
+        }
 
     var expiry = state.get<InventoryLineItem>("expiryDate") ?: invlineitem?.expiryDate ?: currentTimeMillis()
         set(value) { //setter function
@@ -93,6 +97,22 @@ class AddInvLineItemViewModel @Inject constructor(
 
         if(!quantity.toString().isDigitsOnly()){
             showInvalidInputMessage("Quantity can only be numerical value")
+            return
+        }
+
+
+        val todayCalendar = Calendar.getInstance()
+        todayCalendar.set(Calendar.HOUR_OF_DAY, 0)
+        todayCalendar.set(Calendar.MINUTE, 0)
+        todayCalendar.set(Calendar.SECOND, 0)
+        todayCalendar.set(Calendar.MILLISECOND, 0)
+        val todayMillis = todayCalendar.timeInMillis
+
+        if (expiry.toString().toLong() < System.currentTimeMillis()) {
+            showInvalidInputMessage("Expiry date cannot be before today")
+            return
+        } else if (expiry.toString().toLong() == todayMillis) {
+            showInvalidInputMessage("Expiry date cannot be today")
             return
         }
 

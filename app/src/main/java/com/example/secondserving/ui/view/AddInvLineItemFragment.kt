@@ -22,6 +22,9 @@ import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.AddInvLineItemViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.Calendar
 
 @AndroidEntryPoint
@@ -42,6 +45,8 @@ class AddInvLineItemFragment : Fragment(R.layout.fragment_add_invlineitem) {
         val binding = FragmentAddInvlineitemBinding.bind(view)
         binding.apply {
             inventoryName.setText(viewModel.inventoryName.toString())
+            quantity.setText(viewModel.quantity.toString())
+
             inventoryName.addTextChangedListener {
                 viewModel.inventoryName = it.toString()
             }
@@ -55,6 +60,8 @@ class AddInvLineItemFragment : Fragment(R.layout.fragment_add_invlineitem) {
                 ingredientsList.clear()
                 ingredientsList.addAll(ingredients)
                 adapter.notifyDataSetChanged()
+                val selectedIngredientPosition = ingredients.indexOfFirst { it.first == viewModel.ingredientId }
+                ingredientSpinner.setSelection(selectedIngredientPosition)
             }
             ingredientSpinner.adapter = adapter
 
@@ -76,6 +83,21 @@ class AddInvLineItemFragment : Fragment(R.layout.fragment_add_invlineitem) {
             }
             quantity.addTextChangedListener {
                 viewModel.quantity = it.toString()
+            }
+
+            expiryDate.init(
+                // Extract year, month, and day from saved expiryDate
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(viewModel.expiry.toString().toLong()), ZoneId.systemDefault())
+                    .year,
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(viewModel.expiry.toString().toLong()), ZoneId.systemDefault())
+                    .monthValue - 1, // Month is zero-based
+                LocalDateTime.ofInstant(Instant.ofEpochMilli(viewModel.expiry.toString().toLong()), ZoneId.systemDefault())
+                    .dayOfMonth
+            ) { _, year, monthOfYear, dayOfMonth ->
+                // Update the viewModel expiryDate
+                val calendar = Calendar.getInstance()
+                calendar.set(year, monthOfYear, dayOfMonth)
+                viewModel.expiry = calendar.timeInMillis
             }
 
             expiryDate.setOnDateChangedListener { datePicker, year, monthOfYear, dayOfMonth ->
