@@ -54,6 +54,7 @@ class AddInventoryFragment : Fragment(R.layout.fragment_add_inventory) {
                             "add_edit_request",
                             bundleOf("add_edit_result" to event.result)
                         )
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set("updated_inventory_name", event.inventoryName)
                         findNavController().popBackStack()
                     }
 

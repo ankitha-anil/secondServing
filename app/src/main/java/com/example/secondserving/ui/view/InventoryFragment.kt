@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.secondserving.MainActivity
 import com.example.secondserving.R
-import com.example.secondserving.data.InventoryLineItem
+import com.example.secondserving.data.InvLineItemDisplay
 import com.example.secondserving.databinding.FragmentInventoryBinding
 import com.example.secondserving.utils.exhaustive
 import com.example.secondserving.viewmodel.InventoryViewModel
@@ -66,16 +66,20 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val task = inventoryLineItemAdapter.currentList[viewHolder.adapterPosition]
-                    viewModel.onInventoryLineItemSwiped(task)
+                    val invlineitem =
+                        inventoryLineItemAdapter.currentList[viewHolder.adapterPosition]
+                    viewModel.onInventoryLineItemSwiped(invlineitem)
                 }
 
             }).attachToRecyclerView(recyclerViewInventoryLineItem)
 
             fabAddIngredient.setOnClickListener {
-                viewModel.onAddNewInventoryLineItemClick()
+                viewModel.inventory?.let { it1 -> viewModel.onAddNewInventoryLineItemClick(inventory = it1) }
             }
 
+            fabEditInventory.setOnClickListener {
+                viewModel.inventory?.let { it1 -> viewModel.onEditInventory(inventory = it1) }
+            }
         }
 
         setFragmentResultListener("add_edit_request") { _, bundle ->
@@ -83,9 +87,11 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
             viewModel.onAddEditResult(result)
         }
 
-        binding.fabAddIngredient.setOnClickListener {
-            viewModel.onAddNewInventoryLineItemClick()
-        }
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("updated_inventory_name")
+            ?.observe(viewLifecycleOwner) { updatedInventoryName ->
+                // Update the label with the updated inventory name
+                requireActivity().setTitle(updatedInventoryName)  //TODO: check this problem after update
+            }
 
         inventoryLineItemAdapter.registerAdapterDataObserver(object :
             RecyclerView.AdapterDataObserver() {
@@ -94,9 +100,9 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
             }
         })
 
-        viewModel.inventoryLineItems.observe(viewLifecycleOwner) { //added observer to livedata
+        viewModel.inventoryLineItemsDisplay.observe(viewLifecycleOwner) { //added observer to livedata
             inventoryLineItemAdapter.submitList(it)
-            if (viewModel.inventoryLineItems.value.isNullOrEmpty())
+            if (viewModel.inventoryLineItemsDisplay.value.isNullOrEmpty())
                 binding.noIngredients.visibility = View.VISIBLE
             else
                 binding.noIngredients.visibility = View.GONE
@@ -105,34 +111,49 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.inventoryEvent.collect() { event ->
                 when (event) {
-                    InventoryViewModel.InventoryLineItemEvent.NavigateToAddIngredientScreen -> {
-//                        val action =
-//                            InventoryFragmentDirections.actionHomeFragmentToAddInventoryFragment(
-//                                "Add Inventory"
-//                            )
-//                        findNavController().navigate(action)
+                    is InventoryViewModel.InventoryLineItemEvent.NavigateToAddInvLineItemScreen -> {
+                        val action =
+                            InventoryFragmentDirections.actionInventoryFragmentToAddInvLineItemFragment(
+                                "Add Ingredient",
+                                inventory = event.inventory
+                            )
+                        findNavController().navigate(action)
                     }
 
-                    is InventoryViewModel.InventoryLineItemEvent.NavigateToEditIngredientScreen -> {
-//                        val action = HomeFragmentDirections.actionHomeFragmentToInventoryFragment(
-//                            "Ingredients", event.inventoryLineItem
-//                        )
-//                        findNavController().navigate(action)
+                    is InventoryViewModel.InventoryLineItemEvent.NavigateToEditInvLineItemScreen -> {
+                        val action =
+                            InventoryFragmentDirections.actionInventoryFragmentToAddInvLineItemFragment(
+                                "Edit Ingredient",
+                                inventory = event.inventory,
+                                invlineitem = event.inventoryLineItem
+                            )
+                        findNavController().navigate(action)
                     }
 
                     is InventoryViewModel.InventoryLineItemEvent.ShowInventorySavedConfirmation -> {
                         Snackbar.make(view, event.message, Snackbar.LENGTH_SHORT).show()
                     }
 
-                    is InventoryViewModel.InventoryLineItemEvent.ShowUndoDeleteIngrdientMessage -> {
-//                        Snackbar.make(requireView(), "Inventory deleted", Snackbar.LENGTH_LONG)
-//                            .setAction("UNDO") {
-//                                viewModel.onUndoDeleteClick(event.inventory)
-//                            }.show()
+                    is InventoryViewModel.InventoryLineItemEvent.ShowUndoDeleteIngredientMessage -> {
+                        Snackbar.make(requireView(), "Inventory deleted", Snackbar.LENGTH_LONG)
+                            .setAction("UNDO") {
+                                viewModel.onUndoDeleteClick(event.inventoryLineItem)
+                            }.show()
                     }
 
                     InventoryViewModel.InventoryLineItemEvent.NavigateToDeleteAllCompletedScreen -> TODO()
                     InventoryViewModel.InventoryLineItemEvent.NavigateBackWithResult -> TODO()
+                    is InventoryViewModel.InventoryLineItemEvent.NavigateToEditInventoryScreen -> {
+                        val action =
+                            InventoryFragmentDirections.actionInventoryFragmentToAddInventoryFragment(
+                                "Edit Inventory",
+                                inventory = event.inventory
+                            )
+                        findNavController().navigate(action)
+
+                    }
+
+                    else -> {}
                 }.exhaustive
             }
         }
@@ -152,8 +173,8 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
         }
     }
 
-    override fun onItemClick(inventoryLineItem: InventoryLineItem) {
-        TODO("Go to Ingredient details")
+    override fun onItemClick(inventoryLineItem: InvLineItemDisplay) {
+        viewModel.onInventoryLineItemSelected(inventoryLineItem)
     }
 
 }
