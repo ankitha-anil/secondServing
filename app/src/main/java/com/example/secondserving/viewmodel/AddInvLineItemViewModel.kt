@@ -79,7 +79,7 @@ class AddInvLineItemViewModel @Inject constructor(
             state["expiryDate"] = value
         }
 
-    var quantity = state.get<InventoryLineItem>("quantity") ?: invlineitem?.quantity ?: 0
+    var quantity = state.get<InventoryLineItem>("quantity") ?: invlineitem?.quantity ?: ""
         set(value) { //setter function
             field = value
             state["quantity"] = value
