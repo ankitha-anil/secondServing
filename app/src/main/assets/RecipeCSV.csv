@@ -1,12 +1,11 @@
-id,recipeID,recipeName,created,recipeDescription
-1,101,Apple Juice,1625097600000,"Refreshing apple juice recipe"
-2,102,Orange Juice,1625184000000,"Sweet orange juice recipe"
-3,103,Carrot Juice,1625270400000,"Healthy carrot juice recipe"
-4,104,Banana Smoothie,1625356800000,"Creamy banana smoothie with a hint of vanilla"
-5,105,Tomato Soup,1625443200000,"Rich tomato soup with basil and thyme"
-6,106,Strawberry Shake,1625529600000,"Cold strawberry shake topped with whipped cream"
-7,107,Green Tea,1625616000000,"Soothing green tea with antioxidants"
-8,108,Blueberry Muffins,1625702400000,"Fresh blueberry muffins with a crumble topping"
-9,109,Lemonade,1625788800000,"Classic lemonade with a splash of mint"
-10,110,Chia Seed Pudding,1625875200000,"Chia seed pudding with almond milk and honey"
-
+id,recipeID,recipeName,created,recipeDescription,recipeIngredients,recipeSteps
+1,101,Apple Juice,1625097600000,"Refreshing apple juice recipe","Apples-Sugar","1. Core and slice apples. 2. Blend apples with water. 3. Add sugar to taste. 4. Strain and serve chilled."
+2,102,Orange Juice,1625184000000,"Sweet orange juice recipe","Oranges","1. Peel the oranges. 2. Squeeze or juice the oranges. 3. Serve fresh."
+3,103,Carrot Juice,1625270400000,"Healthy carrot juice recipe","Carrots-Ginger-Lemon","1. Peel and chop carrots. 2. Add ginger. 3. Juice the carrots and ginger. 4. Add lemon juice. 5. Serve over ice."
+4,104,Banana Smoothie,1625356800000,"Creamy banana smoothie with a hint of vanilla","Bananas-Milk-Vanilla Extract","1. Slice bananas. 2. Add bananas and milk to blender. 3. Add a drop of vanilla extract. 4. Blend until smooth."
+5,105,Tomato Soup,1625443200000,"Rich tomato soup with basil and thyme","Tomatoes-Basil-Thyme-Cream","1. Blend tomatoes with basil and thyme. 2. Heat in a pot. 3. Stir in cream before serving."
+6,106,Strawberry Shake,1625529600000,"Cold strawberry shake topped with whipped cream","Strawberries-Ice Cream-Whipped Cream","1. Blend strawberries with ice cream. 2. Pour into glasses. 3. Top with whipped cream."
+7,107,Green Tea,1625616000000,"Soothing green tea with antioxidants","Green Tea Leaves","1. Steep green tea leaves in hot water. 2. Remove leaves and serve."
+8,108,Blueberry Muffins,1625702400000,"Fresh blueberry muffins with a crumble topping","Blueberries-Flour-Sugar-Baking Powder","1. Mix dry ingredients. 2. Fold in blueberries. 3. Spoon into muffin tins. 4. Bake until golden."
+9,109,Lemonade,1625788800000,"Classic lemonade with a splash of mint","Lemons-Sugar-Mint","1. Squeeze lemons. 2. Dissolve sugar in water. 3. Combine lemon juice with sugar water. 4. Add mint and ice."
+10,110,Chia Seed Pudding,1625875200000,"Chia seed pudding with almond milk and honey","Chia Seeds-Almond Milk-Honey","1. Mix chia seeds with almond milk. 2. Let sit until thickened. 3. Stir in honey. 4. Refrigerate until set."

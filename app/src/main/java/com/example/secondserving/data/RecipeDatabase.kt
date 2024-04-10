@@ -43,13 +43,15 @@ abstract class RecipeDatabase : RoomDatabase() {
                     var line: String?
                     while (reader.readLine().also { line = it } != null) {
                         val tokens = line!!.split(",")
-                        if (tokens.size >= 5) {
+                        if (tokens.size >= 7) {
                             val recipe = Recipe(
                                 id = tokens[0].toInt(),
                                 recipeID = tokens[1].toInt(),
                                 recipeName = tokens[2],
                                 created = tokens[3].toLong(),
-                                recipeDescription = tokens[4]
+                                recipeDescription = tokens[4],
+                                recipeIngredients = tokens[5],
+                                recipeSteps = tokens [6]
                             )
                             dao.insertRecipe(recipe)
                         }

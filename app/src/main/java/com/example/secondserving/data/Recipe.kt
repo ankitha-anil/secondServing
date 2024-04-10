@@ -13,7 +13,9 @@ data class Recipe(
     val recipeID: Int,
     val recipeName: String,
     val created: Long = System.currentTimeMillis(),
-    val recipeDescription: String
+    val recipeDescription: String,
+    val recipeIngredients: String,
+    val recipeSteps: String
 ) : Parcelable {
     val createDateFormatted: String
         get() = DateFormat.getDateTimeInstance().format(created)
