@@ -117,7 +117,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
 
                     is HomeViewModel.InventoryEvent.NavigateToInventoryScreen -> {
                         val action = HomeFragmentDirections.actionHomeFragmentToInventoryFragment(
-                            title = "Ingredients", inventory = event.inventory
+                            title = event.inventory.name, inventory = event.inventory
                         )
                         findNavController().navigate(action)
                     }

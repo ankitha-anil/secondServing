@@ -2,7 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="app">
+      <entry key="IngredientTest">
+        <State />
+      </entry>
+      <entry key="LoginActivityTest">
+        <State />
+      </entry>
+      <entry key="deleteIngredient()">
+        <State />
+      </entry>
+      <entry key="insertAndGetIngredient()">
+        <State />
+      </entry>
+      <entry key="test">
         <State />
       </entry>
     </value>
