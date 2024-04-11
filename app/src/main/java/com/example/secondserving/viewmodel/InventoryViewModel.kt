@@ -58,7 +58,9 @@ class InventoryViewModel @Inject constructor(
         }
     }
 
-    fun onUndoDeleteClick(inventoryLineItem: InventoryLineItem) {}
+    fun onUndoDeleteClick(inventoryLineItem: InventoryLineItem) = viewModelScope.launch() {
+        inventoryLineItemDAO.insertInventoryLineItem(inventoryLineItem)
+    }
 
     fun onInventoryLineItemSelected(inventoryLineItemDisplay: InvLineItemDisplay) {
         viewModelScope.launch {

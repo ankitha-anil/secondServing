@@ -55,8 +55,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onUndoDeleteClick(inventory: Inventory) {
-
+    fun onUndoDeleteClick(inventory: Inventory) = viewModelScope.launch{
+        inventoryDAO.insertInventory(inventory)
     }
 
     fun onInventorySelected(inventory: Inventory) {

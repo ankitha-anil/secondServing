@@ -13,9 +13,8 @@ import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Recipe::class], version = 2, exportSchema = false)
+@Database(entities = [Recipe::class], version = 3, exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
-
 
     abstract fun recipeDao(): RecipeDAO
 
