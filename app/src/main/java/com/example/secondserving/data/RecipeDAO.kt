@@ -18,26 +18,26 @@ interface RecipeDAO {
     fun findRecipesWithIngredient(ingredient: String): Flow<List<Recipe>>
 
     @Query("""
-        with expiringingredients as (
-        select ingredients_table.name
-        from (
-            select inventory_line_item_table.*
-            from inventory_line_item_table inner join inventory_table
-                on inventory_line_item_table.inventoryID = inventory_table.id
-            where inventory_table.userID = :userID
-            ) userinvlineitems inner join ingredients_table
-            on userinvlineitems.ingredientID = ingredients_table.ingredientID
-        order by userinvlineitems.expiryDate asc
+    with expiringingredients as (
+        select it.name
+        from ingredients_table it
+        join inventory_line_item_table ili on it.ingredientID = ili.ingredientID
+        join inventory_table inv on ili.inventoryID = inv.id
+        where inv.userID = :userID
+        and ili.expiryDate between strftime('%s','now') and strftime('%s','now') + (3 * 24 * 60 * 60)
+        group by it.name
+        order by ili.expiryDate asc
         limit 3
-        )
-          SELECT r.*
-            FROM recipe_table r
-            JOIN expiringingredients exi
-                ON r.recipeDescription
-                LIKE '%'|| exi.name|| '%';
-    """)
+    )
+    select rt.*
+    from recipe_table rt
+    where exists (
+        select 1
+        from expiringingredients
+        where rt.recipeIngredients like '%'||  name || '%'
+    )
+""")
     fun getRecipeRecommendationsByUserID(userID: String): Flow<List<Recipe>>
-
     @Query("SELECT COUNT(*) FROM recipe_table")
     suspend fun countRecipes(): Int
 
