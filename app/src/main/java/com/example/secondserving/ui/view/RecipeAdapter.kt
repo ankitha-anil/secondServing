@@ -43,7 +43,7 @@ class RecipeAdapter(private val listener: OnItemClickListener) :
         fun bind(recipe: Recipe) {
             binding.apply {
                 textViewRecipeName.text = recipe.recipeName
-                textViewRecipeDescription.text = recipe.recipeDescription
+                textViewRecipeDescription.text = recipe.recipeDescription.replace("\"", "")
             }
         }
     }

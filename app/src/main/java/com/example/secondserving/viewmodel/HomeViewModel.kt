@@ -55,10 +55,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onUndoDeleteClick(inventory: Inventory) = viewModelScope.launch{
-        inventoryDAO.insertInventory(inventory)
-    }
-
     fun onInventorySelected(inventory: Inventory) {
         viewModelScope.launch {
             inventoryEventChannel.send(InventoryEvent.NavigateToInventoryScreen(inventory))
@@ -67,7 +63,6 @@ class HomeViewModel @Inject constructor(
 
     fun onInventorySwiped(inventory: Inventory) = viewModelScope.launch {
         inventoryDAO.deleteInventory(inventory)
-        inventoryEventChannel.send(InventoryEvent.ShowUndoDeleteInventoryMessage(inventory))
     }
 
     fun onAddNewInventoryClick() = viewModelScope.launch {

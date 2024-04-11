@@ -48,12 +48,30 @@ class RecipeDetailFragment : Fragment(R.layout.fragment_recipe_detail)
 
         binding.apply {
 
-            recipeName.text = viewModel.recipe?.recipeName;
-            recipeDescription.text = viewModel.recipe?.recipeDescription;
+            // Recipe Name
+            textRecipeName.text = viewModel.recipe?.recipeName?.replace("\"", "")
 
-            recipeIngredients.text = viewModel.recipe?.recipeIngredients;
-            recipeSteps.text = viewModel.recipe?.recipeSteps;
+            // Recipe Description
+            textRecipeDescription.text = viewModel.recipe?.recipeDescription?.replace("\"", "")
 
+            // Recipe Ingredients
+            viewModel.recipe?.recipeIngredients?.let { ingredients ->
+                val formattedIngredients = ingredients.replace("-", "\n").replace("\"", "")
+                textIngredientsList.text = formattedIngredients
+            }
+
+            // Recipe Steps
+            viewModel.recipe?.recipeSteps?.let {  steps ->
+                val formattedSteps = StringBuilder()
+                val stepPattern = "(\\d+\\.\\s*)(.*?)(?=(\\d+\\.|$))"
+                val stepMatcher = Regex(stepPattern).findAll(steps)
+                stepMatcher.forEach { matchResult ->
+                    val step = matchResult.groupValues[2]
+                    formattedSteps.append("${matchResult.groupValues[1]}$step\n")
+                }
+                textRecipeStepsList.text = formattedSteps.toString().replace("\"", "")
+
+            }
         }
 
 

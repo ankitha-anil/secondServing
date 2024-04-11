@@ -190,6 +190,41 @@ abstract class InventoryDatabase : RoomDatabase() {
                         unit = "Kilogram"
                     )
                 )
+                ingredientDao.insertIngredient(
+                    Ingredient(
+                        name = "Strawberry",
+                        description = "Fruit",
+                        unit = "Pieces"
+                    )
+                )
+                ingredientDao.insertIngredient(
+                    Ingredient(
+                        name = "Banana",
+                        description = "Fruit",
+                        unit = "Pieces"
+                    )
+                )
+                ingredientDao.insertIngredient(
+                    Ingredient(
+                        name = "Blueberry",
+                        description = "Fruit",
+                        unit = "Packet"
+                    )
+                )
+                ingredientDao.insertIngredient(
+                    Ingredient(
+                        name = "Tomato",
+                        description = "Vegetable",
+                        unit = "Kilograms"
+                    )
+                )
+                ingredientDao.insertIngredient(
+                    Ingredient(
+                        name = "Lemon",
+                        description = "Fruit",
+                        unit = "Pieces"
+                    )
+                )
 
                 populateDatabaseFromCSV()
             }

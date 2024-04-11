@@ -127,10 +127,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), InventoryAdapter.OnItemCl
                     }
 
                     is HomeViewModel.InventoryEvent.ShowUndoDeleteInventoryMessage -> {
-                        Snackbar.make(requireView(), "Inventory deleted", Snackbar.LENGTH_LONG)
-                            .setAction("UNDO") {
-                                viewModel.onUndoDeleteClick(event.inventory)
-                            }.show()
+                        Snackbar.make(view, "Inventory deleted", Snackbar.LENGTH_LONG).show()
                     }
 
                     HomeViewModel.InventoryEvent.NavigateToDeleteAllCompletedScreen -> TODO()

@@ -24,10 +24,8 @@ interface RecipeDAO {
         join inventory_line_item_table ili on it.ingredientID = ili.ingredientID
         join inventory_table inv on ili.inventoryID = inv.id
         where inv.userID = :userID
-        and ili.expiryDate between strftime('%s','now') and strftime('%s','now') + (3 * 24 * 60 * 60)
         group by it.name
         order by ili.expiryDate asc
-        limit 3
     )
     select rt.*
     from recipe_table rt
