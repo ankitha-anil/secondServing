@@ -36,11 +36,15 @@ class RecipeViewModel @Inject constructor(
 
     fun init() {
         //loadRecipesFromCsv()
+
         viewModelScope.launch {
-            recipeDAO.findRecipesWithIngredient("Apple")
-                .collect { recipe ->
-                    recipes.postValue(recipe)
-                }
+            currentUser.value?.let { user ->
+                recipeDAO.getRecipeRecommendationsByUserID(
+                    user.uid
+                )
+            }?.collect { inventoryItem ->
+                recipes.postValue(inventoryItem)
+            }
         }
     }
     fun loadRecipesFromCsv() {

@@ -1,17 +1,21 @@
 package com.example.secondserving.data
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.secondserving.di.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Provider
 
 @Database(
-    entities = [Inventory::class, InventoryLineItem::class, Ingredient::class],
-    version = 5,
+    entities = [Inventory::class, InventoryLineItem::class, Ingredient::class, Recipe::class],
+    version = 6,
     exportSchema = false
 )
 abstract class InventoryDatabase : RoomDatabase() {
@@ -20,13 +24,16 @@ abstract class InventoryDatabase : RoomDatabase() {
     
     abstract fun ingredientDao(): IngredientDAO
 
+    abstract fun recipeDao(): RecipeDAO
+
 
 
     //Dependency Injection means class that use other classes should not be responsible for creating or searching this using dagger, hilt uses dagger tool makes it easier
 
     class Callback @Inject constructor(
         private val database: Provider<InventoryDatabase>,
-        @ApplicationScope private val applicationScope: CoroutineScope
+        @ApplicationScope private val applicationScope: CoroutineScope,
+        private val context: Context // This is correct now, no need to get context from database
     ) : RoomDatabase.Callback() { //our own class that need instantiation and doesn't belong to third party library
         override fun onCreate(db: SupportSQLiteDatabase) { // first time when we create the database, called after build method
             super.onCreate(db)
@@ -34,6 +41,7 @@ abstract class InventoryDatabase : RoomDatabase() {
             val inventoryDao = database.get().inventoryDao()
             val inventoryLineItemDao = database.get().inventoryLineItemDao()
             val ingredientDao = database.get().ingredientDao()
+            val recipeDao = database.get().recipeDao()
 
             
 
@@ -182,12 +190,42 @@ abstract class InventoryDatabase : RoomDatabase() {
                         unit = "Kilogram"
                     )
                 )
+
+                populateDatabaseFromCSV()
             }
 
         }
 
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
+        }
+
+        private fun populateDatabaseFromCSV() {
+            val dao = database.get().recipeDao()
+            val inputStream = context.assets.open("RecipeCSV.csv") // Use the context directly
+            val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+
+            applicationScope.launch(Dispatchers.IO) {
+                bufferedReader.use { reader ->
+                    reader.readLine() // Skip CSV header
+                    var line: String?
+                    while (reader.readLine().also { line = it } != null) {
+                        val tokens = line!!.split(",")
+                        if (tokens.size >= 7) {
+                            val recipe = Recipe(
+                                id = tokens[0].toInt(),
+                                recipeID = tokens[1].toInt(),
+                                recipeName = tokens[2],
+                                created = tokens[3].toLong(),
+                                recipeDescription = tokens[4],
+                                recipeIngredients = tokens[5],
+                                recipeSteps = tokens [6]
+                            )
+                            dao.insertRecipe(recipe)
+                        }
+                    }
+                }
+            }
         }
     }
 }

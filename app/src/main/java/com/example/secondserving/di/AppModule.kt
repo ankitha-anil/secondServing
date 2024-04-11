@@ -9,7 +9,6 @@ import com.example.secondserving.auth.BaseAuthRepository
 import com.example.secondserving.auth.BaseAuthenticator
 import com.example.secondserving.auth.FirebaseAuthenticator
 import com.example.secondserving.data.RecipeDAO
-import com.example.secondserving.data.RecipeDatabase
 import com.example.secondserving.data.RecipeRepository
 import dagger.Module
 import dagger.Provides
@@ -56,20 +55,20 @@ object AppModule {
     @Singleton
     fun provideApplicationContext(application: Application): Context = application
 
-    @Provides
-    @Singleton
-    fun provideRecipeDatabase(
-        @ApplicationContext context: Context,
-        callback: RecipeDatabase.Callback
-    ): RecipeDatabase {
-        return Room.databaseBuilder(context, RecipeDatabase::class.java, "recipe_database")
-            .fallbackToDestructiveMigration()
-            .addCallback(callback)
-            .build()
-    }
+//    @Provides
+//    @Singleton
+//    fun provideRecipeDatabase(
+//        @ApplicationContext context: Context,
+//        callback: RecipeDatabase.Callback
+//    ): RecipeDatabase {
+//        return Room.databaseBuilder(context, RecipeDatabase::class.java, "recipe_database")
+//            .fallbackToDestructiveMigration()
+//            .addCallback(callback)
+//            .build()
+//    }
 
     @Provides
-    fun provideRecipeDao(database: RecipeDatabase): RecipeDAO {
+    fun provideRecipeDao(database: InventoryDatabase): RecipeDAO {
         return database.recipeDao()
     }
 
@@ -77,10 +76,10 @@ object AppModule {
     @Singleton
     fun provideDatabaseCallback(
         @ApplicationContext context: Context, // Provide the Application context
-        database: Provider<RecipeDatabase>,
+        database: Provider<InventoryDatabase>,
         @ApplicationScope coroutineScope: CoroutineScope
-    ): RecipeDatabase.Callback {
-        return RecipeDatabase.Callback(database, coroutineScope, context)
+    ): InventoryDatabase.Callback {
+        return InventoryDatabase.Callback(database, coroutineScope, context)
     }
 
 
