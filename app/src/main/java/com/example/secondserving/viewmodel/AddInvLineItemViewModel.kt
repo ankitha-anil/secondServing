@@ -9,22 +9,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.example.secondserving.ADD_INVLINEITEM_RESULT_OK
-import com.example.secondserving.EDIT_INVLINEITEM_RESULT_OK
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
-import com.example.secondserving.utils.NotifyWork
-import com.example.secondserving.utils.NotifyWork.Companion.NOTIFICATION_ID
+import com.example.secondserving.ADD_INVLINEITEM_RESULT_OK
+import com.example.secondserving.EDIT_INVLINEITEM_RESULT_OK
 import com.example.secondserving.auth.AuthRepository
 import com.example.secondserving.data.IngredientDAO
 import com.example.secondserving.data.Inventory
-import com.example.secondserving.data.InventoryDAO
 import com.example.secondserving.data.InventoryLineItem
 import com.example.secondserving.data.InventoryLineItemDAO
+import com.example.secondserving.utils.NotifyWork
+import com.example.secondserving.utils.NotifyWork.Companion.NOTIFICATION_ID
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -52,10 +50,10 @@ class AddInvLineItemViewModel @Inject constructor(
     // Create an empty list to hold ingredient names and IDs
     val ingredientsList: MutableList<Pair<Int, String>> = mutableListOf()
     val ingredientNamesAndIds = ingredientDAO.getIngredientNamesAndIds()
-    .map { list ->
-        list.map { it.ingredientID to it.name } // Correcting the pair order
-    }
-    .asLiveData()
+        .map { list ->
+            list.map { it.ingredientID to it.name } // Correcting the pair order
+        }
+        .asLiveData()
     var inventoryName = state.get<Inventory>("inventoryName") ?: inventory?.name ?: ""
         set(value) { //setter function
             field = value
@@ -67,13 +65,15 @@ class AddInvLineItemViewModel @Inject constructor(
             field = value
             state["inventoryID"] = value
         }
-    var ingredientId = state.get<InventoryLineItem>("ingredientID") ?: invlineitem?.ingredientID ?: 0
+    var ingredientId =
+        state.get<InventoryLineItem>("ingredientID") ?: invlineitem?.ingredientID ?: 0
         set(value) { //setter function
             field = value
             state["ingredientID"] = value
         }
 
-    var expiry = state.get<InventoryLineItem>("expiryDate") ?: invlineitem?.expiryDate ?: currentTimeMillis()
+    var expiry =
+        state.get<InventoryLineItem>("expiryDate") ?: invlineitem?.expiryDate ?: currentTimeMillis()
         set(value) { //setter function
             field = value
             state["expiryDate"] = value
@@ -95,7 +95,7 @@ class AddInvLineItemViewModel @Inject constructor(
             return
         }
 
-        if(!quantity.toString().isDigitsOnly()){
+        if (!quantity.toString().isDigitsOnly()) {
             showInvalidInputMessage("Quantity can only be numerical value")
             return
         }
