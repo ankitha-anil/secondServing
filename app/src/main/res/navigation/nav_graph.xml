@@ -26,8 +26,12 @@
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.example.secondserving.ui.view.RecipeFragment"
-        android:label="Recipe"
-        tools:layout="@layout/fragment_recipe_old" />
+        android:label="Recipes"
+        tools:layout="@layout/fragment_recipe_old">
+        <action
+            android:id="@+id/action_recipeFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.secondserving.ui.view.ProfileFragment"
@@ -100,5 +104,19 @@
             app:argType="com.example.secondserving.data.InventoryLineItem"
             app:nullable="true"
             android:defaultValue="@null"/>
+    </fragment>
+    <fragment
+        android:id="@+id/recipeDetailFragment"
+        android:name="com.example.secondserving.ui.view.RecipeDetailFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_recipe_detail">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="recipe"
+            app:argType="com.example.secondserving.data.Recipe"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

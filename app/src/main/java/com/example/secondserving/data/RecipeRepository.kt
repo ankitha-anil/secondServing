@@ -22,13 +22,15 @@ class RecipeRepository @Inject constructor(
             context.assets.open("RecipeCSV.csv").bufferedReader().useLines { lines ->
                 lines.drop(1).forEach { line ->
                     val tokens = line.split(",")
-                    if (tokens.size >= 5) { // Ensure there are enough data fields
+                    if (tokens.size >= 7) { // Ensure there are enough data fields
                         val recipe = Recipe(
                             id = tokens[0].toInt(),
                             recipeID = tokens[1].toInt(),
                             recipeName = tokens[2],
                             created = tokens[3].toLong(),
-                            recipeDescription = tokens[4]
+                            recipeDescription = tokens[4],
+                            recipeIngredients = tokens[5],
+                            recipeSteps = tokens [6]
                         )
                         recipes.add(recipe)
                         println("recipe added: " + recipe.recipeName)
@@ -57,12 +59,14 @@ class RecipeRepository @Inject constructor(
             var line: String?
             while (reader.readLine().also { line = it } != null) {
                 val tokens = line!!.split(",")
-                if (tokens.size >= 5) {
+                if (tokens.size >= 7) {
                     val recipe = Recipe(
                         recipeID = tokens[1].toInt(),
                         recipeName = tokens[2],
                         created = tokens[3].toLong(),
-                        recipeDescription = tokens[4]
+                        recipeDescription = tokens[4],
+                        recipeIngredients = tokens[5],
+                        recipeSteps = tokens [6]
                     )
                     recipes.add(recipe)
                 }

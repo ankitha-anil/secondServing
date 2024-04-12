@@ -135,10 +135,8 @@ class InventoryFragment : Fragment(R.layout.fragment_inventory),
                     }
 
                     is InventoryViewModel.InventoryLineItemEvent.ShowUndoDeleteIngredientMessage -> {
-                        Snackbar.make(requireView(), "Inventory deleted", Snackbar.LENGTH_LONG)
-                            .setAction("UNDO") {
-                                viewModel.onUndoDeleteClick(event.inventoryLineItem)
-                            }.show()
+                        Snackbar.make(view, "Pantry Item Deleted deleted", Snackbar.LENGTH_LONG).show()
+
                     }
 
                     InventoryViewModel.InventoryLineItemEvent.NavigateToDeleteAllCompletedScreen -> TODO()

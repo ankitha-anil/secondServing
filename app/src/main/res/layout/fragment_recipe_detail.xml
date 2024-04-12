@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Recipe Name -->
+    <TextView
+        android:id="@+id/textRecipeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recipe Name"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Recipe Description -->
+    <TextView
+        android:id="@+id/textRecipeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recipe Description"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Recipe Ingredients -->
+    <TextView
+        android:id="@+id/textRecipeIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recipe Ingredients"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/textIngredientsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ingredient 1\nIngredient 2\nIngredient 3"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Recipe Steps -->
+    <TextView
+        android:id="@+id/textRecipeSteps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recipe Steps"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/textRecipeStepsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Step 1\nStep 2\nStep 3"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+
+</LinearLayout>

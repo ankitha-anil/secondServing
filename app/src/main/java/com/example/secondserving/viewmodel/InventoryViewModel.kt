@@ -58,8 +58,6 @@ class InventoryViewModel @Inject constructor(
         }
     }
 
-    fun onUndoDeleteClick(inventoryLineItem: InventoryLineItem) {}
-
     fun onInventoryLineItemSelected(inventoryLineItemDisplay: InvLineItemDisplay) {
         viewModelScope.launch {
             val inventoryLineItem = inventoryLineItemDisplay.toInventoryLineItem()
@@ -77,11 +75,6 @@ class InventoryViewModel @Inject constructor(
 
         viewModelScope.launch {
             inventoryLineItemDAO.deleteInventoryLineItem(inventoryLineItem)
-            inventoryEventChannel.send(
-                InventoryLineItemEvent.ShowUndoDeleteIngredientMessage(
-                    inventoryLineItem
-                )
-            )
         }
     }
 
