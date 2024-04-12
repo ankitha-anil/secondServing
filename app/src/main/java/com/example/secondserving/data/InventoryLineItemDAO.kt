@@ -17,7 +17,7 @@ interface InventoryLineItemDAO {
         """
     SELECT * FROM inventory_line_item_table
     INNER JOIN inventory_table ON inventory_line_item_table.inventoryID = inventory_table.id
-    WHERE inventory_line_item_table.inventoryID = :inventoryID AND inventory_table.userID = :userID
+    WHERE inventory_line_item_table.inventoryID = :inventoryID AND inventory_table.userID = :userID ORDER BY expiryDate ASC
 """
     )
     fun getAllInventoryLineItemsByInventoryAndUserID(
@@ -29,7 +29,7 @@ interface InventoryLineItemDAO {
     @Query(
         """ SELECT ingredients_table.name, inventory_line_item_table.quantity, inventory_line_item_table.expiryDate, inventory_line_item_table.id, inventoryID, inventory_line_item_table.ingredientID, inventory_line_item_table.created FROM ingredients_table
 INNER JOIN inventory_line_item_table ON inventory_line_item_table.ingredientID = ingredients_table.ingredientID
-WHERE inventory_line_item_table.inventoryID = :inventoryID """
+WHERE inventory_line_item_table.inventoryID = :inventoryID ORDER BY expiryDate ASC """
     )
     fun getAllIngredientsByInventoryID(
         inventoryID: Int
