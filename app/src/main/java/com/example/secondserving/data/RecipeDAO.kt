@@ -28,7 +28,6 @@ interface RecipeDAO {
             ) userinvlineitems inner join ingredients_table
             on userinvlineitems.ingredientID = ingredients_table.ingredientID
         order by userinvlineitems.expiryDate asc
-        limit 3
         )
           SELECT r.*
             FROM recipe_table r

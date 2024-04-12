@@ -115,26 +115,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/green_border"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Cancel"
-            android:textColor="@color/green_700"
-            android:textSize="14sp"
-            app:cornerRadius="25dp"/>
+
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:minWidth="150dp"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/fill_rounded_color"
+            android:background="@drawable/rounded_button"
             android:fontFamily="@font/poppins_regular"
-            android:text="Save"
+            android:text="Add Ingredient"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:cornerRadius="25dp" />
