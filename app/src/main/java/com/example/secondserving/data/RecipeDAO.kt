@@ -14,7 +14,7 @@ interface RecipeDAO {
     @Query("SELECT * FROM recipe_table")
     fun getAllRecipes(): Flow<List<Recipe>>
 
-    @Query("SELECT * FROM recipe_table WHERE recipeDescription LIKE '%' || :ingredient || '%'")
+    @Query("SELECT * FROM recipe_table WHERE recipeIngredients LIKE '%' || :ingredient || '%'")
     fun findRecipesWithIngredient(ingredient: String): Flow<List<Recipe>>
 
     @Query("""
@@ -32,7 +32,7 @@ interface RecipeDAO {
           SELECT r.*
             FROM recipe_table r
             JOIN expiringingredients exi
-                ON r.recipeDescription
+                ON r.recipeIngredients
                 LIKE '%' || exi.name || '%';
     """)
     fun getRecipeRecommendationsByUserID(userID: String): Flow<List<Recipe>>
