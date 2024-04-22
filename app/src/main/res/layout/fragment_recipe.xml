@@ -11,7 +11,7 @@ tools:context=".ui.view.RecipeFragment">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:text="No Recipes based on ingredients" />
+    android:text="No Recipes available. \n Add ingredients to see recipes" />
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/recyclerViewRecipes"
